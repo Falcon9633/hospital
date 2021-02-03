@@ -1,0 +1,17 @@
+<Context>
+    <Resource name="jdbc/hospital"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="root"
+              password="root"
+              driverClassName="com.mysql.cj.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/hospital?useSSL=false&amp;serverTimezone=UTC"
+              initialSize="10"
+              maxTotal="100"
+              maxIdle="10"
+              validationQuery="SELECT 1"
+              defaultAutoCommit="true"
+              defaultTransactionIsolation="READ_COMMITTED"
+              removeAbandonedOnBorrow="true"
+              removeAbandonedTimeout="60"/>
+</Context>
