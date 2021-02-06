@@ -1,21 +1,14 @@
 package ua.com.entity;
 
 /**
- * This enum represents the role table in the database
+ * This enum represents the role table in the database.
  *
  * @author Orest Dmyterko
- * @version 1.0
  */
 public enum Role {
-    ADMIN(1), DOCTOR(2), NURSE(3), PATIENT(4);
+    ADMIN, DOCTOR, NURSE, PATIENT;
 
-    private int id;
-
-    Role(int id){
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
+    public static Role getRole(int roleId) {
+        return Role.values()[roleId];
     }
 }

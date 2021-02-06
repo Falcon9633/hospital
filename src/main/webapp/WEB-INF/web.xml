@@ -4,14 +4,55 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
 
+<!--    Resource    -->
     <resource-ref>
         <description>DB Connection</description>
         <res-ref-name>jdbc/hospital</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>
+
+<!--    Listener    -->
+    <listener>
+        <listener-class>ua.com.listener.AppContextListener</listener-class>
+    </listener>
+
+<!--    Servlet     -->
+    <servlet>
+        <servlet-name>Controller</servlet-name>
+        <servlet-class>ua.com.Controller</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/controller</url-pattern>
+    </servlet-mapping>
+    
+<!--    Filter      -->
+    <filter>
+        <filter-name>CharsetFilter</filter-name>
+        <filter-class>ua.com.filter.CharsetFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CharsetFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+<!--    JSP     -->
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>
