@@ -11,11 +11,15 @@ public class MySQLFields {
     public static final String CREATE_TIME = "create_time";
     public static final String UPDATE_TIME = "update_time";
     public static final String UPDATED_BY = "updated_by";
+    public static final String NAME_EN = "name_EN";
+    public static final String NAME_UA = "name_UA";
 
     // account
     public static final String ACCOUNT_LOGIN = "login";
     public static final String ACCOUNT_PASSWORD = "password";
-    public static final String ACCOUNT_NON_LOCKED = "non_locked";
+    public static final String ACCOUNT_LOCKED = "locked";
     public static final String ACCOUNT_ROLE_ID = "role_id";
     public static final String ACCOUNT_LOCALE_ID = "locale_id";
+
+
 }

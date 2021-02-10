@@ -6,15 +6,9 @@ package ua.com.entity;
  * @author Orest Dmyterko
  */
 public enum Locale {
-    EN(1), UA(2);
+    EN, UA;
 
-    private int id;
-
-    Locale(int id){
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
+    public static Locale getLocale(int localeId){
+        return Locale.values()[localeId];
     }
 }

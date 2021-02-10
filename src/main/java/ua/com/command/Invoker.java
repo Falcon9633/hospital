@@ -18,9 +18,14 @@ public class Invoker {
     private static final Map<String, Command> commandContainer = new HashMap<>();
 
     static {
-        commandContainer.put("noCommand", new NoCommand());
+        commandContainer.put("unknownCommand", new UnknownCommand());
         commandContainer.put("login", new LoginCommand());
-
+        // admin commands
+        commandContainer.put("accountRegistrationAdmin", new AccountRegistrationAdminCommand());
+        commandContainer.put("accountRegistrationDoctor", new AccountRegistrationDoctorCommand());
+        commandContainer.put("accountRegistrationNurse", new AccountRegistrationNurseCommand());
+        commandContainer.put("accountRegistrationPatient", new AccountRegistrationPatientCommand());
+        commandContainer.put("registerAccount", new RegisterAccountCommand());
     }
 
     /**
@@ -29,12 +34,12 @@ public class Invoker {
      * @param commandName command which must be invoked
      * @param req         an HttpServletRequest object that contains the request the client has made of the servlet
      * @param resp        an HttpServletResponse object that contains the response the servlet sends to the client
-     * @return The path to which request dispatcher must be forwarded
+     * @return The path to which a request dispatcher must be forwarded
      */
     public String invoke(String commandName, HttpServletRequest req, HttpServletResponse resp) {
-        LOGGER.debug("Invoker.invoke starts");
+        LOGGER.debug("invoke starts");
         if (commandName == null || !commandContainer.containsKey(commandName)) {
-            LOGGER.trace("{} not found", commandName);
+            LOGGER.trace("Command '{}' not found", commandName);
             return commandContainer.get("noCommand").execute(req, resp);
         }
 

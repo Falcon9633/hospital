@@ -2,7 +2,7 @@
 <Configuration>
     <Properties>
         <Property name="LOG_DIRECTORY">G:/tomcat/apache-tomcat-9.0.41/logs/hospital</Property>
-        <Property name="LOG_PATTERN">%d [%-5p] %-10.20c [%t] %m %ex%n</Property>
+        <Property name="LOG_PATTERN">%d [%-5p] %-10.35c [%t] %m %ex%n</Property>
     </Properties>
 
     <Appenders>

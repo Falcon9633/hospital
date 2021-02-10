@@ -13,10 +13,19 @@ public class Account {
     private String password;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    private boolean nonLocked;
+    private boolean locked;
     private long updatedBy;
     private int roleId;
     private int localeId;
+
+    public Account() {
+    }
+
+    public Account(String login, long updatedBy, int roleId) {
+        this.login = login;
+        this.updatedBy = updatedBy;
+        this.roleId = roleId;
+    }
 
     public Long getId() {
         return id;
@@ -66,12 +75,12 @@ public class Account {
         this.updatedBy = updatedBy;
     }
 
-    public boolean isNonLocked() {
-        return nonLocked;
+    public boolean isLocked() {
+        return locked;
     }
 
-    public void setNonLocked(boolean nonLocked) {
-        this.nonLocked = nonLocked;
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 
     public int getRoleId() {
@@ -98,7 +107,7 @@ public class Account {
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", updatedBy=" + updatedBy +
-                ", accountNonLocked=" + nonLocked +
+                ", locked=" + locked +
                 ", roleId=" + roleId +
                 ", localeId=" + localeId +
                 '}';

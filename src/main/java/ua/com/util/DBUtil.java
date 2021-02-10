@@ -38,12 +38,27 @@ public class DBUtil {
      * Returns a connection from the pool
      * which must be configured in WEB-APP/META-INF/context.xml
      *
-     * @return Connection
+     * @return Connection from the pool
      * @throws SQLException – if the database access error occurs
      */
     public static Connection getConnection() throws SQLException {
-        LOGGER.debug("DBUtil.getConnection starts");
+        LOGGER.debug("getConnection starts");
         return dataSource.getConnection();
+    }
+
+    /**
+     * Rollbacks connection
+     *
+     * @param con to rollback
+     * @see Connection#rollback
+     */
+    public static void rollback(Connection con){
+        LOGGER.debug("rollback starts");
+        try {
+            con.rollback();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        }
     }
 
     /**
@@ -53,7 +68,7 @@ public class DBUtil {
      * @throws Exception - if this resource cannot be closed
      */
     public static void closeResource(AutoCloseable ac) throws Exception {
-        LOGGER.debug("DBUtil.close starts");
+        LOGGER.debug("closeResource starts");
         if (ac != null) {
             ac.close();
         }

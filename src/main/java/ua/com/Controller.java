@@ -3,6 +3,7 @@ package ua.com;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.command.Invoker;
+import ua.com.constant.Path;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,19 +38,26 @@ public class Controller extends HttpServlet {
      * @param resp an HttpServletResponse object that contains the response the servlet sends to the client
      */
     private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LOGGER.debug("Controller.process process starts");
+        LOGGER.debug("process starts");
 
         String commandName = req.getParameter("command");
         LOGGER.trace("command name -> {}", commandName);
 
 
         Invoker invoker = new Invoker();
-        String forward = invoker.invoke(commandName, req, resp);
+        String path = invoker.invoke(commandName, req, resp);
 
-        LOGGER.debug("Controller.process finishes, forward -> {}", forward);
+        LOGGER.debug("process finishes, path -> {}", path);
 
-        if (forward != null) {
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher(forward);
+        dispatch(req, resp, path);
+    }
+
+    private void dispatch(HttpServletRequest req, HttpServletResponse resp, String path) throws ServletException, IOException {
+        if (path.startsWith(Path.REDIRECT)){
+            String redirect = path.substring(Path.REDIRECT.length());
+            resp.sendRedirect(redirect);
+        } else {
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher(path);
             requestDispatcher.forward(req, resp);
         }
     }

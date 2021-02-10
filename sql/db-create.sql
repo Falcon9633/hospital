@@ -34,7 +34,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `hospital`.`locale` ;
 
 CREATE TABLE IF NOT EXISTS `hospital`.`locale` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL,
   `name` ENUM('EN', 'UA') NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -49,10 +49,10 @@ DROP TABLE IF EXISTS `hospital`.`account` ;
 CREATE TABLE IF NOT EXISTS `hospital`.`account` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `login` VARCHAR(16) NOT NULL,
-  `password` VARCHAR(16) NOT NULL,
+  `password` VARCHAR(65) NOT NULL,
   `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `non_locked` TINYINT(1) NOT NULL DEFAULT 1,
+  `locked` TINYINT(1) NOT NULL DEFAULT 0,
   `updated_by` INT(11) NOT NULL,
   `role_id` INT(11) NOT NULL,
   `locale_id` INT(11) NOT NULL DEFAULT 1,
@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `hospital`.`account_details` (
   `surname_EN` VARCHAR(45) NOT NULL,
   `name_UA` VARCHAR(45) NOT NULL,
   `surname_UA` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
   `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_account_details_account_id`
@@ -411,8 +412,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `hospital`;
-INSERT INTO `hospital`.`locale` (`id`, `name`) VALUES (DEFAULT, 'EN');
-INSERT INTO `hospital`.`locale` (`id`, `name`) VALUES (DEFAULT, 'UA');
+INSERT INTO `hospital`.`locale` (`id`, `name`) VALUES (0, 'EN');
+INSERT INTO `hospital`.`locale` (`id`, `name`) VALUES (1, 'UA');
 
 COMMIT;
 
@@ -420,6 +421,6 @@ COMMIT;
 -- Data for table `hospital`.`account`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `hospital`.`account` (`id`, `login`, `password`, `create_time`, `update_time`, `non_locked`, `updated_by`, `role_id`, `locale_id`) VALUES (DEFAULT, '1', '1', DEFAULT, DEFAULT, 1, 1, 0, DEFAULT);
+INSERT INTO `hospital`.`account` (`id`, `login`, `password`, `create_time`, `update_time`, `locked`, `updated_by`, `role_id`, `locale_id`) VALUES (DEFAULT, 'admin', '1', DEFAULT, DEFAULT, 0, 1, 0, DEFAULT);
 
 COMMIT;

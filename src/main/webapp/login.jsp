@@ -10,9 +10,9 @@
     <input type="hidden" name="command" value="login"/>
     <input type="text" name="login" placeholder="login"/>
     <input type="password" name="password" placeholder="password"/>
-    <input type="submit" value="log in">
-    <c:if test="${requestScope.get('error') == true}">
-        <c:out value="${requestScope.get('errorMessage')}"/>
+    <input type="submit" value="log in"/>
+    <c:if test="${errorMessage != null}">
+        <h2>${errorMessage}</h2><br>
     </c:if>
 </form>
 </body>

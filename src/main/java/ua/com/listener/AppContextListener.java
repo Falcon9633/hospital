@@ -16,7 +16,7 @@ public class AppContextListener implements ServletContextListener {
     }
 
     /**
-     * Initializes connection to database.
+     * Initializes connection to the database.
      */
     private void dbInit(){
         try {
@@ -27,7 +27,7 @@ public class AppContextListener implements ServletContextListener {
     }
 
     /**
-     * Registers all command.
+     * Registers all commands.
      */
     private void commandRegister(){
         try {

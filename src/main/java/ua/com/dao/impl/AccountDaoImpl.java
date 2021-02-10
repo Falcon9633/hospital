@@ -6,13 +6,9 @@ import ua.com.constant.MySQLFields;
 import ua.com.constant.MySQLQuery;
 import ua.com.dao.AccountDao;
 import ua.com.entity.Account;
-import ua.com.exception.DBException;
 import ua.com.util.DBUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * The MySQL implementation of the AccountDao interface.
@@ -30,8 +26,8 @@ public class AccountDaoImpl implements AccountDao {
      * @return Account if found or null
      */
     @Override
-    public Account findByLogin(String login) throws DBException {
-        LOGGER.debug("AccountDaoImpl.findByLogin starts");
+    public Account findByLogin(String login) {
+        LOGGER.debug("findByLogin starts");
         Account account = null;
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -51,12 +47,8 @@ public class AccountDaoImpl implements AccountDao {
             rs = null;
             pstmt = null;
             con = null;
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            throw new DBException("Cannot find account ", e);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
-            throw new DBException("Cannot close Resource ", e);
         } finally {
             try {
                 DBUtil.closeResource(rs, pstmt, con);
@@ -68,7 +60,48 @@ public class AccountDaoImpl implements AccountDao {
             con = null;
         }
 
-        LOGGER.debug("AccountDaoImpl.findByLogin finishes");
+        LOGGER.debug("findByLogin finishes");
+        return account;
+    }
+
+    @Override
+    public Account insertAccount(Connection con, Account account) throws SQLException {
+        LOGGER.debug("insertAccount starts");
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = con.prepareStatement(MySQLQuery.INSERT_ACCOUNT, Statement.RETURN_GENERATED_KEYS);
+            LOGGER.info(MySQLQuery.INSERT_ACCOUNT);
+            int k = 0;
+            pstmt.setString(++k, account.getLogin());
+            pstmt.setString(++k, account.getPassword());
+            pstmt.setLong(++k, account.getUpdatedBy());
+            pstmt.setInt(++k, account.getRoleId());
+
+            if (pstmt.executeUpdate() > 0) {
+                rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    account.setId(rs.getLong(1));
+                }
+            }
+
+            DBUtil.closeResource(rs, pstmt);
+            rs = null;
+            pstmt = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new SQLException(e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, pstmt);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+            }
+            rs = null;
+            pstmt = null;
+        }
+
+        LOGGER.debug("insertAccount finishes");
         return account;
     }
 
@@ -78,17 +111,17 @@ public class AccountDaoImpl implements AccountDao {
      * @param rs which should be mapped
      * @return an Account entity
      * @throws SQLException if the columnLabel is not valid;
-     * if a database access error occurs or this method is called on a closed result set
+     *                      if a database access error occurs or this method is called on a closed result set
      */
     private Account mapAccount(ResultSet rs) throws SQLException {
-        LOGGER.debug("AccountDaoImpl.mapAccount");
+        LOGGER.debug("mapAccount starts");
         Account account = new Account();
         account.setId(rs.getLong(MySQLFields.ID));
         account.setLogin(rs.getString(MySQLFields.ACCOUNT_LOGIN));
         account.setPassword(rs.getString(MySQLFields.ACCOUNT_PASSWORD));
         account.setCreateTime(rs.getTimestamp(MySQLFields.CREATE_TIME).toLocalDateTime());
         account.setUpdateTime(rs.getTimestamp(MySQLFields.UPDATE_TIME).toLocalDateTime());
-        account.setNonLocked(rs.getBoolean(MySQLFields.ACCOUNT_NON_LOCKED));
+        account.setLocked(rs.getBoolean(MySQLFields.ACCOUNT_LOCKED));
         account.setUpdatedBy(rs.getLong(MySQLFields.UPDATED_BY));
         account.setRoleId(rs.getInt(MySQLFields.ACCOUNT_ROLE_ID));
         account.setLocaleId(rs.getInt(MySQLFields.ACCOUNT_LOCALE_ID));
