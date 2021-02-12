@@ -3,7 +3,10 @@ package ua.com.command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.constant.Path;
+import ua.com.dao.AccountDao;
+import ua.com.dao.impl.AccountDaoImpl;
 import ua.com.entity.Account;
+import ua.com.entity.Locale;
 import ua.com.entity.Role;
 import ua.com.service.AccountService;
 import ua.com.service.impl.AccountServiceImpl;
@@ -26,6 +29,7 @@ public class RegisterAccountCommand implements Command {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         LOGGER.debug("execute starts");
         HttpSession session = req.getSession();
+        session.removeAttribute("errorMessage");
 
         String forward = "";
 
@@ -33,9 +37,12 @@ public class RegisterAccountCommand implements Command {
 
         try {
             roleId = Integer.parseInt(req.getParameter("role_id"));
+            if (roleId < 0 || roleId > 3) {
+                throw new NumberFormatException("roleId = " + roleId + " must be >= 0 and <= 3");
+            }
         } catch (NumberFormatException e) {
-            LOGGER.info(e.getMessage());
-            return "";
+            LOGGER.error(e.getMessage());
+            return forward;
         }
 
         Role registrationRole = Role.getRole(roleId);
@@ -59,56 +66,57 @@ public class RegisterAccountCommand implements Command {
                 break;
         }
 
+        Locale locale = (Locale) session.getAttribute("locale");
+        LOGGER.trace("session locale -> {}", locale);
+
         String login = req.getParameter("login");
-        if (Validator.isLoginNotValid(login)) {
-            Validator.setErrorMessage(session, "login is not valid", LOGGER, forward);
+        LOGGER.trace("requested param login -> {}", login);
+        if (Validator.isLoginNotValid(login, session, locale, LOGGER, forward)) {
             return forward;
         }
-        LOGGER.trace("requested param login -> {}", login);
 
         String nameEN = req.getParameter("name_EN");
-        if (Validator.isAccDetailsNameENNotValid(nameEN)) {
-            Validator.setErrorMessage(session, "name in English is not valid", LOGGER, forward);
+        LOGGER.trace("requested param name_EN -> {}", nameEN);
+        if (Validator.isAccDetailsNameSurnameENNotValid(nameEN, session, locale, LOGGER, forward)) {
             return forward;
         }
-        LOGGER.trace("requested param name_EN -> {}", nameEN);
 
         String surnameEN = req.getParameter("surname_EN");
-        if (Validator.isSurnameENNotValid(surnameEN)) {
-            Validator.setErrorMessage(session, "surname in English is not valid", LOGGER, forward);
+        LOGGER.trace("requested param surname_EN -> {}", surnameEN);
+        if (Validator.isAccDetailsNameSurnameENNotValid(surnameEN, session, locale, LOGGER, forward)) {
             return forward;
         }
-        LOGGER.trace("requested param surname_EN -> {}", surnameEN);
 
         String nameUA = req.getParameter("name_UA");
-        if (Validator.isAccDetailsNameUANotValid(nameUA)) {
-            Validator.setErrorMessage(session, "name in Ukrainian is not valid", LOGGER, forward);
+        LOGGER.trace("requested param name_UA -> {}", nameUA);
+        if (Validator.isAccDetailsNameSurnameUANotValid(nameUA, session, locale, LOGGER, forward)) {
             return forward;
         }
-        LOGGER.trace("requested param name_UA -> {}", nameUA);
 
         String surnameUA = req.getParameter("surname_UA");
-        if (Validator.isSurnameUANotValid(surnameUA)) {
-            Validator.setErrorMessage(session, "surname in Ukrainian is not valid", LOGGER, forward);
+        LOGGER.trace("requested param surname_UA -> {}", surnameUA);
+        if (Validator.isAccDetailsNameSurnameUANotValid(surnameUA, session, locale, LOGGER, forward)) {
             return forward;
         }
-        LOGGER.trace("requested param surname_UA -> {}", surnameUA);
 
         String email = req.getParameter("email");
-        if (Validator.isEmailNotValid(email)) {
-            Validator.setErrorMessage(session, "email is not valid", LOGGER, forward);
+        LOGGER.trace("requested param email -> {}", email);
+        if (Validator.isEmailNotValid(email, session, locale, LOGGER, forward)) {
             return forward;
         }
-        LOGGER.trace("requested param email -> {}", email);
 
         int specializationId = -1;
         if (registrationRole == Role.DOCTOR) {
             try {
                 specializationId = Integer.parseInt(req.getParameter("specialization_id"));
-                LOGGER.trace("requested param specialization -> {}", specializationId);
+                LOGGER.trace("requested param specialization_id -> {}", specializationId);
+                if (specializationId < 1) {
+                    throw new NumberFormatException("specialization_id = " + specializationId + " must be > 0");
+                }
             } catch (NumberFormatException e) {
-                LOGGER.info(e.getMessage());
-                Validator.setErrorMessage(session, "specialization should not be empty", LOGGER, forward);
+                LOGGER.error(e.getMessage());
+                Validator.setErrorMessage(session,
+                        locale.getMessage("register_account_command.error.incorrect_specialization"), LOGGER, forward);
                 return forward;
             }
         }
@@ -119,10 +127,19 @@ public class RegisterAccountCommand implements Command {
                 birthday = LocalDate.parse(req.getParameter("birthday"));
                 LOGGER.trace("requested param birthday -> {}", birthday);
             } catch (Exception e) {
-                LOGGER.info(e.getMessage());
-                Validator.setErrorMessage(session, "birthday is not valid", LOGGER, forward);
+                LOGGER.error(e.getMessage());
+                Validator.setErrorMessage(session,
+                        locale.getMessage("register_account_command.error.invalid_birthday"), LOGGER, forward);
                 return forward;
             }
+        }
+
+        AccountDao accountDao = new AccountDaoImpl();
+        Account loginExists = accountDao.findByLogin(login);
+        if (loginExists != null){
+            Validator.setErrorMessage(session,
+                    locale.getMessage("register_account_command.error.account_login_already_exist"), LOGGER, forward);
+            return forward;
         }
 
         Account account = (Account) session.getAttribute("account");
@@ -130,8 +147,9 @@ public class RegisterAccountCommand implements Command {
         boolean successful = accountService.registerAccount(login, account.getId(), registrationRole, nameEN, surnameEN,
                 nameUA, surnameUA, email, specializationId, birthday);
 
-        if (!successful){
-            Validator.setErrorMessage(session, "failed to register account", LOGGER);
+        if (!successful) {
+            Validator.setErrorMessage(session,
+                    locale.getMessage("register_account_command.error.failed_to_register"), LOGGER);
         }
 
         LOGGER.debug("execute finishes, forward -> {}", forward);

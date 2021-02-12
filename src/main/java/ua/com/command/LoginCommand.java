@@ -4,14 +4,20 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.constant.Path;
 import ua.com.dao.AccountDao;
+import ua.com.dao.AccountDetailsDao;
 import ua.com.dao.impl.AccountDaoImpl;
+import ua.com.dao.impl.AccountDetailsDaoImpl;
 import ua.com.entity.Account;
+import ua.com.entity.AccountDetails;
+import ua.com.entity.Locale;
 import ua.com.entity.Role;
+import ua.com.util.PasswordUtil;
 import ua.com.util.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Checks credentials in the DB, then forwards to an appropriate page.
@@ -27,21 +33,23 @@ public class LoginCommand implements Command {
         HttpSession session = req.getSession();
         session.removeAttribute("errorMessage");
 
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
-        LOGGER.trace("requested param login -> {}", login);
+        Locale locale = (Locale) session.getAttribute("locale");
+        if (locale == null) {
+            session.setAttribute("locale", Locale.EN);
+            locale = Locale.EN;
+        }
+
 
         String forward = Path.REDIRECT + Path.LOGIN_PAGE;
 
-//        if (Validator.isLoginNotValid(login)) {
-//            setError(session, "login is not valid");
-//            LOGGER.debug("forward to -> {}", forward);
+        String login = req.getParameter("login");
+        LOGGER.trace("requested param login -> {}", login);
+//        if (Validator.isLoginNotValid(login, session, locale, LOGGER, forward)) {
 //            return forward;
 //        }
-//
-//        if (Validator.isPasswordNotValid(password)){
-//            setError(session, "password is not valid");
-//            LOGGER.debug("forward to -> {}", forward);
+
+        String password = req.getParameter("password");
+//        if (Validator.isPasswordNotValid(password, session, locale, LOGGER, forward)){
 //            return forward;
 //        }
 
@@ -49,17 +57,27 @@ public class LoginCommand implements Command {
         Account account = accountDao.findByLogin(login);
         LOGGER.trace("Found in db account -> {}", account);
 
-        if (account == null || !account.getPassword().equals(password)) {
-            setError(session, "incorrect login/password");
-            LOGGER.debug("forward to -> {}", forward);
+        try {
+            if (account == null || PasswordUtil.comparePasswords(password, account.getPassword())) {
+                Validator.setErrorMessage(session,
+                        locale.getMessage("validation.error.incorrect_login_password"), LOGGER, forward);
+                return forward;
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Validator.setErrorMessage(session,
+                    locale.getMessage("validation.error.unable_to_login"), LOGGER, forward);
             return forward;
         }
 
         if (account.isLocked()) {
-            setError(session, "account is locked");
+            Validator.setErrorMessage(session, locale.getMessage("validation.error.account_is_locked"), LOGGER);
         } else {
             Role role = Role.getRole(account.getRoleId());
             LOGGER.trace("account role -> {}", role);
+
+            AccountDetailsDao accountDetailsDao = new AccountDetailsDaoImpl();
+            AccountDetails accountDetails = accountDetailsDao.findById(account.getId());
+            LOGGER.trace("found in db accountDetails -> {}", accountDetails);
 
             if (role == Role.ADMIN) {
                 forward = Path.REDIRECT + Path.ACCOUNT_REGISTRATION_PATIENT_COMMAND;
@@ -78,16 +96,13 @@ public class LoginCommand implements Command {
             }
 
             session.setAttribute("account", account);
+            session.setAttribute("accountDetails", accountDetails);
             session.setAttribute("role", role);
+            session.setAttribute("locale", Locale.getLocale(account.getLocaleId()));
         }
 
         LOGGER.debug("execute finishes, forward -> {}", forward);
         return forward;
-    }
-
-    private void setError(HttpSession session, String errorMessage) {
-        session.setAttribute("errorMessage", errorMessage);
-        LOGGER.info("error message -> {}", errorMessage);
     }
 
 }

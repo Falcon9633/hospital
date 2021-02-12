@@ -1,19 +1,36 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="/WEB-INF/jspf/directive/page.jsp" %>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jsp" %>
+<fmt:setBundle basename="resources" var="lang" scope="application"/>
+<fmt:message key="login_jsp.title" var="title" bundle="${lang}"/>
+<%@ include file="/WEB-INF/jspf/head.jsp" %>
 
-<html>
-<head>
-    <title>Login page</title>
-</head>
-<body>
-<form action="controller" method="post">
-    <input type="hidden" name="command" value="login"/>
-    <input type="text" name="login" placeholder="login"/>
-    <input type="password" name="password" placeholder="password"/>
-    <input type="submit" value="log in"/>
-    <c:if test="${errorMessage != null}">
-        <h2>${errorMessage}</h2><br>
-    </c:if>
-</form>
-</body>
-</html>
+
+<body class="main-bg">
+<div class="login-container text-c animated flipInX">
+    <div>
+        <h1 class="logo-badge text-whitesmoke"><span class="fa fa-user-circle"></span></h1>
+    </div>
+    <h3 class="text-whitesmoke"><fmt:message key="login_jsp.sub_title" bundle="${lang}"/></h3>
+    <div class="container-content">
+        <form class="margin-t" action="controller" method="post">
+            <input type="hidden" name="command" value="login"/>
+            <div class="form-group">
+                <fmt:message key="login_jsp.login.placeholder" var="loginPh"/>
+                <input type="text" name="login" class="form-control" required="required"
+                       placeholder='<fmt:message key="login_jsp.login.placeholder" bundle="${lang}"/>'>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" required="required"
+                       placeholder='<fmt:message key="login_jsp.password.placeholder" bundle="${lang}"/>'>
+            </div>
+            <button type="submit" class="form-button button-l margin-b"><fmt:message key="login_jsp.button.submit" bundle="${lang}"/></button>
+            <%@ include file="/WEB-INF/jspf/errorMessage.jsp" %>
+        </form>
+        <a class="flag-icon flag-icon-ua" href="controller?command=unknownCommand"></a><%--TODO--%>
+        <a class="flag-icon flag-icon-us" href="controller?command=unknownCommand"></a><%--TODO--%>
+        <p class="margin-t text-whitesmoke"><small><fmt:message key="login_jsp.copyrights" bundle="${lang}"/></small></p>
+    </div>
+</div>
+
+<c:set var="js" value="false"/>
+<%@ include file="/WEB-INF/jspf/footer.jsp" %>

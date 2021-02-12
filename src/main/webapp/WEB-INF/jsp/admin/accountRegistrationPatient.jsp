@@ -1,24 +1,27 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
-<head>
-    <title>Patient account registration</title>
-</head>
-<body>
-<form action="controller" method="post">
-    <input type="hidden" name="command" value="registerAccount"/><br>
-    <input type="hidden" name="role_id" value="3"/><br>
-    <input type="text" name="login" placeholder="login"/><br>
-    <input type="text" name="name_EN" placeholder="name in English"/><br>
-    <input type="text" name="surname_EN" placeholder="surname in English"/><br>
-    <input type="text" name="name_UA" placeholder="name in Ukrainian"/><br>
-    <input type="text" name="surname_UA" placeholder="surname in Ukrainian"/><br>
-    <input type="text" name="email" placeholder="email"/><br>
-    <input type="date" name="birthday" min="1910-01-01" required="required"><br>
-    <input type="submit" value="register"/><br>
-    <c:if test="${errorMessage != null}">
-        <h2>${errorMessage}</h2><br>
-    </c:if>
-</form>
-</body>
-</html>
+<%@ include file="/WEB-INF/jspf/directive/page.jsp" %>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jsp" %>
+<fmt:message key="account_registration_patient.title" var="title" bundle="${lang}"/>
+<%@ include file="/WEB-INF/jspf/head.jsp" %>
+<%@ include file="/WEB-INF/jspf/header.jsp" %>
+
+<div class="container my-sm-4">
+    <form action="controller" method="post">
+        <input type="hidden" name="role_id" value="3"/>
+        <%@ include file="/WEB-INF/jspf/accountRegistrationForm.jsp" %>
+        <div class="form-group">
+            <label for="birthday">
+                <fmt:message key="account_registration_patient.birthday.placeholder" var="birthdayPh" bundle="${lang}"/>
+                ${birthdayPh}:
+            </label>
+            <input type="date" class="form-control" name="birthday" id="birthday" min="1910-01-01" required />
+        </div>
+        <button type="submit" class="btn btn-dark">
+            <fmt:message key="account_registration.button.register" bundle="${lang}"/>
+        </button>
+        <%@ include file="/WEB-INF/jspf/errorMessage.jsp" %>
+    </form>
+</div>
+
+
+<c:set var="js" value="true"/>
+<%@ include file="/WEB-INF/jspf/footer.jsp" %>

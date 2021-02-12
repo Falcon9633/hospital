@@ -12,6 +12,14 @@ import java.sql.SQLException;
  */
 public interface AccountDetailsDao {
     /**
+     * Returns accountDetails by given identifier.
+     *
+     * @param id AccountDetails identifier
+     * @return AccountDetails entity
+     */
+    AccountDetails findById(Long id);
+
+    /**
      * Inserts given accountDetails to the database.
      *
      * @param con            Connection to the db

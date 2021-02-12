@@ -21,5 +21,9 @@ public class MySQLFields {
     public static final String ACCOUNT_ROLE_ID = "role_id";
     public static final String ACCOUNT_LOCALE_ID = "locale_id";
 
+    // account_details
+    public static final String ACCOUNT_DETAILS_SURNAME_EN = "surname_EN";
+    public static final String ACCOUNT_DETAILS_SURNAME_UA = "surname_UA";
+    public static final String ACCOUNT_DETAILS_EMAIL = "email";
 
 }

@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.command.Invoker;
 import ua.com.constant.Path;
+import ua.com.entity.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,7 +43,6 @@ public class Controller extends HttpServlet {
 
         String commandName = req.getParameter("command");
         LOGGER.trace("command name -> {}", commandName);
-
 
         Invoker invoker = new Invoker();
         String path = invoker.invoke(commandName, req, resp);
