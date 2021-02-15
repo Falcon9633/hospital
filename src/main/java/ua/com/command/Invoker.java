@@ -26,10 +26,13 @@ public class Invoker {
         commandContainer.put("accountRegistrationNurse", new AccountRegistrationNurseCommand());
         commandContainer.put("accountRegistrationPatient", new AccountRegistrationPatientCommand());
         commandContainer.put("registerAccount", new RegisterAccountCommand());
+        commandContainer.put("doctorSpecialization", new DoctorSpecializationCommand());
+        commandContainer.put("createSpecialization", new CreateSpecializationCommand());
+        commandContainer.put("editSpecialization", new EditSpecializationCommand());
     }
 
     /**
-     * Invokes concrete command, if command does not exist invokes 'noCommand' command.
+     * Invokes concrete command, if command does not exist invokes 'unknownCommand' command.
      *
      * @param commandName command which must be invoked
      * @param req         an HttpServletRequest object that contains the request the client has made of the servlet
@@ -40,7 +43,7 @@ public class Invoker {
         LOGGER.debug("invoke starts");
         if (commandName == null || !commandContainer.containsKey(commandName)) {
             LOGGER.trace("Command '{}' not found", commandName);
-            return commandContainer.get("noCommand").execute(req, resp);
+            return commandContainer.get("unknownCommand").execute(req, resp);
         }
 
         return commandContainer.get(commandName).execute(req, resp);

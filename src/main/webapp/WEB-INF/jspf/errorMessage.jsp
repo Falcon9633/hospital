@@ -1,4 +1,4 @@
-<c:if test="${errorMessage != null}">
+<c:if test="${!empty errorMessage}">
     <div class="alert alert-danger" role="alert">
             ${errorMessage}
     </div>

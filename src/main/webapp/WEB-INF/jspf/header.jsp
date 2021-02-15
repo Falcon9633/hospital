@@ -1,8 +1,11 @@
 <body class=".bg-secondary">
 
-<nav class="navbar navbar-dark bg-dark navbar-expand-sm fixed-top">
+<nav class="navbar navbar-dark bg-dark navbar-expand-sm fixed-top opacity-3">
     <div class="container">
-        <span class="navbar-brand mb-0 h1"><fmt:message key="header.brand" bundle="${lang}"/></span>
+<%--        <span class="navbar-brand mb-0 h1"><fmt:message key="header.brand" bundle="${lang}"/></span>--%>
+        <span class="navbar-brand">
+            <img src="${pageContext.request.contextPath}/static/images/logo.png" width="171" height="57" alt="">
+        </span>
 
         <!-- Links -->
         <ul class="navbar-nav mr-auto">
@@ -26,7 +29,9 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link 2</a>
+                <a class="nav-link" href="controller?command=doctorSpecialization">
+                    <fmt:message key="header.admin.doctor_specialization" bundle="${lang}"/>
+                </a>
             </li>
 
             <!-- Dropdown -->
@@ -45,14 +50,13 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                     <c:choose>
-                        <c:when test="${locale.name == 'EN'}">
+                        <c:when test="${locale.name == 'en_US'}">
                             ${accountDetails.nameEN} ${accountDetails.surnameEN}
                         </c:when>
-                        <c:otherwise>
+                        <c:when test="${locale.name == 'uk_UA'}">
                             ${accountDetails.nameUA} ${accountDetails.surnameUA}
-                        </c:otherwise>
+                        </c:when>
                     </c:choose>
-
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="#">Link 1</a>

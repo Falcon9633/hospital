@@ -26,4 +26,9 @@ public class MySQLFields {
     public static final String ACCOUNT_DETAILS_SURNAME_UA = "surname_UA";
     public static final String ACCOUNT_DETAILS_EMAIL = "email";
 
+    // specialization_account_details bean
+    public static final String SPECIALIZATION_ACC_DETAILS_NAME_EN = "account_name_EN";
+    public static final String SPECIALIZATION_ACC_DETAILS_SURNAME_EN = "account_surname_EN";
+    public static final String SPECIALIZATION_ACC_DETAILS_NAME_UA = "account_name_UA";
+    public static final String SPECIALIZATION_ACC_DETAILS_SURNAME_UA = "account_surname_UA";
 }

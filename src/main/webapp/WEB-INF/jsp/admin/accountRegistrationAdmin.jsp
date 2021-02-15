@@ -1,10 +1,11 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jsp" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jsp" %>
+<%@ include file="/WEB-INF/jspf/directive/i18n.jsp" %>
 <fmt:message key="account_registration_admin.title" var="title" bundle="${lang}"/>
 <%@ include file="/WEB-INF/jspf/head.jsp" %>
 <%@ include file="/WEB-INF/jspf/header.jsp" %>
 
-<div class="container my-sm-4">
+<div class="container">
     <form action="controller" method="post">
         <input type="hidden" name="role_id" value="0"/>
         <%@ include file="/WEB-INF/jspf/accountRegistrationForm.jsp" %>
@@ -18,3 +19,6 @@
 
 <c:set var="js" value="true"/>
 <%@ include file="/WEB-INF/jspf/footer.jsp" %>
+
+</body>
+</html>

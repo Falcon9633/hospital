@@ -58,7 +58,7 @@ public class LoginCommand implements Command {
         LOGGER.trace("Found in db account -> {}", account);
 
         try {
-            if (account == null || PasswordUtil.comparePasswords(password, account.getPassword())) {
+            if (account == null || !PasswordUtil.comparePasswords(password, account.getPassword())) {
                 Validator.setErrorMessage(session,
                         locale.getMessage("validation.error.incorrect_login_password"), LOGGER, forward);
                 return forward;

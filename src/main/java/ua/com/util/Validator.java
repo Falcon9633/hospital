@@ -15,6 +15,8 @@ public class Validator {
     private static final int MAX_ACC_DETAILS_NAME_SURNAME_LENGTH = 45;
     private static final int MIN_ACC_DETAILS_EMAIL_LENGTH = 6;
     private static final int MAX_ACC_DETAILS_EMAIL_LENGTH = 45;
+    private static final int MIN_SPECIALIZATION_NAME_LENGTH = 3;
+    private static final int MAX_SPECIALIZATION_NAME_LENGTH = 45;
 
     private static final Pattern LOGIN_PATTERN = Pattern.compile("^(?![-_\\d])((?![-_]{2})[\\w-])+(?<![-_])$");
     private static final Pattern PASSWORD_PATTERN =
@@ -223,6 +225,12 @@ public class Validator {
                 isLessThanLength(email, MIN_ACC_DETAILS_EMAIL_LENGTH, session, locale, logger, forward) ||
                 isMoreThanLength(email, MAX_ACC_DETAILS_EMAIL_LENGTH, session, locale, logger, forward) ||
                 isAccDetailsEmailNotMatchPattern(email, session, locale, logger, forward);
+    }
+
+    public static boolean isSpecializationNameNotValid(String name, HttpSession session, Locale locale, Logger logger, String forward){
+        return isNullOrEmpty(name, session, locale, logger, forward) ||
+                isLessThanLength(name, MIN_SPECIALIZATION_NAME_LENGTH, session, locale, logger, forward) ||
+                isMoreThanLength(name, MAX_SPECIALIZATION_NAME_LENGTH, session, locale, logger, forward);
     }
 
     public static void setErrorMessage(HttpSession session, String errorMessage, Logger logger, String forward) {

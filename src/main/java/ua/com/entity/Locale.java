@@ -8,12 +8,12 @@ import java.util.ResourceBundle;
  * @author Orest Dmyterko
  */
 public enum Locale {
-    EN("en"), UA("ua");
+    EN("en", "US"), UA("uk", "UA");
 
     private final java.util.Locale javaLocale;
 
-    Locale(String language) {
-        this.javaLocale = new java.util.Locale(language);
+    Locale(String language, String country) {
+        this.javaLocale = new java.util.Locale(language, country);
     }
 
     public static Locale getLocale(int localeId){
@@ -26,6 +26,6 @@ public enum Locale {
     }
 
     public String getName(){
-        return name();
+        return javaLocale.toString();
     }
 }

@@ -1,10 +1,11 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jsp" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jsp" %>
+<%@ include file="/WEB-INF/jspf/directive/i18n.jsp" %>
 <fmt:message key="account_registration_doctor.title" var="title" bundle="${lang}"/>
 <%@ include file="/WEB-INF/jspf/head.jsp" %>
 <%@ include file="/WEB-INF/jspf/header.jsp" %>
 
-<div class="container my-sm-4">
+<div class="container">
     <form action="controller" method="post">
         <input type="hidden" name="role_id" value="1"/>
         <%@ include file="/WEB-INF/jspf/accountRegistrationForm.jsp" %>
@@ -19,8 +20,8 @@
                     <c:forEach var="specialization" items="${specializations}">
                         <option value="${specialization.id}">
                             <c:choose>
-                                <c:when test="${locale.name == 'EN'}">${specialization.nameEN}</c:when>
-                                <c:otherwise>${specialization.nameUA}</c:otherwise>
+                                <c:when test="${locale.name == 'en_US'}">${specialization.nameEN}</c:when>
+                                <c:when test="${locale.name == 'uk_UA'}">${specialization.nameUA}</c:when>
                             </c:choose>
                         </option>
                     </c:forEach>
@@ -36,3 +37,6 @@
 
 <c:set var="js" value="true"/>
 <%@ include file="/WEB-INF/jspf/footer.jsp" %>
+
+</body>
+</html>

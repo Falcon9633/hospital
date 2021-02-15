@@ -6,7 +6,7 @@
               password="root"
               driverClassName="com.mysql.cj.jdbc.Driver"
               url="jdbc:mysql://localhost:3306/hospital?
-              useSSL=false&amp;serverTimezone=UTC&amp;useEncoding=true&amp;characterEncoding=UTF-8"
+              useSSL=false&amp;serverTimezone=Europe/Helsinki&amp;useEncoding=true&amp;characterEncoding=UTF-8"
               initialSize="10"
               maxTotal="100"
               maxIdle="10"

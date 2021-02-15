@@ -1,5 +1,24 @@
+/*body {*/
+/*    padding-top: 65px;*/
+/*    background-color: #D3D3D3;*/
+/*}*/
+
 body {
-    padding-top: 65px;
-    /*background-color: #c1c0be;*/
-    background-color: #c3e595;
+    padding-top: 105px;
+    background-image: url("../images/background.png");
+    background-repeat: repeat;
+    background-size: 8%;
+}
+
+.opacity-0 {
+    opacity:0;
+}
+.opacity-1 {
+    opacity:0.3;
+}
+.opacity-2 {
+    opacity:0.6;
+}
+.opacity-3 {
+    opacity:0.9;
 }
