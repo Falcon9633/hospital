@@ -114,7 +114,7 @@ public class RegisterAccountCommand implements Command {
                     throw new NumberFormatException("specialization_id = " + specializationId + " must be > 0");
                 }
             } catch (NumberFormatException e) {
-                LOGGER.error(e.getMessage());
+                LOGGER.error(e.getMessage(), e.getCause());
                 Validator.setErrorMessage(session,
                         locale.getMessage("register_account_command.error.incorrect_specialization"), LOGGER, forward);
                 return forward;
@@ -127,9 +127,9 @@ public class RegisterAccountCommand implements Command {
                 birthday = LocalDate.parse(req.getParameter("birthday"));
                 LOGGER.trace("requested param birthday -> {}", birthday);
             } catch (Exception e) {
-                LOGGER.error(e.getMessage());
+                LOGGER.error(e.getMessage(), e.getCause());
                 Validator.setErrorMessage(session,
-                        locale.getMessage("register_account_command.error.invalid_birthday"), LOGGER, forward);
+                        locale.getMessage("validation.error.invalid_birthday"), LOGGER, forward);
                 return forward;
             }
         }
@@ -152,7 +152,7 @@ public class RegisterAccountCommand implements Command {
                     locale.getMessage("register_account_command.error.failed_to_register"), LOGGER);
         }
 
-        LOGGER.debug("execute finishes, forward -> {}", forward);
+        LOGGER.debug("execute finishes");
         return forward;
     }
 }

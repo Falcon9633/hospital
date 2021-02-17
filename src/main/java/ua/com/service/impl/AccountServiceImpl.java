@@ -24,15 +24,14 @@ public class AccountServiceImpl implements AccountService {
     private static final Logger LOGGER = LogManager.getLogger(AccountServiceImpl.class);
 
     @Override
-    public boolean registerAccount(String login, Long updateBy, Role role, String nameEN, String surnameEN, String nameUA,
+    public boolean registerAccount(String login, Long updatedBy, Role role, String nameEN, String surnameEN, String nameUA,
                                    String surnameUA, String email, Integer specializationId, LocalDate birthday) {
         LOGGER.debug("registerAccount starts");
         Connection con = null;
         try {
             String pwd = PasswordUtil.generateRandomPassword();
             String encryptedPwd = PasswordUtil.encryptPassword(pwd);
-            Account account = new Account(login, updateBy, role.ordinal());
-            account.setPassword(encryptedPwd);
+            Account account = new Account(login, encryptedPwd, email, updatedBy, role.ordinal());
 
             con = DBUtil.getConnection();
             con.setAutoCommit(false);
@@ -41,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
             Account insertedAccount = accountDao.insertAccount(con, account);
             LOGGER.trace("inserted account -> {}", insertedAccount);
 
-            AccountDetails accountDetails = new AccountDetails(account.getId(), nameEN, surnameEN, nameUA, surnameUA, email);
+            AccountDetails accountDetails = new AccountDetails(account.getId(), nameEN, surnameEN, nameUA, surnameUA);
             AccountDetailsDao accountDetailsDao = new AccountDetailsDaoImpl();
             AccountDetails insertedAccountDetails = accountDetailsDao.insertAccountDetails(con, accountDetails);
             LOGGER.trace("inserted accountDetails -> {}", insertedAccountDetails);
@@ -67,21 +66,75 @@ public class AccountServiceImpl implements AccountService {
             if (con != null) {
                 DBUtil.rollback(con);
             }
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e.getCause());
             return false;
         } catch (NoSuchAlgorithmException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e.getCause());
             return false;
         } finally {
             try {
                 DBUtil.closeResource(con);
             } catch (Exception e) {
-                LOGGER.error(e.getMessage());
+                LOGGER.error(e.getMessage(), e.getCause());
             }
             con = null;
         }
 
         LOGGER.debug("registerAccount finishes");
+        return true;
+    }
+
+    @Override
+    public boolean editPatient(Long id, String nameEN, String surnameEN, String nameUA,
+                               String surnameUA, LocalDate birthday, boolean locked, Long updatedBy) {
+        LOGGER.debug("editPatient starts");
+        Connection con = null;
+        try {
+            con = DBUtil.getConnection();
+            con.setAutoCommit(false);
+            AccountDao accountDao = new AccountDaoImpl();
+            AccountDetailsDao accountDetailsDao = new AccountDetailsDaoImpl();
+            PatientDao patientDao = new PatientDaoImpl();
+
+            Account account = accountDao.findById(id, con);
+            AccountDetails accountDetails = accountDetailsDao.findById(id, con);
+            Patient patient = patientDao.findById(id, con);
+
+            account.setLocked(locked);
+            account.setUpdatedBy(updatedBy);
+
+            accountDetails.setNameEN(nameEN);
+            accountDetails.setSurnameEN(surnameEN);
+            accountDetails.setNameUA(nameUA);
+            accountDetails.setSurnameUA(surnameUA);
+
+            patient.setBirthday(birthday);
+
+            accountDao.update(account, con);
+            accountDetailsDao.update(accountDetails, con);
+            patientDao.update(patient, con);
+
+            con.commit();
+            DBUtil.closeResource();
+            con = null;
+        } catch (SQLException e) {
+            if (con != null) {
+                DBUtil.rollback(con);
+            }
+            LOGGER.error(e.getMessage(), e.getCause());
+            return false;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            con = null;
+        }
+
+        LOGGER.debug("editPatient finishes");
         return true;
     }
 

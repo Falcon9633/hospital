@@ -57,7 +57,7 @@ public class DBUtil {
         try {
             con.rollback();
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e.getCause());
         }
     }
 

@@ -7,10 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
+
+import static ua.com.constant.SorterConstants.*;
 
 public class Sorter {
-    public static final String ASC = "asc";
-    public static final String DESC = "desc";
 
     private Sorter() {
         // utility class
@@ -20,33 +21,33 @@ public class Sorter {
      * Sorts given list depends on the given locale and sorting direction.
      * Then send opposite direction as a request attribute to the page.
      *
-     * @param specAccDetailList to be sorted
-     * @param sortDirName Either 'asc' or 'desc'
+     * @param beans to be sorted
+     * @param sortDir           Either 'asc' or 'desc'
      */
-    public static void sortSpecAccDetListByName(List<SpecializationAccountDetailsBean> specAccDetailList,
+    public static void sortSpecAccDetListByName(List<SpecializationAccountDetailsBean> beans,
                                                 Locale locale,
-                                                String sortDirName,
+                                                String sortDir,
                                                 HttpServletRequest req) {
-        Collator collator = Collator.getInstance(new java.util.Locale(locale.getName()));
+        Collator collator = Collator.getInstance(locale.getJavaLocale());
 
-        if (sortDirName == null || ASC.equals(sortDirName)) {
-            if (locale == Locale.EN) {
-                specAccDetailList.sort((o1, o2) -> collator.compare(o1.getNameEN(), o2.getNameEN()));
-            }
-            if (locale == Locale.UA) {
-                specAccDetailList.sort((o1, o2) -> collator.compare(o1.getNameUA(), o2.getNameUA()));
-            }
-            req.setAttribute("sortDirName", "desc");
+        if (locale == Locale.EN) {
+            sortSpecAccDetList(beans, SpecializationAccountDetailsBean::getNameEN, collator, sortDir, req);
+        }
+        if (locale == Locale.UA) {
+            sortSpecAccDetList(beans, SpecializationAccountDetailsBean::getNameUA, collator, sortDir, req);
         }
 
-        if (DESC.equals(sortDirName)) {
-            if (locale == Locale.EN) {
-                specAccDetailList.sort((o1, o2) -> collator.compare(o2.getNameEN(), o1.getNameEN()));
-            }
-            if (locale == Locale.UA) {
-                specAccDetailList.sort((o1, o2) -> collator.compare(o2.getNameUA(), o1.getNameUA()));
-            }
-            req.setAttribute("sortDirName", "asc");
+    }
+
+    private static void sortSpecAccDetList(List<SpecializationAccountDetailsBean> beans,
+                                           Function<SpecializationAccountDetailsBean, String> getFieldFunction,
+                                           Collator collator, String sortDir, HttpServletRequest req) {
+        if (ASC.equals(sortDir)) {
+            beans.sort(Comparator.comparing(getFieldFunction, collator));
+            req.setAttribute("sortDirName", DESC);
+        } else {
+            beans.sort(Comparator.comparing(getFieldFunction, collator).reversed());
+            req.setAttribute("sortDirName", ASC);
         }
     }
 }

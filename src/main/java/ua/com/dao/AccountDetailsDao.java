@@ -19,6 +19,8 @@ public interface AccountDetailsDao {
      */
     AccountDetails findById(Long id);
 
+    AccountDetails findById(Long id, Connection con) throws SQLException;
+
     /**
      * Inserts given accountDetails to the database.
      *
@@ -30,4 +32,6 @@ public interface AccountDetailsDao {
      * @see java.sql.PreparedStatement
      */
     AccountDetails insertAccountDetails(Connection con, AccountDetails accountDetails) throws SQLException;
+
+    void update(AccountDetails accountDetails, Connection con) throws SQLException;
 }

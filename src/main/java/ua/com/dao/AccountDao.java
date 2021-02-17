@@ -11,6 +11,7 @@ import java.sql.SQLException;
  * @author Orest Dmyterko
  */
 public interface AccountDao {
+    Account findById(Long id, Connection con) throws SQLException;
     /**
      * Returns an account by given login.
      *
@@ -30,4 +31,6 @@ public interface AccountDao {
      * @see java.sql.PreparedStatement
      */
     Account insertAccount(Connection con, Account account) throws SQLException;
+
+    void update(Account account, Connection con) throws SQLException;
 }

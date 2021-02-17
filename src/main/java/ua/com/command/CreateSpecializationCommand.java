@@ -25,7 +25,7 @@ public class CreateSpecializationCommand implements Command {
         session.removeAttribute("errorMessage");
         Locale locale = (Locale) session.getAttribute("locale");
 
-        String forward = Path.REDIRECT + Path.DOCTOR_SPECIALIZATION_COMMAND;
+        String forward = Path.DOCTOR_SPECIALIZATION_PAGE;
 
         String nameEN = req.getParameter("name_EN");
         LOGGER.trace("requested param name_EN -> {}", nameEN);
@@ -52,9 +52,11 @@ public class CreateSpecializationCommand implements Command {
         Specialization insertedSpec = specializationDao.insert(new Specialization(nameEN, nameUA, account.getId()));
         if (insertedSpec.getId() == 0){
             Validator.setErrorMessage(session,
-                    locale.getMessage("create_specialization_command.error.failed_to_create"), LOGGER);
+                    locale.getMessage("create_specialization_command.error.failed_to_create"), LOGGER, forward);
+            return forward;
         }
 
+        forward = Path.REDIRECT + Path.DOCTOR_SPECIALIZATION_COMMAND;
         session.removeAttribute("specAccDetailList");
 
         LOGGER.debug("execute finishes");

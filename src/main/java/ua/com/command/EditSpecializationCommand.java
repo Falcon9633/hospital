@@ -24,7 +24,7 @@ public class EditSpecializationCommand implements Command {
         session.removeAttribute("errorMessage");
         Locale locale = (Locale) session.getAttribute("locale");
 
-        String forward = Path.REDIRECT + Path.DOCTOR_SPECIALIZATION_COMMAND;
+        String forward = Path.DOCTOR_SPECIALIZATION_PAGE;
 
         Integer specializationId;
         try {
@@ -33,7 +33,7 @@ public class EditSpecializationCommand implements Command {
                 throw new NumberFormatException("specialization_id = " + specializationId + " must be > 0");
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e.getCause());
             return forward;
         }
         LOGGER.trace("requested param id -> {}", specializationId);
@@ -78,10 +78,11 @@ public class EditSpecializationCommand implements Command {
         if (!successful){
             Validator.setErrorMessage(session,
                     locale.getMessage("edit_specialization_command.error.failed_to_edit"),
-                    LOGGER
+                    LOGGER, forward
             );
         }
 
+        forward = Path.REDIRECT + Path.DOCTOR_SPECIALIZATION_COMMAND;
         session.removeAttribute("specAccDetailList");
 
         LOGGER.debug("execute finishes");

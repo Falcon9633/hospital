@@ -29,6 +29,9 @@ public class Invoker {
         commandContainer.put("doctorSpecialization", new DoctorSpecializationCommand());
         commandContainer.put("createSpecialization", new CreateSpecializationCommand());
         commandContainer.put("editSpecialization", new EditSpecializationCommand());
+        commandContainer.put("usersDoctors", new UsersDoctorsCommand());
+        commandContainer.put("usersPatients", new UsersPatientsCommand());
+        commandContainer.put("editPatient", new EditPatientCommand());
     }
 
     /**

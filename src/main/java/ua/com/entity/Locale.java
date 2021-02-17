@@ -25,6 +25,10 @@ public enum Locale {
         return resourceBundle.getString(key);
     }
 
+    public java.util.Locale getJavaLocale() {
+        return javaLocale;
+    }
+
     public String getName(){
         return javaLocale.toString();
     }

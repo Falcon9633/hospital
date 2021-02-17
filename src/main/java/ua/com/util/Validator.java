@@ -1,6 +1,7 @@
 package ua.com.util;
 
 import org.apache.logging.log4j.Logger;
+import ua.com.constant.SorterConstants;
 import ua.com.entity.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -24,6 +25,8 @@ public class Validator {
     private static final Pattern ACC_DETAILS_NAME_SURNAME_EN_PATTERN = Pattern.compile("^[\\w\\d-_ ]+$");
     private static final Pattern ACC_DETAILS_NAME_SURNAME_UA_PATTERN = Pattern.compile("^[а-їѓА-ЯІЇЄЁ\\d-_ ]+$");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z][.[^@\\s]]+@[.[^@\\s]]+\\.[a-zA-Z]+$");
+
+    public static final String CHECKBOX_ON = "on";
 
     private Validator() {
         // util class
@@ -52,8 +55,10 @@ public class Validator {
      */
     private static boolean isMoreThanLength(String s, int length, HttpSession session, Locale locale, Logger logger, String forward) {
         if (s.length() > length) {
+            String errMsg = locale.getMessage("validation.error.is_more_than_length");
+            String ch = locale.getMessage("validation.error.characters");
             setErrorMessage(session,
-                    s + " " + locale.getMessage("validation.error.is_more_than_length") + length,
+                    String.format("'%s' %s %d %s",s, errMsg, length, ch),
                     logger, forward);
             return true;
         }
@@ -69,8 +74,10 @@ public class Validator {
      */
     private static boolean isLessThanLength(String s, int length, HttpSession session, Locale locale, Logger logger, String forward) {
         if (s.length() < length) {
+            String errMsg = locale.getMessage("validation.error.is_less_than_length");
+            String ch = locale.getMessage("validation.error.characters");
             setErrorMessage(session,
-                    s + " " + locale.getMessage("validation.error.is_less_than_length") + length,
+                    String.format("'%s' %s %d %s",s, errMsg, length, ch),
                     logger, forward);
             return true;
         }
@@ -203,8 +210,8 @@ public class Validator {
                 isMoreThanLength(s, MAX_ACC_DETAILS_NAME_SURNAME_LENGTH, session, locale, logger, forward);
     }
 
-    private static boolean isAccDetailsEmailNotMatchPattern(String email, HttpSession session, Locale locale, Logger logger, String forward){
-        if (!EMAIL_PATTERN.matcher(email).matches()){
+    private static boolean isAccDetailsEmailNotMatchPattern(String email, HttpSession session, Locale locale, Logger logger, String forward) {
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
             setErrorMessage(session, locale.getMessage("validator.error.acc_details_email_pattern"),
                     logger, forward);
             return true;
@@ -227,10 +234,35 @@ public class Validator {
                 isAccDetailsEmailNotMatchPattern(email, session, locale, logger, forward);
     }
 
-    public static boolean isSpecializationNameNotValid(String name, HttpSession session, Locale locale, Logger logger, String forward){
+    public static boolean isSpecializationNameNotValid(String name, HttpSession session, Locale locale, Logger logger, String forward) {
         return isNullOrEmpty(name, session, locale, logger, forward) ||
                 isLessThanLength(name, MIN_SPECIALIZATION_NAME_LENGTH, session, locale, logger, forward) ||
                 isMoreThanLength(name, MAX_SPECIALIZATION_NAME_LENGTH, session, locale, logger, forward);
+    }
+
+    public static String checkDoctorSpecSortBy(String sortBy) {
+        if (!SorterConstants.NAME.equals(sortBy)){
+            return SorterConstants.NAME;
+        }
+        return sortBy;
+    }
+
+    public static String checkUsersPatientSortBy(String sortBy) {
+        if (!SorterConstants.SURNAME.equals(sortBy) && !SorterConstants.BIRTHDAY.equals(sortBy)){
+            return SorterConstants.SURNAME;
+        }
+        return sortBy;
+    }
+
+    public static String checkSortingDirection (String direction){
+        if (!SorterConstants.ASC.equals(direction) && !SorterConstants.DESC.equals(direction)){
+            return  SorterConstants.ASC;
+        }
+        return direction;
+    }
+
+    public static boolean checkInputCheckbox(String input){
+        return CHECKBOX_ON.equals(input);
     }
 
     public static void setErrorMessage(HttpSession session, String errorMessage, Logger logger, String forward) {

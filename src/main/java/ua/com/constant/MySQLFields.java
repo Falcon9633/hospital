@@ -13,6 +13,7 @@ public class MySQLFields {
     public static final String UPDATED_BY = "updated_by";
     public static final String NAME_EN = "name_EN";
     public static final String NAME_UA = "name_UA";
+    public static final String NUMBER = "number";
 
     // account
     public static final String ACCOUNT_LOGIN = "login";
@@ -20,15 +21,16 @@ public class MySQLFields {
     public static final String ACCOUNT_LOCKED = "locked";
     public static final String ACCOUNT_ROLE_ID = "role_id";
     public static final String ACCOUNT_LOCALE_ID = "locale_id";
+    public static final String ACCOUNT_EMAIL = "email";
 
     // account_details
     public static final String ACCOUNT_DETAILS_SURNAME_EN = "surname_EN";
     public static final String ACCOUNT_DETAILS_SURNAME_UA = "surname_UA";
-    public static final String ACCOUNT_DETAILS_EMAIL = "email";
+    public static final String UPDATE_BY_ACC_DETAILS_NAME_EN = "updateBy_name_EN";
+    public static final String UPDATE_BY_ACC_DETAILS_SURNAME_EN = "updateBy_surname_EN";
+    public static final String UPDATE_BY_ACC_DETAILS_NAME_UA = "updateBy_name_UA";
+    public static final String UPDATE_BY_ACC_DETAILS_SURNAME_UA = "updateBy_surname_UA";
 
-    // specialization_account_details bean
-    public static final String SPECIALIZATION_ACC_DETAILS_NAME_EN = "account_name_EN";
-    public static final String SPECIALIZATION_ACC_DETAILS_SURNAME_EN = "account_surname_EN";
-    public static final String SPECIALIZATION_ACC_DETAILS_NAME_UA = "account_name_UA";
-    public static final String SPECIALIZATION_ACC_DETAILS_SURNAME_UA = "account_surname_UA";
+    // patient
+    public static final String PATIENT_BIRTHDAY = "birthday";
 }

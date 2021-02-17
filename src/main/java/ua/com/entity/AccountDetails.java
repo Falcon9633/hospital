@@ -13,19 +13,17 @@ public class AccountDetails {
     private String surnameEN;
     private String nameUA;
     private String surnameUA;
-    private String email;
-    private LocalDateTime updateTime;
+
 
     public AccountDetails() {
     }
 
-    public AccountDetails(Long id, String nameEN, String surnameEN, String nameUA, String surnameUA, String email) {
+    public AccountDetails(Long id, String nameEN, String surnameEN, String nameUA, String surnameUA) {
         this.id = id;
         this.nameEN = nameEN;
         this.surnameEN = surnameEN;
         this.nameUA = nameUA;
         this.surnameUA = surnameUA;
-        this.email = email;
     }
 
     public Long getId() {
@@ -68,22 +66,6 @@ public class AccountDetails {
         this.surnameUA = surnameUA;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
-    }
-
     @Override
     public String toString() {
         return "AccountDetails{" +
@@ -92,8 +74,6 @@ public class AccountDetails {
                 ", surnameEN='" + surnameEN + '\'' +
                 ", nameUA='" + nameUA + '\'' +
                 ", surnameUA='" + surnameUA + '\'' +
-                ", email='" + email + '\'' +
-                ", updateTime=" + updateTime +
                 '}';
     }
 }

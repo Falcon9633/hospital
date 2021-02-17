@@ -12,14 +12,16 @@
         <label for="name_EN" class="mr-sm-2">
             <fmt:message key="doctor_specialization.name_en.label" bundle="${lang}"/>
         </label>
-        <input type="text" name="name_EN" class="form-control mb-2 mr-sm-2" id="name_EN" required
+        <input type="text" name="name_EN" class="form-control mb-2 mr-sm-2" id="name_EN"
+               required minlength="3" maxlength="45"
                placeholder='<fmt:message key="doctor_specialization.name_en.placeholder" bundle="${lang}"/>'
         />
 
         <label for="name_UA" class="mr-sm-2">
             <fmt:message key="doctor_specialization.name_ua.label" bundle="${lang}"/>
         </label>
-        <input type="text" name="name_UA" class="form-control mb-2 mr-sm-2" id="name_UA" required
+        <input type="text" name="name_UA" class="form-control mb-2 mr-sm-2" id="name_UA"
+               required minlength="3" maxlength="45"
                placeholder='<fmt:message key="doctor_specialization.name_ua.placeholder" bundle="${lang}"/>'
         />
 
@@ -65,7 +67,9 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title">Editing specialization</h1>
+                    <h1 class="modal-title">
+                        <fmt:message key="doctor_specialization.modal.title" bundle="${lang}"/>
+                    </h1>
                 </div>
                 <div class="modal-body">
                     <form id="modal_edit_specialization" class="form-inline" action="controller" method="post">
@@ -74,24 +78,26 @@
                             <fmt:message key="doctor_specialization.name_en.label" bundle="${lang}"/>
                         </label>
                         <input type="text" name="edited_name_EN" class="form-control mb-2 mr-sm-2" id="edited_name_EN"
-                               required
-                               placeholder='<fmt:message key="doctor_specialization.name_en.placeholder" bundle="${lang}"/>'
-                        />
+                               required minlength="3" maxlength="45"
+                               placeholder='<fmt:message key="doctor_specialization.name_en.placeholder" bundle="${lang}"/>'/>
 
                         <label for="edited_name_UA" class="mr-sm-2">
                             <fmt:message key="doctor_specialization.name_ua.label" bundle="${lang}"/>
                         </label>
                         <input type="text" name="edited_name_UA" class="form-control mb-2 mr-sm-2" id="edited_name_UA"
-                               required
-                               placeholder='<fmt:message key="doctor_specialization.name_ua.placeholder" bundle="${lang}"/>'
-                        />
+                               required minlength="3" maxlength="45"
+                               placeholder='<fmt:message key="doctor_specialization.name_ua.placeholder" bundle="${lang}"/>'/>
 
                         <input type="hidden" id="specialization_id" name="id"/>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" data-dismiss="modal">CLose</button>
-                    <button type="submit" class="btn btn-dark" form="modal_edit_specialization">Save changes</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">
+                        <fmt:message key="modal.close.button" bundle="${lang}"/>
+                    </button>
+                    <button type="submit" class="btn btn-dark" form="modal_edit_specialization">
+                        <fmt:message key="modal.save.button" bundle="${lang}"/>
+                    </button>
                 </div>
             </div>
         </div>

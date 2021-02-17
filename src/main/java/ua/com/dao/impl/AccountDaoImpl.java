@@ -2,6 +2,7 @@ package ua.com.dao.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sun.rmi.runtime.Log;
 import ua.com.constant.MySQLFields;
 import ua.com.constant.MySQLQuery;
 import ua.com.dao.AccountDao;
@@ -17,6 +18,44 @@ import java.sql.*;
  */
 public class AccountDaoImpl implements AccountDao {
     private static final Logger LOGGER = LogManager.getLogger(AccountDaoImpl.class);
+
+    @Override
+    public Account findById(Long id, Connection con) throws SQLException {
+        LOGGER.debug("findById starts");
+        Account account = new Account();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = con.prepareStatement(MySQLQuery.FIND_ACCOUNT_BY_ID);
+            LOGGER.info(MySQLQuery.FIND_ACCOUNT_BY_ID);
+            pstmt.setLong(1, id);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                account = mapAccount(rs);
+            }
+
+            DBUtil.closeResource(rs, pstmt);
+            rs = null;
+            pstmt = null;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+            throw new SQLException(e.getCause());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, pstmt);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            rs = null;
+            pstmt = null;
+        }
+
+        LOGGER.debug("findById finishes");
+        return account;
+    }
 
     /**
      * Finds and returns account with defined login in the database,
@@ -75,6 +114,7 @@ public class AccountDaoImpl implements AccountDao {
             int k = 0;
             pstmt.setString(++k, account.getLogin());
             pstmt.setString(++k, account.getPassword());
+            pstmt.setString(++k, account.getEmail());
             pstmt.setLong(++k, account.getUpdatedBy());
             pstmt.setInt(++k, account.getRoleId());
 
@@ -89,13 +129,13 @@ public class AccountDaoImpl implements AccountDao {
             rs = null;
             pstmt = null;
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e.getCause());
             throw new SQLException(e.getCause());
         } finally {
             try {
                 DBUtil.closeResource(rs, pstmt);
             } catch (Exception e) {
-                LOGGER.error(e.getMessage());
+                LOGGER.error(e.getMessage(), e.getCause());
             }
             rs = null;
             pstmt = null;
@@ -103,6 +143,42 @@ public class AccountDaoImpl implements AccountDao {
 
         LOGGER.debug("insertAccount finishes");
         return account;
+    }
+
+    @Override
+    public void update(Account account, Connection con) throws SQLException {
+        LOGGER.debug("update starts");
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = con.prepareStatement(MySQLQuery.UPDATE_ACCOUNT);
+            LOGGER.info(MySQLQuery.UPDATE_ACCOUNT);
+            int k = 0;
+            pstmt.setString(++k, account.getLogin());
+            pstmt.setString(++k, account.getPassword());
+            pstmt.setString(++k, account.getEmail());
+            pstmt.setBoolean(++k, account.isLocked());
+            pstmt.setLong(++k, account.getUpdatedBy());
+            pstmt.setInt(++k, account.getRoleId());
+            pstmt.setInt(++k, account.getLocaleId());
+            pstmt.setLong(++k, account.getId());
+            pstmt.executeUpdate();
+
+            DBUtil.closeResource(pstmt);
+            pstmt = null;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+            throw new SQLException(e.getCause());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(pstmt);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            pstmt = null;
+        }
+        LOGGER.debug("update finishes");
     }
 
     /**
@@ -119,6 +195,7 @@ public class AccountDaoImpl implements AccountDao {
         account.setId(rs.getLong(MySQLFields.ID));
         account.setLogin(rs.getString(MySQLFields.ACCOUNT_LOGIN));
         account.setPassword(rs.getString(MySQLFields.ACCOUNT_PASSWORD));
+        account.setEmail(rs.getString(MySQLFields.ACCOUNT_EMAIL));
         account.setCreateTime(rs.getTimestamp(MySQLFields.CREATE_TIME).toLocalDateTime());
         account.setUpdateTime(rs.getTimestamp(MySQLFields.UPDATE_TIME).toLocalDateTime());
         account.setLocked(rs.getBoolean(MySQLFields.ACCOUNT_LOCKED));

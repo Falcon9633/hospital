@@ -6,6 +6,7 @@
 <%@ include file="/WEB-INF/jspf/header.jsp" %>
 
 <div class="container">
+    <h2>${title}</h2>
     <form action="controller" method="post">
         <input type="hidden" name="role_id" value="0"/>
         <%@ include file="/WEB-INF/jspf/accountRegistrationForm.jsp" %>

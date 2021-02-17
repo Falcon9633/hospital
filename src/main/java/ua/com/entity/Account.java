@@ -11,6 +11,7 @@ public class Account {
     private Long id;
     private String login;
     private String password;
+    private String email;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
     private boolean locked;
@@ -21,8 +22,10 @@ public class Account {
     public Account() {
     }
 
-    public Account(String login, long updatedBy, int roleId) {
+    public Account(String login, String password, String email, long updatedBy, int roleId) {
         this.login = login;
+        this.password = password;
+        this.email = email;
         this.updatedBy = updatedBy;
         this.roleId = roleId;
     }
@@ -51,6 +54,14 @@ public class Account {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -67,20 +78,20 @@ public class Account {
         this.updateTime = updateTime;
     }
 
-    public long getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(long updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
     public boolean isLocked() {
         return locked;
     }
 
     public void setLocked(boolean locked) {
         this.locked = locked;
+    }
+
+    public long getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(long updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public int getRoleId() {
@@ -104,10 +115,12 @@ public class Account {
         return "Account{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
-                ", updatedBy=" + updatedBy +
                 ", locked=" + locked +
+                ", updatedBy=" + updatedBy +
                 ", roleId=" + roleId +
                 ", localeId=" + localeId +
                 '}';
