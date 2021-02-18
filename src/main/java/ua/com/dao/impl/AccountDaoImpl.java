@@ -2,11 +2,11 @@ package ua.com.dao.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import sun.rmi.runtime.Log;
 import ua.com.constant.MySQLFields;
 import ua.com.constant.MySQLQuery;
 import ua.com.dao.AccountDao;
 import ua.com.entity.Account;
+import ua.com.entity.Role;
 import ua.com.util.DBUtil;
 
 import java.sql.*;
@@ -57,6 +57,36 @@ public class AccountDaoImpl implements AccountDao {
         return account;
     }
 
+    private boolean isAccountExistByIdAndRole(Long id, int roleId) {
+        LOGGER.debug("findByIdAndRole");
+        boolean exist = false;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            con = DBUtil.getConnection();
+            pstmt = con.prepareStatement(MySQLQuery.FIND_ACCOUNT_BY_ID_AND_ROLE);
+            int k = 0;
+            pstmt.setLong(++k, id);
+            pstmt.setInt(++k, roleId);
+            exist = pstmt.execute();
+
+            DBUtil.closeResource(pstmt, con);
+            pstmt = null;
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(pstmt, con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            pstmt = null;
+            con = null;
+        }
+        return exist;
+    }
+
     /**
      * Finds and returns account with defined login in the database,
      * otherwise returns null.
@@ -101,6 +131,16 @@ public class AccountDaoImpl implements AccountDao {
 
         LOGGER.debug("findByLogin finishes");
         return account;
+    }
+
+    @Override
+    public boolean isDoctorExists(Long id) {
+        return isAccountExistByIdAndRole(id, Role.DOCTOR.ordinal());
+    }
+
+    @Override
+    public boolean isPatientExists(Long id) {
+        return isAccountExistByIdAndRole(id, Role.PATIENT.ordinal());
     }
 
     @Override

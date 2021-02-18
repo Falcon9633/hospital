@@ -1,9 +1,11 @@
 package ua.com.dao;
 
+import ua.com.bean.DoctorAccDetailsBean;
 import ua.com.entity.Doctor;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Data access object for the Doctor entity.
@@ -22,4 +24,6 @@ public interface DoctorDao {
      * @see java.sql.PreparedStatement
      */
     Doctor insertDoctor(Connection con, Doctor doctor) throws SQLException;
+
+    List<DoctorAccDetailsBean> findAllDoctorAccDetailsBeans();
 }

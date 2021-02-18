@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Logger;
 import ua.com.constant.SorterConstants;
 import ua.com.entity.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.regex.Pattern;
 
@@ -238,6 +239,10 @@ public class Validator {
         return isNullOrEmpty(name, session, locale, logger, forward) ||
                 isLessThanLength(name, MIN_SPECIALIZATION_NAME_LENGTH, session, locale, logger, forward) ||
                 isMoreThanLength(name, MAX_SPECIALIZATION_NAME_LENGTH, session, locale, logger, forward);
+    }
+
+    public static boolean isRequestedIdValid(Long id){
+        return id != null && id != 0;
     }
 
     public static String checkDoctorSpecSortBy(String sortBy) {

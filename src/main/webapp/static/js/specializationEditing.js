@@ -1,5 +1,5 @@
 const SPECIALIZATION_EDITING_MODAL = $('#specializationEditingModal');
-const SPECIALIZATION_ID = $('#specialization_id');
+const EDITED_SPECIALIZATION_ID = $('#specialization_id');
 const EDITED_NAME_EN = $('#edited_name_EN');
 const EDITED_NAME_UA = $('#edited_name_UA');
 
@@ -21,7 +21,7 @@ function showModal() {
 }
 
 function initModalContent(id, nameEN, nameUA) {
-    SPECIALIZATION_ID.val(id);
+    EDITED_SPECIALIZATION_ID.val(id);
     EDITED_NAME_EN.val(nameEN);
     EDITED_NAME_UA.val(nameUA);
 }

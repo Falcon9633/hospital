@@ -10,6 +10,7 @@ public class Path {
     public static final String DOCTOR_SPECIALIZATION_PAGE = "/WEB-INF/jsp/admin/doctorSpecialization.jsp";
     public static final String USERS_DOCTORS_PAGE = "/WEB-INF/jsp/admin/usersDoctors.jsp";
     public static final String USERS_PATIENTS_PAGE = "/WEB-INF/jsp/admin/usersPatients.jsp";
+    public static final String ADMINISTRATE_PATIENT_MEDICAL_CARDS_PAGE = "/WEB-INF/jsp/admin/administratePatientMedicalCards.jsp";
 
     public static final String ACCOUNT_REGISTRATION_ADMIN_COMMAND = "controller?command=accountRegistrationAdmin";
     public static final String ACCOUNT_REGISTRATION_DOCTOR_COMMAND = "controller?command=accountRegistrationDoctor";
@@ -18,4 +19,5 @@ public class Path {
     public static final String DOCTOR_SPECIALIZATION_COMMAND = "controller?command=doctorSpecialization";
     public static final String USERS_DOCTORS_COMMAND = "controller?command=usersDoctors";
     public static final String USERS_PATIENTS_COMMAND = "controller?command=usersPatients";
+    public static final String ADMINISTRATE_PATIENT_MEDICAL_CARDS_COMMAND = "controller?command=administratePatientMedicalCards&patient_id=";
 }

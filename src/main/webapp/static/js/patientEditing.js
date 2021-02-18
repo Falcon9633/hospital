@@ -1,5 +1,5 @@
 const PATIENT_EDITING_MODAL = $('#patientEditingModal');
-const SPECIALIZATION_ID = $('#patient_id');
+const EDITED_PATIENT_ID = $('#patient_id');
 const EDITED_NAME_EN = $('#edited_name_EN');
 const EDITED_SURNAME_EN = $('#edited_surname_EN');
 const EDITED_NAME_UA = $('#edited_name_UA');
@@ -8,6 +8,8 @@ const EDITED_BIRTHDAY = $('#edited_birthday');
 const EDITED_LOCKED = $('#edited_locked');
 const MODAL_TITLE = $('h4.modal-title');
 const MODAL_TITLE_TEXT = MODAL_TITLE.text();
+const MODAL_MEDICAL_CARD_BUTTON = $('#modal_medical_card_button');
+const MODAL_MEDICAL_CARD_BUTTON_HREF = MODAL_MEDICAL_CARD_BUTTON.attr('href');
 
 function init() {
     PATIENT_EDITING_MODAL.modal({'show': false});
@@ -19,20 +21,20 @@ function showModal() {
     PATIENT_EDITING_MODAL.modal('show');
 
     let currentRow = $(this).closest('tr');
-    let id = currentRow.find('input[name=current_id').val();
-    let nameEN = currentRow.find('input[name=current_name_EN').val();
-    let surnameEN = currentRow.find('input[name=current_surname_EN').val();
-    let nameUA = currentRow.find('input[name=current_name_UA').val();
-    let surnameUA = currentRow.find('input[name=current_surname_UA').val();
-    let birthday = currentRow.find('input[name=current_birthday').val();
-    let locked = currentRow.find('input[name=current_locked').val();
+    let id = currentRow.find('input[name=current_id]').val();
+    let nameEN = currentRow.find('input[name=current_name_EN]').val();
+    let surnameEN = currentRow.find('input[name=current_surname_EN]').val();
+    let nameUA = currentRow.find('input[name=current_name_UA]').val();
+    let surnameUA = currentRow.find('input[name=current_surname_UA]').val();
+    let birthday = currentRow.find('input[name=current_birthday]').val();
+    let locked = currentRow.find('input[name=current_locked]').val();
     let updateTime = currentRow.find('input[name=current_update_time]').val();
 
     initModalContent(id, nameEN, surnameEN, nameUA, surnameUA, birthday, locked, updateTime);
 }
 
 function initModalContent(id, nameEN, surnameEN, nameUA, surnameUA, birthday, locked, updateTime) {
-    SPECIALIZATION_ID.val(id);
+    EDITED_PATIENT_ID.val(id);
     EDITED_NAME_EN.val(nameEN);
     EDITED_SURNAME_EN.val(surnameEN);
     EDITED_NAME_UA.val(nameUA);
@@ -44,6 +46,7 @@ function initModalContent(id, nameEN, surnameEN, nameUA, surnameUA, birthday, lo
         EDITED_LOCKED.removeAttr('checked');
     }
     MODAL_TITLE.text(MODAL_TITLE_TEXT + updateTime);
+    MODAL_MEDICAL_CARD_BUTTON.attr('href', (MODAL_MEDICAL_CARD_BUTTON_HREF + id));
 }
 
 $(document).ready(init);

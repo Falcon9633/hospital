@@ -50,7 +50,7 @@ public class CreateSpecializationCommand implements Command {
 
         Account account = (Account) session.getAttribute("account");
         Specialization insertedSpec = specializationDao.insert(new Specialization(nameEN, nameUA, account.getId()));
-        if (insertedSpec.getId() == 0){
+        if (insertedSpec.getId() == null){
             Validator.setErrorMessage(session,
                     locale.getMessage("create_specialization_command.error.failed_to_create"), LOGGER, forward);
             return forward;

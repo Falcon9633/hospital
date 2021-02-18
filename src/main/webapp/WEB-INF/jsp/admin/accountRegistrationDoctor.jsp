@@ -15,7 +15,7 @@
                 <fmt:message key="account_registration_doctor.specialization.placeholder" var="specializationPh" bundle="${lang}"/>
                 ${specializationPh}:
             </label>
-            <select class="form-control"  name="specialization_id" id="specialization_id">
+            <select class="form-control"  name="specialization_id" id="specialization_id" required>
                 <option value="">${specializationPh}</option>
                 <c:if test="${specializations != null}">
                     <c:forEach var="specialization" items="${specializations}">

@@ -20,6 +20,10 @@ public interface AccountDao {
      */
     Account findByLogin(String login);
 
+    boolean isDoctorExists(Long id);
+
+    boolean isPatientExists(Long id);
+
     /**
      * Inserts given account to the database.
      *

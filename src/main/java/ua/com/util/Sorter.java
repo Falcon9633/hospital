@@ -2,6 +2,7 @@ package ua.com.util;
 
 import ua.com.bean.SpecializationAccountDetailsBean;
 import ua.com.entity.Locale;
+import ua.com.entity.Specialization;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.Collator;
@@ -48,6 +49,26 @@ public class Sorter {
         } else {
             beans.sort(Comparator.comparing(getFieldFunction, collator).reversed());
             req.setAttribute("sortDirName", ASC);
+        }
+    }
+
+    public static void specializationsByName(List<Specialization> spec, String sortDir, Locale locale) {
+        Collator collator = Collator.getInstance(locale.getJavaLocale());
+
+        if (locale == Locale.EN){
+            sortSpecialization(spec, Specialization::getNameEN, collator, sortDir);
+        }
+        if (locale == Locale.UA){
+            sortSpecialization(spec, Specialization::getNameUA, collator, sortDir);
+        }
+    }
+
+    private static void sortSpecialization(List<Specialization> spec, Function<Specialization, String> getFieldFunction,
+                                           Collator collator, String sortDir){
+        if (ASC.equals(sortDir)){
+            spec.sort(Comparator.comparing(getFieldFunction, collator));
+        } else {
+            spec.sort(Comparator.comparing(getFieldFunction, collator).reversed());
         }
     }
 }

@@ -17,6 +17,7 @@ import java.util.List;
 
 public class EditSpecializationCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(EditSpecializationCommand.class);
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         LOGGER.debug("execute starts");
@@ -29,7 +30,7 @@ public class EditSpecializationCommand implements Command {
         Integer specializationId;
         try {
             specializationId = Integer.valueOf(req.getParameter("id"));
-            if (specializationId < 1){
+            if (specializationId < 1) {
                 throw new NumberFormatException("specialization_id = " + specializationId + " must be > 0");
             }
         } catch (NumberFormatException e) {
@@ -40,20 +41,20 @@ public class EditSpecializationCommand implements Command {
 
         String nameEN = req.getParameter("edited_name_EN");
         LOGGER.trace("requested param edited_name_EN -> {}", nameEN);
-        if (Validator.isSpecializationNameNotValid(nameEN, session, locale, LOGGER, forward)){
+        if (Validator.isSpecializationNameNotValid(nameEN, session, locale, LOGGER, forward)) {
             return forward;
         }
 
         String nameUA = req.getParameter("edited_name_UA");
         LOGGER.trace("requested param edited_name_UA -> {}", nameUA);
-        if (Validator.isSpecializationNameNotValid(nameUA, session, locale, LOGGER, forward)){
+        if (Validator.isSpecializationNameNotValid(nameUA, session, locale, LOGGER, forward)) {
             return forward;
         }
 
         SpecializationDao specializationDao = new SpecializationDaoImpl();
         Specialization foundById = specializationDao.findById(specializationId);
         LOGGER.trace("foundById -> {}", foundById);
-        if (foundById == null){
+        if (foundById == null) {
             Validator.setErrorMessage(session,
                     locale.getMessage("edit_specialization_command.error.specialization_not_exits"),
                     LOGGER, forward);
@@ -63,7 +64,7 @@ public class EditSpecializationCommand implements Command {
         List<Specialization> foundByName = specializationDao.findByName(nameEN, nameUA);
         LOGGER.trace("foundByName -> {}", foundByName);
         for (Specialization s : foundByName) {
-            if (!foundById.getId().equals(s.getId())){
+            if (!foundById.getId().equals(s.getId())) {
                 Validator.setErrorMessage(session,
                         locale.getMessage("edit_specialization_command.error.specialization_already_exist"), LOGGER, forward);
                 return forward;
@@ -75,7 +76,7 @@ public class EditSpecializationCommand implements Command {
         foundById.setNameUA(nameUA);
         foundById.setUpdatedBy(account.getId());
         boolean successful = specializationDao.update(foundById);
-        if (!successful){
+        if (!successful) {
             Validator.setErrorMessage(session,
                     locale.getMessage("edit_specialization_command.error.failed_to_edit"),
                     LOGGER, forward

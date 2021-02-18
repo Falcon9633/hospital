@@ -85,7 +85,7 @@ public class SpecializationDaoImpl implements SpecializationDao {
             LOGGER.error(e.getMessage(), e.getCause());
         } finally {
             try {
-                DBUtil.closeResource();
+                DBUtil.closeResource(rs, stmt, con);
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e.getCause());
             }
@@ -207,12 +207,12 @@ public class SpecializationDaoImpl implements SpecializationDao {
             pstmt = null;
             con = null;
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e.getCause());
         } finally {
             try {
                 DBUtil.closeResource(rs, pstmt, con);
             } catch (Exception e) {
-                LOGGER.error(e.getMessage());
+                LOGGER.error(e.getMessage(), e.getCause());
             }
             rs = null;
             pstmt = null;
@@ -243,13 +243,13 @@ public class SpecializationDaoImpl implements SpecializationDao {
             pstmt = null;
             con = null;
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e.getCause());
             return false;
         } finally {
             try {
                 DBUtil.closeResource(pstmt, con);
             } catch (Exception e) {
-                LOGGER.error(e.getMessage());
+                LOGGER.error(e.getMessage(), e.getCause());
             }
             pstmt = null;
             con = null;
@@ -277,10 +277,10 @@ public class SpecializationDaoImpl implements SpecializationDao {
         bean.setNameEN(rs.getString(MySQLFields.NAME_EN));
         bean.setNameUA(rs.getString(MySQLFields.NAME_UA));
         bean.setUpdateTime(rs.getTimestamp(MySQLFields.UPDATE_TIME).toLocalDateTime());
-        bean.setAccountNameEN(rs.getString(MySQLFields.UPDATE_BY_ACC_DETAILS_NAME_EN));
-        bean.setAccountSurnameEN(rs.getString(MySQLFields.UPDATE_BY_ACC_DETAILS_SURNAME_EN));
-        bean.setAccountNameUA(rs.getString(MySQLFields.UPDATE_BY_ACC_DETAILS_NAME_UA));
-        bean.setAccountSurnameUA(rs.getString(MySQLFields.UPDATE_BY_ACC_DETAILS_SURNAME_UA));
+        bean.setAccountNameEN(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_NAME_EN));
+        bean.setAccountSurnameEN(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_SURNAME_EN));
+        bean.setAccountNameUA(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_NAME_UA));
+        bean.setAccountSurnameUA(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_SURNAME_UA));
         return bean;
     }
 }

@@ -217,10 +217,10 @@ public class PatientDaoImpl implements PatientDao {
         bean.setLocked(rs.getBoolean(MySQLFields.ACCOUNT_LOCKED));
         bean.setCreateTime(rs.getTimestamp(MySQLFields.CREATE_TIME).toLocalDateTime());
         bean.setUpdateTime(rs.getTimestamp(MySQLFields.UPDATE_TIME).toLocalDateTime());
-        bean.setUpdatedByNameEN(rs.getString(MySQLFields.UPDATE_BY_ACC_DETAILS_NAME_EN));
-        bean.setUpdatedBySurnameEN(rs.getString(MySQLFields.UPDATE_BY_ACC_DETAILS_SURNAME_EN));
-        bean.setUpdatedByNameUA(rs.getString(MySQLFields.UPDATE_BY_ACC_DETAILS_NAME_UA));
-        bean.setUpdatedBySurnameUA(rs.getString(MySQLFields.UPDATE_BY_ACC_DETAILS_SURNAME_UA));
+        bean.setUpdatedByNameEN(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_NAME_EN));
+        bean.setUpdatedBySurnameEN(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_SURNAME_EN));
+        bean.setUpdatedByNameUA(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_NAME_UA));
+        bean.setUpdatedBySurnameUA(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_SURNAME_UA));
         return bean;
     }
 }

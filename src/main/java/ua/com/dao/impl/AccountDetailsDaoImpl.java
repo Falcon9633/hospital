@@ -81,7 +81,6 @@ public class AccountDetailsDaoImpl implements AccountDetailsDao {
             pstmt = null;
         }
 
-        LOGGER.debug("findById finishes");
         return accountDetails;
     }
 

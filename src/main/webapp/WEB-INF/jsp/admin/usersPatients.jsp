@@ -43,7 +43,7 @@
                 <c:if test="${locale.name == 'uk_UA'}">
                     <td>${patient.updatedBySurnameUA} ${patient.updatedByNameUA}</td>
                 </c:if>
-                <th><input type="checkbox" disabled ${patient.locked ? 'checked' : ''}></th>
+                <td><input type="checkbox" disabled ${patient.locked ? 'checked' : ''}></td>
 
                 <input type="hidden" value="${patient.id}" name="current_id"/>
                 <input type="hidden" value="${patient.nameEN}" name="current_name_EN"/>
@@ -117,7 +117,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-dark" role="button" aria-pressed="true">
+                    <a href="controller?command=administratePatientMedicalCards&patient_id="
+                       class="btn btn-dark" role="button" aria-pressed="true" id="modal_medical_card_button">
                         <fmt:message key="users_patients.modal.medical_card.button" bundle="${lang}"/>
                     </a>
                     <button type="button" class="btn btn-dark" data-dismiss="modal">

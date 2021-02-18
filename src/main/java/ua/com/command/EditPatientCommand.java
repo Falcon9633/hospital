@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public class EditPatientCommand implements Command {
-    public static final Logger LOGGER = LogManager.getLogger(EditPatientCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(EditPatientCommand.class);
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
