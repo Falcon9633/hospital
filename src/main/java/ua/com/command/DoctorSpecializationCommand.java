@@ -6,6 +6,7 @@ import ua.com.bean.SpecializationAccountDetailsBean;
 import ua.com.constant.Path;
 import ua.com.constant.SorterConstants;
 import ua.com.dao.SpecializationDao;
+import ua.com.dao.impl.DaoFactory;
 import ua.com.dao.impl.SpecializationDaoImpl;
 import ua.com.entity.Locale;
 import ua.com.util.Sorter;
@@ -29,7 +30,7 @@ public class DoctorSpecializationCommand implements Command {
                 (List<SpecializationAccountDetailsBean>) session.getAttribute("specAccDetailList");
 
         if (specAccDetailList == null){
-            SpecializationDao specializationDao = new SpecializationDaoImpl();
+            SpecializationDao specializationDao = DaoFactory.getSpecializationDao();
             specAccDetailList = specializationDao.findAllSpecAccDetailsBeans();
             LOGGER.trace("found in db specAccDetailList -> {}", specAccDetailList);
         }

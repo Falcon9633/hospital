@@ -25,8 +25,9 @@
             <button type="submit" class="form-button button-l margin-b"><fmt:message key="login.button.submit" bundle="${lang}"/></button>
             <%@ include file="/WEB-INF/jspf/errorMessage.jsp" %>
         </form>
-        <a class="flag-icon flag-icon-ua" href="controller?command=unknownCommand"></a><%--TODO--%>
-        <a class="flag-icon flag-icon-us" href="controller?command=unknownCommand"></a><%--TODO--%>
+
+        <a class="flag-icon flag-icon-ua" href="${localUA}"></a>
+        <a class="flag-icon flag-icon-us" href="${localEN}"></a>
         <p class="margin-t text-whitesmoke"><small><fmt:message key="login.copyrights" bundle="${lang}"/></small></p>
     </div>
 </div>

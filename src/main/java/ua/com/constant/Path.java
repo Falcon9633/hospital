@@ -20,4 +20,6 @@ public class Path {
     public static final String USERS_DOCTORS_COMMAND = "controller?command=usersDoctors";
     public static final String USERS_PATIENTS_COMMAND = "controller?command=usersPatients";
     public static final String ADMINISTRATE_PATIENT_MEDICAL_CARDS_COMMAND = "controller?command=administratePatientMedicalCards&patient_id=";
+
+    public static final String LOCALE_COOKIE = "locale";
 }

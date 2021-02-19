@@ -47,4 +47,5 @@ public class MySQLFields {
 
     // doctor
     public static final String DOCTOR_SPECIALIZATION_ID = "specialization_id";
+    public static final String DOCTOR_PATIENT_COUNT = "patient_count";
 }

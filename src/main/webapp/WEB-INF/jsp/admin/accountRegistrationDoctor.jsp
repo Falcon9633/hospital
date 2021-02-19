@@ -15,19 +15,8 @@
                 <fmt:message key="account_registration_doctor.specialization.placeholder" var="specializationPh" bundle="${lang}"/>
                 ${specializationPh}:
             </label>
-            <select class="form-control"  name="specialization_id" id="specialization_id" required>
-                <option value="">${specializationPh}</option>
-                <c:if test="${specializations != null}">
-                    <c:forEach var="specialization" items="${specializations}">
-                        <option value="${specialization.id}">
-                            <c:choose>
-                                <c:when test="${locale.name == 'en_US'}">${specialization.nameEN}</c:when>
-                                <c:when test="${locale.name == 'uk_UA'}">${specialization.nameUA}</c:when>
-                            </c:choose>
-                        </option>
-                    </c:forEach>
-                </c:if>
-            </select>
+            <c:set var="selectId" value="specialization_id"/>
+            <%@ include file="/WEB-INF/jspf/allSpecializationSelect.jsp" %>
         </div>
         <button type="submit" class="btn btn-dark">
             <fmt:message key="account_registration.button.register" bundle="${lang}"/>

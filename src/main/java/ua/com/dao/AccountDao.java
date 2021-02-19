@@ -4,6 +4,7 @@ import ua.com.entity.Account;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 /**
  * Data access object for the Account entity.
@@ -12,6 +13,7 @@ import java.sql.SQLException;
  */
 public interface AccountDao {
     Account findById(Long id, Connection con) throws SQLException;
+
     /**
      * Returns an account by given login.
      *
@@ -36,5 +38,13 @@ public interface AccountDao {
      */
     Account insertAccount(Connection con, Account account) throws SQLException;
 
+    void update(Account account);
+
     void update(Account account, Connection con) throws SQLException;
+
+    boolean editDoctor(Long doctorId, Integer specializationId, String nameEN, String surnameEN, String nameUA,
+                       String surnameUA, boolean locked, Long updateBy);
+
+    boolean editPatient(Long patientId, String nameEN, String surnameEN, String nameUA,
+                        String surnameUA, LocalDate birthday, boolean locked, Long updatedBy);
 }

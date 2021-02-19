@@ -59,7 +59,7 @@ public class Validator {
             String errMsg = locale.getMessage("validation.error.is_more_than_length");
             String ch = locale.getMessage("validation.error.characters");
             setErrorMessage(session,
-                    String.format("'%s' %s %d %s",s, errMsg, length, ch),
+                    String.format("'%s' %s %d %s", s, errMsg, length, ch),
                     logger, forward);
             return true;
         }
@@ -78,7 +78,7 @@ public class Validator {
             String errMsg = locale.getMessage("validation.error.is_less_than_length");
             String ch = locale.getMessage("validation.error.characters");
             setErrorMessage(session,
-                    String.format("'%s' %s %d %s",s, errMsg, length, ch),
+                    String.format("'%s' %s %d %s", s, errMsg, length, ch),
                     logger, forward);
             return true;
         }
@@ -241,33 +241,53 @@ public class Validator {
                 isMoreThanLength(name, MAX_SPECIALIZATION_NAME_LENGTH, session, locale, logger, forward);
     }
 
-    public static boolean isRequestedIdValid(Long id){
+    public static boolean isRequestedIdValid(Long id) {
+        return id != null && id != 0;
+    }
+
+    public static boolean isRequestedIdValid(Integer id) {
         return id != null && id != 0;
     }
 
     public static String checkDoctorSpecSortBy(String sortBy) {
-        if (!SorterConstants.NAME.equals(sortBy)){
+        if (!SorterConstants.NAME.equals(sortBy)) {
             return SorterConstants.NAME;
         }
         return sortBy;
     }
 
     public static String checkUsersPatientSortBy(String sortBy) {
-        if (!SorterConstants.SURNAME.equals(sortBy) && !SorterConstants.BIRTHDAY.equals(sortBy)){
+        if (!SorterConstants.SURNAME.equals(sortBy) && !SorterConstants.BIRTHDAY.equals(sortBy)) {
             return SorterConstants.SURNAME;
         }
         return sortBy;
     }
 
-    public static String checkSortingDirection (String direction){
-        if (!SorterConstants.ASC.equals(direction) && !SorterConstants.DESC.equals(direction)){
-            return  SorterConstants.ASC;
+    public static String checkUsersDoctorSortBy(String sortBy) {
+        if (!SorterConstants.SURNAME.equals(sortBy) &&
+                !SorterConstants.SPECIALIZATION.equals(sortBy) &&
+                !SorterConstants.PATIENT_COUNT.equals(sortBy)) {
+            return SorterConstants.SURNAME;
+        }
+        return sortBy;
+    }
+
+    public static String checkSortingDirection(String direction) {
+        if (!SorterConstants.ASC.equals(direction) && !SorterConstants.DESC.equals(direction)) {
+            return SorterConstants.ASC;
         }
         return direction;
     }
 
-    public static boolean checkInputCheckbox(String input){
+    public static boolean checkInputCheckbox(String input) {
         return CHECKBOX_ON.equals(input);
+    }
+
+    public static int checkLocaleId(int localeId) {
+        if (localeId < 0 || localeId > 1){
+            return 0;
+        }
+        return localeId;
     }
 
     public static void setErrorMessage(HttpSession session, String errorMessage, Logger logger, String forward) {

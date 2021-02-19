@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import ua.com.constant.Path;
 import ua.com.dao.AccountDao;
 import ua.com.dao.impl.AccountDaoImpl;
+import ua.com.dao.impl.DaoFactory;
 import ua.com.entity.Account;
 import ua.com.entity.Locale;
 import ua.com.entity.Role;
@@ -105,8 +106,10 @@ public class RegisterAccountCommand implements Command {
             return forward;
         }
 
-        int specializationId = -1;
+        int specializationId = 0;
         if (registrationRole == Role.DOCTOR) {
+            // remove cached result for admin/users_doctors page
+            session.removeAttribute("doctorAccountBeans");
             try {
                 specializationId = Integer.parseInt(req.getParameter("specialization_id"));
                 LOGGER.trace("requested param specialization_id -> {}", specializationId);
@@ -134,7 +137,7 @@ public class RegisterAccountCommand implements Command {
             }
         }
 
-        AccountDao accountDao = new AccountDaoImpl();
+        AccountDao accountDao = DaoFactory.getAccountDao();
         Account loginExists = accountDao.findByLogin(login);
         if (loginExists != null){
             Validator.setErrorMessage(session,

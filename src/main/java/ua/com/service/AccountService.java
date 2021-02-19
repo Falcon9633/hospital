@@ -8,7 +8,4 @@ import java.time.LocalDate;
 public interface AccountService {
     boolean registerAccount(String login, Long updatedBy, Role role, String nameEN, String surnameEN, String nameUA,
                             String surnameUA, String email, Integer specializationId, LocalDate birthday);
-
-    boolean editPatient(Long id, String nameEN, String surnameEN, String nameUA,
-                        String surnameUA, LocalDate birthday, boolean locked, Long updatedBy);
 }

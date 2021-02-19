@@ -6,10 +6,7 @@ import ua.com.dao.AccountDao;
 import ua.com.dao.AccountDetailsDao;
 import ua.com.dao.DoctorDao;
 import ua.com.dao.PatientDao;
-import ua.com.dao.impl.AccountDaoImpl;
-import ua.com.dao.impl.AccountDetailsDaoImpl;
-import ua.com.dao.impl.DoctorDaoImpl;
-import ua.com.dao.impl.PatientDaoImpl;
+import ua.com.dao.impl.*;
 import ua.com.entity.*;
 import ua.com.service.AccountService;
 import ua.com.util.DBUtil;
@@ -36,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
             con = DBUtil.getConnection();
             con.setAutoCommit(false);
 
-            AccountDao accountDao = new AccountDaoImpl();
+            AccountDao accountDao = DaoFactory.getAccountDao();
             Account insertedAccount = accountDao.insertAccount(con, account);
             LOGGER.trace("inserted account -> {}", insertedAccount);
 
@@ -83,59 +80,4 @@ public class AccountServiceImpl implements AccountService {
         LOGGER.debug("registerAccount finishes");
         return true;
     }
-
-    @Override
-    public boolean editPatient(Long id, String nameEN, String surnameEN, String nameUA,
-                               String surnameUA, LocalDate birthday, boolean locked, Long updatedBy) {
-        LOGGER.debug("editPatient starts");
-        Connection con = null;
-        try {
-            con = DBUtil.getConnection();
-            con.setAutoCommit(false);
-            AccountDao accountDao = new AccountDaoImpl();
-            AccountDetailsDao accountDetailsDao = new AccountDetailsDaoImpl();
-            PatientDao patientDao = new PatientDaoImpl();
-
-            Account account = accountDao.findById(id, con);
-            AccountDetails accountDetails = accountDetailsDao.findById(id, con);
-            Patient patient = patientDao.findById(id, con);
-
-            account.setLocked(locked);
-            account.setUpdatedBy(updatedBy);
-
-            accountDetails.setNameEN(nameEN);
-            accountDetails.setSurnameEN(surnameEN);
-            accountDetails.setNameUA(nameUA);
-            accountDetails.setSurnameUA(surnameUA);
-
-            patient.setBirthday(birthday);
-
-            accountDao.update(account, con);
-            accountDetailsDao.update(accountDetails, con);
-            patientDao.update(patient, con);
-
-            con.commit();
-            DBUtil.closeResource();
-            con = null;
-        } catch (SQLException e) {
-            if (con != null) {
-                DBUtil.rollback(con);
-            }
-            LOGGER.error(e.getMessage(), e.getCause());
-            return false;
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e.getCause());
-        } finally {
-            try {
-                DBUtil.closeResource(con);
-            } catch (Exception e) {
-                LOGGER.error(e.getMessage(), e.getCause());
-            }
-            con = null;
-        }
-
-        LOGGER.debug("editPatient finishes");
-        return true;
-    }
-
 }

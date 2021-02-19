@@ -7,18 +7,14 @@ import ua.com.dao.AccountDao;
 import ua.com.dao.impl.DaoFactory;
 import ua.com.entity.Account;
 import ua.com.entity.Locale;
-import ua.com.service.AccountService;
-import ua.com.service.impl.AccountServiceImpl;
 import ua.com.util.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 
-public class EditPatientCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(EditPatientCommand.class);
+public class EditDoctorCommand implements Command {
+    public static final Logger LOGGER = LogManager.getLogger(EditDoctorCommand.class);
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
@@ -27,18 +23,18 @@ public class EditPatientCommand implements Command {
         session.removeAttribute("errorMessage");
         Locale locale = (Locale) session.getAttribute("locale");
 
-        String forward = Path.USERS_PATIENTS_PAGE;
+        String forward = Path.REDIRECT + Path.USERS_DOCTORS_COMMAND;
 
-        Long patientId = null;
+        Long doctorId = null;
         try {
-            patientId = Long.valueOf(req.getParameter("id"));
-        } catch (NumberFormatException e) {
+            doctorId = Long.valueOf(req.getParameter("id"));
+        } catch (NumberFormatException e){
             LOGGER.error(e.getMessage(), e.getCause());
         }
-        if (!Validator.isRequestedIdValid(patientId)){
+        if (!Validator.isRequestedIdValid(doctorId)) {
             return forward;
         }
-        LOGGER.trace("requested param id -> {}", patientId);
+        LOGGER.trace("requested param id -> {}", doctorId);
 
         String nameEN = req.getParameter("edited_name_EN");
         LOGGER.trace("requested param edited_name_EN -> {}", nameEN);
@@ -64,31 +60,30 @@ public class EditPatientCommand implements Command {
             return forward;
         }
 
-        LocalDate birthday = null;
-        try {
-            birthday = LocalDate.parse(req.getParameter("edited_birthday"));
-            LOGGER.trace("requested param edited_birthday -> {}", birthday);
-        } catch (DateTimeParseException e) {
-            LOGGER.error(e.getMessage(), e.getCause());
-            Validator.setErrorMessage(session,
-                    locale.getMessage("validation.error.invalid_birthday"), LOGGER, forward);
-            return forward;
-        }
-
         boolean locked = Validator.checkInputCheckbox(req.getParameter("edited_locked"));
         LOGGER.trace("requested param edited_locked -> {}", locked);
+
+        Integer specializationId = null;
+        try {
+            specializationId = Integer.valueOf(req.getParameter("specialization_id"));
+        } catch (NumberFormatException e){
+            LOGGER.error(e.getMessage(), e.getCause());
+        }
+        if (!Validator.isRequestedIdValid(specializationId)){
+            return forward;
+        }
+        LOGGER.trace("requested param specialization_id -> {}", specializationId);
 
         Account updatedBy = (Account) session.getAttribute("account");
 
         AccountDao accountDao = DaoFactory.getAccountDao();
-        boolean successful = accountDao
-                .editPatient(patientId, nameEN, surnameEN, nameUA, surnameUA, birthday, locked, updatedBy.getId());
+        boolean successful = accountDao.editDoctor(doctorId, specializationId, nameEN, surnameEN, nameUA, surnameUA, locked, updatedBy.getId());
         if (!successful){
-            Validator.setErrorMessage(session, locale.getMessage("edit_patient_command.error.failed_to_edit"), LOGGER, forward);
-            return forward;
+            Validator.setErrorMessage(session, locale.getMessage("edit_doctor_command.error.failed_to_edit"), LOGGER);
         }
 
-        forward = Path.REDIRECT + Path.USERS_PATIENTS_COMMAND;
+        session.removeAttribute("doctorAccountBeans");
+
         LOGGER.debug("execute finishes");
         return forward;
     }

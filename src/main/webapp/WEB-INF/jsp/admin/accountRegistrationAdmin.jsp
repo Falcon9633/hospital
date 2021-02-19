@@ -17,7 +17,6 @@
     </form>
 </div>
 
-
 <c:set var="js" value="true"/>
 <%@ include file="/WEB-INF/jspf/footer.jsp" %>
 

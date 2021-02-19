@@ -48,6 +48,11 @@
         </ul>
 
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item mt-sm-2 mr-sm-1">
+                <a class="flag-icon flag-icon-ua" href="${localUA}"></a><br>
+                <a class="flag-icon flag-icon-us" href="${localEN}"></a>
+            </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">
                     <c:choose>
@@ -62,9 +67,9 @@
                     </c:choose>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Link 1</a>
-                    <a class="dropdown-item" href="#">Link 2</a>
-                    <a class="dropdown-item" href="#">Link 3</a>
+                    <a class="dropdown-item" href="controller?command=logout">
+                        <fmt:message key="header.logout" bundle="${lang}"/>
+                    </a>
                 </div>
             </li>
         </ul>

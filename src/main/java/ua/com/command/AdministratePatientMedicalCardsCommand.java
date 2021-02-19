@@ -53,7 +53,14 @@ public class AdministratePatientMedicalCardsCommand implements Command {
 
         SpecializationDao specializationDao = DaoFactory.getSpecializationDao();
         List<Specialization> specializations = specializationDao.findAll();
-        Sorter.specializationsByName(specializations, SorterConstants.ASC, locale);
+        if (!specializations.isEmpty()){
+            if (Locale.EN == locale){
+                Sorter.sortByField(specializations, SorterConstants.ASC, Specialization::getNameEN, locale);
+            }
+            if (Locale.UA == locale){
+                Sorter.sortByField(specializations, SorterConstants.ASC, Specialization::getNameUA, locale);
+            }
+        }
         LOGGER.trace("found in db specializations -> {}", specializations);
 
         DoctorDao doctorDao = DaoFactory.getDoctorDao();

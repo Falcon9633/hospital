@@ -5,11 +5,14 @@ import org.apache.logging.log4j.Logger;
 import ua.com.constant.MySQLFields;
 import ua.com.constant.MySQLQuery;
 import ua.com.dao.AccountDao;
-import ua.com.entity.Account;
-import ua.com.entity.Role;
+import ua.com.dao.AccountDetailsDao;
+import ua.com.dao.DoctorDao;
+import ua.com.dao.PatientDao;
+import ua.com.entity.*;
 import ua.com.util.DBUtil;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 /**
  * The MySQL implementation of the AccountDao interface.
@@ -18,6 +21,16 @@ import java.sql.*;
  */
 public class AccountDaoImpl implements AccountDao {
     private static final Logger LOGGER = LogManager.getLogger(AccountDaoImpl.class);
+
+    private AccountDetailsDao accountDetailsDao;
+    private DoctorDao doctorDao;
+    private PatientDao patientDao;
+
+    public AccountDaoImpl(AccountDetailsDao accountDetailsDao, DoctorDao doctorDao, PatientDao patientDao) {
+        this.accountDetailsDao = accountDetailsDao;
+        this.doctorDao = doctorDao;
+        this.patientDao = patientDao;
+    }
 
     @Override
     public Account findById(Long id, Connection con) throws SQLException {
@@ -186,6 +199,28 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
+    public void update(Account account) {
+        LOGGER.debug("update starts");
+        Connection con = null;
+        try {
+            con = DBUtil.getConnection();
+            update(account, con);
+
+            DBUtil.closeResource(con);
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            con = null;
+        }
+    }
+
+    @Override
     public void update(Account account, Connection con) throws SQLException {
         LOGGER.debug("update starts");
         PreparedStatement pstmt = null;
@@ -220,6 +255,107 @@ public class AccountDaoImpl implements AccountDao {
         }
         LOGGER.debug("update finishes");
     }
+
+    @Override
+    public boolean editDoctor(Long doctorId, Integer specializationId, String nameEN, String surnameEN, String nameUA, String surnameUA, boolean locked, Long updateBy) {
+        LOGGER.debug("editDoctor starts");
+        Connection con = null;
+        try {
+            con = DBUtil.getConnection();
+            con.setAutoCommit(false);
+
+            editUser(doctorId, nameEN, surnameEN, nameUA, surnameUA, locked, updateBy, con);
+
+            Doctor doctor = doctorDao.findById(doctorId, con);
+            doctor.setSpecializationId(specializationId);
+            doctorDao.update(doctor, con);
+
+            con.commit();
+            DBUtil.closeResource();
+            con = null;
+        } catch (SQLException e) {
+            if (con != null) {
+                DBUtil.rollback(con);
+            }
+            LOGGER.error(e.getMessage(), e.getCause());
+            return false;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            con = null;
+        }
+
+        LOGGER.debug("editDoctor finishes");
+        return true;
+    }
+
+    @Override
+    public boolean editPatient(Long patientId, String nameEN, String surnameEN, String nameUA, String surnameUA,
+                               LocalDate birthday, boolean locked, Long updatedBy) {
+        LOGGER.debug("editPatient starts");
+        Connection con = null;
+        try {
+            con = DBUtil.getConnection();
+            con.setAutoCommit(false);
+
+            editUser(patientId, nameEN, surnameEN, nameUA, surnameUA, locked, updatedBy, con);
+
+            Patient patient = patientDao.findById(patientId, con);
+            patient.setBirthday(birthday);
+            patientDao.update(patient, con);
+
+            con.commit();
+            DBUtil.closeResource();
+            con = null;
+        } catch (SQLException e) {
+            if (con != null) {
+                DBUtil.rollback(con);
+            }
+            LOGGER.error(e.getMessage(), e.getCause());
+            return false;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            con = null;
+        }
+
+        LOGGER.debug("editPatient finishes");
+        return true;
+    }
+
+    private void editUser(Long id, String nameEN, String surnameEN, String nameUA, String surnameUA, boolean locked,
+                          Long updatedBy, Connection con) throws SQLException {
+        LOGGER.debug("editUser starts");
+        try {
+            Account account = findById(id, con);
+            AccountDetails accountDetails = accountDetailsDao.findById(id, con);
+
+            account.setLocked(locked);
+            account.setUpdatedBy(updatedBy);
+
+            accountDetails.setNameEN(nameEN);
+            accountDetails.setSurnameEN(surnameEN);
+            accountDetails.setNameUA(nameUA);
+            accountDetails.setSurnameUA(surnameUA);
+
+            update(account, con);
+            accountDetailsDao.update(accountDetails, con);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+            throw new SQLException(e.getCause());
+        }
+    }
+
 
     /**
      * Extracts a user from the result set.

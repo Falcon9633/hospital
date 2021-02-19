@@ -1,5 +1,6 @@
 package ua.com.util;
 
+import ua.com.bean.DoctorAccountBean;
 import ua.com.bean.SpecializationAccountDetailsBean;
 import ua.com.entity.Locale;
 import ua.com.entity.Specialization;
@@ -22,8 +23,8 @@ public class Sorter {
      * Sorts given list depends on the given locale and sorting direction.
      * Then send opposite direction as a request attribute to the page.
      *
-     * @param beans to be sorted
-     * @param sortDir           Either 'asc' or 'desc'
+     * @param beans   to be sorted
+     * @param sortDir Either 'asc' or 'desc'
      */
     public static void sortSpecAccDetListByName(List<SpecializationAccountDetailsBean> beans,
                                                 Locale locale,
@@ -52,23 +53,21 @@ public class Sorter {
         }
     }
 
-    public static void specializationsByName(List<Specialization> spec, String sortDir, Locale locale) {
+    public static <T> void sortByField(List<T> list, String sortDir, Function<T, String> getFieldFunction, Locale locale) {
         Collator collator = Collator.getInstance(locale.getJavaLocale());
 
-        if (locale == Locale.EN){
-            sortSpecialization(spec, Specialization::getNameEN, collator, sortDir);
-        }
-        if (locale == Locale.UA){
-            sortSpecialization(spec, Specialization::getNameUA, collator, sortDir);
+        if (ASC.equals(sortDir)) {
+            list.sort(Comparator.comparing(getFieldFunction, collator));
+        } else {
+            list.sort(Comparator.comparing(getFieldFunction, collator).reversed());
         }
     }
 
-    private static void sortSpecialization(List<Specialization> spec, Function<Specialization, String> getFieldFunction,
-                                           Collator collator, String sortDir){
-        if (ASC.equals(sortDir)){
-            spec.sort(Comparator.comparing(getFieldFunction, collator));
+    public static <T> void sortByField(List<T> list, String sortDir, Function<T, Integer> getFieldFunction) {
+        if (ASC.equals(sortDir)) {
+            list.sort(Comparator.comparing(getFieldFunction));
         } else {
-            spec.sort(Comparator.comparing(getFieldFunction, collator).reversed());
+            list.sort(Comparator.comparing(getFieldFunction).reversed());
         }
     }
 }

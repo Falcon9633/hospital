@@ -7,7 +7,7 @@ import ua.com.constant.MySQLFields;
 import ua.com.constant.Path;
 import ua.com.constant.SorterConstants;
 import ua.com.dao.PatientDao;
-import ua.com.dao.impl.PatientDaoImpl;
+import ua.com.dao.impl.DaoFactory;
 import ua.com.entity.Locale;
 import ua.com.util.Validator;
 
@@ -38,8 +38,7 @@ public class UsersPatientsCommand implements Command {
             currentPage = 1;
         }
 
-        PatientDao patientDao = new PatientDaoImpl();
-
+        PatientDao patientDao = DaoFactory.getPatientDao();
 
         long rows = patientDao.getNumberOfRows();
         LOGGER.trace("found in db rows -> {}", rows);

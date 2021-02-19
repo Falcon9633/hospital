@@ -20,6 +20,8 @@ public class Invoker {
     static {
         commandContainer.put("unknownCommand", new UnknownCommand());
         commandContainer.put("login", new LoginCommand());
+        commandContainer.put("logout", new LogoutCommand());
+        commandContainer.put("changeLocale", new ChangeLocaleCommand());
         // admin commands
         commandContainer.put("accountRegistrationAdmin", new AccountRegistrationAdminCommand());
         commandContainer.put("accountRegistrationDoctor", new AccountRegistrationDoctorCommand());
@@ -30,6 +32,7 @@ public class Invoker {
         commandContainer.put("createSpecialization", new CreateSpecializationCommand());
         commandContainer.put("editSpecialization", new EditSpecializationCommand());
         commandContainer.put("usersDoctors", new UsersDoctorsCommand());
+        commandContainer.put("editDoctor", new EditDoctorCommand());
         commandContainer.put("usersPatients", new UsersPatientsCommand());
         commandContainer.put("editPatient", new EditPatientCommand());
         commandContainer.put("administratePatientMedicalCards", new AdministratePatientMedicalCardsCommand());

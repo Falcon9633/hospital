@@ -1,6 +1,7 @@
 package ua.com.dao;
 
 import ua.com.bean.DoctorAccDetailsBean;
+import ua.com.bean.DoctorAccountBean;
 import ua.com.entity.Doctor;
 
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.util.List;
  * @author Orest Dmyterko
  */
 public interface DoctorDao {
+    Doctor findById (Long id, Connection con) throws SQLException;
     /**
      * Inserts given doctor to the database.
      *
@@ -25,5 +27,9 @@ public interface DoctorDao {
      */
     Doctor insertDoctor(Connection con, Doctor doctor) throws SQLException;
 
+    void update(Doctor doctor, Connection con) throws SQLException;
+
     List<DoctorAccDetailsBean> findAllDoctorAccDetailsBeans();
+
+    List<DoctorAccountBean> findAllDoctorAccountBeans();
 }

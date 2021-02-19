@@ -15,17 +15,48 @@ public class MySQLQuery {
     public static final String UPDATE_ACCOUNT = "UPDATE account SET login=?, password=?, email=?, locked=?, " +
             "updated_by=?, role_id=?, locale_id=? WHERE id=?";
     // account_details
-    public static final String FIND_ACCOUNT_DETAILS_BY_ID = "SELECT * FROM account_details where id=?";
+    public static final String FIND_ACCOUNT_DETAILS_BY_ID = "SELECT * FROM account_details WHERE id=?";
     public static final String INSERT_ACCOUNT_DETAILS =
             "INSERT INTO account_details(id, name_EN, surname_EN, name_UA, surname_UA) VALUES(?, ?, ?, ?, ?)";
     public static final String UPDATE_ACCOUNT_DETAILS = "UPDATE account_details SET name_EN=?, surname_EN=?, " +
             "name_UA=?, surname_UA=? WHERE id=?";
     // doctor
+    public static final String FIND_DOCTOR_BY_ID = "SELECT * FROM doctor WHERE id=?";
     public static final String INSERT_DOCTOR = "INSERT INTO doctor(id, specialization_id) VALUES(?, ?)";
+    public static final String UPDATE_DOCTOR = "UPDATE doctor SET specialization_id=? WHERE id=?";
     // doctor_account_details bean
     public static final String FIND_ALL_DOCTOR_ACCOUNT_DETAILS_BEANS =
             "SELECT * FROM doctor d\n" +
             "JOIN account_details ad ON d.id=ad.id";
+    // doctor_account bean
+    public static final String FIND_ALL_DOCTOR_ACCOUNT_BEANS =
+            "SELECT\n" +
+                "d.*,\n" +
+                "ad.name_EN,\n" +
+                "ad.surname_EN,\n" +
+                "ad.name_UA,\n" +
+                "ad.surname_UA,\n" +
+                "a.email,\n" +
+                "a.locked,\n" +
+                "a.create_time,\n" +
+                "a.update_time,\n" +
+                "updatedBy.name_EN updatedBy_name_EN,\n" +
+                "updatedBy.surname_EN updatedBy_surname_EN,\n" +
+                "updatedBy.name_UA updatedBy_name_UA,\n" +
+                "updatedBy.surname_UA updatedBy_surname_UA,\n" +
+                "(SELECT count(patient_id) from medical_card mc where mc.doctor_id=d.id AND mc.is_discharged=0) patient_count,\n" +
+                "ds.name_EN specialization_name_EN,\n" +
+                "ds.name_UA specialization_name_UA\n" +
+            "FROM\n" +
+                "doctor d\n" +
+            "JOIN\n" +
+                "account a ON d.id=a.id\n" +
+            "JOIN\n" +
+                "account_details ad ON d.id=ad.id\n" +
+            "JOIN\n" +
+                "account_details updatedBy ON a.updated_by=updatedBy.id\n" +
+            "JOIN\n" +
+                "specialization ds ON d.specialization_id=ds.id";
     // patient
     public static final String FIND_PATIENT_BY_ID = "SELECT * FROM patient WHERE id=?";
     public static final String INSERT_PATIENT = "INSERT INTO patient(id, birthday) VALUES(?, ?)";
@@ -93,7 +124,7 @@ public class MySQLQuery {
                 "dad.name_EN doctor_name_EN,\n" +
                 "dad.surname_EN doctor_surname_EN,\n" +
                 "dad.name_UA doctor_name_UA,\n" +
-                "dad.surname_EN doctor_surname_UA,\n" +
+                "dad.surname_UA doctor_surname_UA,\n" +
                 "ds.name_EN specialization_name_EN,\n" +
                 "ds.name_UA specialization_name_UA\n" +
             "FROM\n" +

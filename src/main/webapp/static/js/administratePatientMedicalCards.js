@@ -22,16 +22,16 @@ function showModal() {
     initModalContent(medicalCardId, doctorId);
 }
 
-function selectCurrentDoctor(doctorId) {
-    MODAL_DOCTORS_OPTIONS.each(function (){
-        if ($(this).val() === doctorId){
+function selectCurrentOption(id, $options) {
+    $options.each(function () {
+        if ($(this).val() === id) {
             $(this).attr('selected', 'selected');
         }
     });
 }
 
 function initModalContent(medicalCardId, doctorId){
-    selectCurrentDoctor(doctorId);
+    selectCurrentOption(doctorId, MODAL_DOCTORS_OPTIONS);
     EDITED_MEDICAL_CARD_ID.val(medicalCardId);
 }
 

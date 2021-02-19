@@ -23,11 +23,11 @@
     <table class="table table-dark table-bordered table-hover">
         <thead>
         <tr>
-            <th>Create time</th>
-            <th>Doctor details</th>
-            <th>Last time updated</th>
-            <th>Updated by</th>
-            <th>Discharged</th>
+            <th><fmt:message key="administrate_patient_medical_cards.th_created_time" bundle="${lang}"/></th>
+            <th><fmt:message key="administrate_patient_medical_cards.th_doctor_details" bundle="${lang}"/></th>
+            <th><fmt:message key="administrate_patient_medical_cards.th_last_time_updated" bundle="${lang}"/></th>
+            <th><fmt:message key="administrate_patient_medical_cards.th_updated_by" bundle="${lang}"/></th>
+            <th><fmt:message key="administrate_patient_medical_cards.th_discharged" bundle="${lang}"/></th>
         </tr>
         </thead>
         <tbody>
@@ -67,7 +67,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">
-                        Prescribe/change doctor
+                        <fmt:message key="administrate_patient_medical_modal.title" bundle="${lang}"/>
                     </h2>
                 </div>
                 <div class="modal-body">
@@ -76,7 +76,7 @@
                         <input type="hidden" name="patient_id" value="${patientId}"/>
                         <input type="hidden" name="medical_card_id" id="medical_card_id">
                         <select class="form-control" name="doctor_id" required>
-                            <option value="">Choose doctor</option>
+                            <option value=""><fmt:message key="administrate_patient_medical_modal.select.doctor" bundle="${lang}"/></option>
                             <c:forEach var="specDoctors" items="${specDoctorsMap}">
                                 <c:if test="${locale.name == 'en_US'}">
                                     <optgroup label="${specDoctors.key.nameEN}">

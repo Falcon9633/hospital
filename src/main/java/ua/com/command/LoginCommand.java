@@ -7,6 +7,7 @@ import ua.com.dao.AccountDao;
 import ua.com.dao.AccountDetailsDao;
 import ua.com.dao.impl.AccountDaoImpl;
 import ua.com.dao.impl.AccountDetailsDaoImpl;
+import ua.com.dao.impl.DaoFactory;
 import ua.com.entity.Account;
 import ua.com.entity.AccountDetails;
 import ua.com.entity.Locale;
@@ -31,6 +32,7 @@ public class LoginCommand implements Command {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         LOGGER.debug("execute starts");
         HttpSession session = req.getSession();
+        session.setMaxInactiveInterval(60 * 30);
         session.removeAttribute("errorMessage");
 
         Locale locale = (Locale) session.getAttribute("locale");
@@ -53,7 +55,7 @@ public class LoginCommand implements Command {
 //            return forward;
 //        }
 
-        AccountDao accountDao = new AccountDaoImpl();
+        AccountDao accountDao = DaoFactory.getAccountDao();
         Account account = accountDao.findByLogin(login);
         LOGGER.trace("Found in db account -> {}", account);
 
@@ -72,6 +74,11 @@ public class LoginCommand implements Command {
         if (account.isLocked()) {
             Validator.setErrorMessage(session, locale.getMessage("validation.error.account_is_locked"), LOGGER);
         } else {
+            if (account.getLocaleId() != locale.ordinal()){
+                account.setLocaleId(locale.ordinal());
+                accountDao.update(account);
+            }
+
             Role role = Role.getRole(account.getRoleId());
             LOGGER.trace("account role -> {}", role);
 

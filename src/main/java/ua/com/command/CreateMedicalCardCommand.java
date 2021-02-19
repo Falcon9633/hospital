@@ -3,7 +3,9 @@ package ua.com.command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.constant.Path;
+import ua.com.dao.AccountDao;
 import ua.com.dao.MedicalCardDao;
+import ua.com.dao.impl.DaoFactory;
 import ua.com.dao.impl.MedicalCardDaoImpl;
 import ua.com.entity.Account;
 import ua.com.entity.Locale;
@@ -26,17 +28,26 @@ public class CreateMedicalCardCommand implements Command {
 
         String forward = Path.ADMINISTRATE_PATIENT_MEDICAL_CARDS_PAGE;
 
-        Long patientId;
+        Long patientId = null;
         try {
             patientId = Long.valueOf(req.getParameter("patient_id"));
-            if (patientId < 1) {
-                throw new NumberFormatException("patient_id = " + patientId + " must be > 0");
-            }
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage(), e.getCause());
+        }
+        if (!Validator.isRequestedIdValid(patientId)) {
             return forward;
         }
         LOGGER.trace("requested param patient_id -> {}", patientId);
+
+        forward = Path.REDIRECT + Path.ADMINISTRATE_PATIENT_MEDICAL_CARDS_COMMAND + patientId;
+
+        AccountDao accountDao = DaoFactory.getAccountDao();
+        boolean patientExists = accountDao.isPatientExists(patientId);
+        if (!patientExists){
+            Validator.setErrorMessage(session,
+                    locale.getMessage("create_medical_card_command.error.failed_to_create"), LOGGER, forward);
+            return forward;
+        }
 
         Account account = (Account) session.getAttribute("account");
 
@@ -50,8 +61,6 @@ public class CreateMedicalCardCommand implements Command {
                     locale.getMessage("create_medical_card_command.error.failed_to_create"), LOGGER, forward);
             return forward;
         }
-
-        forward = Path.REDIRECT + Path.ADMINISTRATE_PATIENT_MEDICAL_CARDS_COMMAND + patientId;
 
         LOGGER.debug("execute finishes");
         return forward;

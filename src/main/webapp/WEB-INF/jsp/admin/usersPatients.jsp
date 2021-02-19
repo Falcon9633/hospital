@@ -13,16 +13,16 @@
         <tr>
             <th>
                 <a href="controller?command=usersPatients&sortBy=surname&sortDir=${sortDir}&currentPage=${empty currentPage ? '1' : currentPage}">
-                    <fmt:message key="users_patients.th_surname_name" bundle="${lang}"/>
+                    <fmt:message key="users.th_surname_name" bundle="${lang}"/>
                 </a></th>
             <th>
                 <a href="controller?command=usersPatients&sortBy=birthday&sortDir=${sortDir}&currentPage=${empty currentPage ? '1' : currentPage}">
                     <fmt:message key="users_patients.th_birthday" bundle="${lang}"/>
                 </a></th>
-            <th><fmt:message key="users_patients.th_email" bundle="${lang}"/></th>
-            <th><fmt:message key="users_patients.th_created_time" bundle="${lang}"/></th>
-            <th><fmt:message key="users_patients.th_updated_by" bundle="${lang}"/></th>
-            <th><fmt:message key="users_patients.th_locked" bundle="${lang}"/></th>
+            <th><fmt:message key="users.th_email" bundle="${lang}"/></th>
+            <th><fmt:message key="users.th_created_time" bundle="${lang}"/></th>
+            <th><fmt:message key="users.th_updated_by" bundle="${lang}"/></th>
+            <th><fmt:message key="users.th_locked" bundle="${lang}"/></th>
         </tr>
         </thead>
         <tbody>
@@ -70,50 +70,8 @@
                 <div class="modal-body">
                     <form id="modal_edit_patient" class="form-inline" action="controller" method="post">
                         <input type="hidden" name="command" value="editPatient"/>
-                        <label for="edited_name_EN" class="mr-sm-2">
-                            <fmt:message key="users_patients.modal.edited_name_en.label" bundle="${lang}"/>
-                        </label>
-                        <input type="text" name="edited_name_EN" class="form-control mb-2 mr-sm-2" id="edited_name_EN"
-                               required minlength="2" maxlength="45"
-                               placeholder='<fmt:message key="users_patients.modal.edited_name_en.placeholder" bundle="${lang}"/>'/>
-
-                        <label for="edited_surname_EN" class="mr-sm-2">
-                            <fmt:message key="users_patients.modal.edited_surname_en.label" bundle="${lang}"/>
-                        </label>
-                        <input type="text" name="edited_surname_EN" class="form-control mb-2 mr-sm-2"
-                               id="edited_surname_EN"
-                               required minlength="2" maxlength="45"
-                               placeholder='<fmt:message key="users_patients.modal.edited_surname_en.placeholder" bundle="${lang}"/>'/>
-
-                        <label for="edited_name_UA" class="mr-sm-2">
-                            <fmt:message key="users_patients.modal.edited_name_ua.label" bundle="${lang}"/>
-                        </label>
-                        <input type="text" name="edited_name_UA" class="form-control mb-2 mr-sm-2" id="edited_name_UA"
-                               required minlength="2" maxlength="45"
-                               placeholder='<fmt:message key="users_patients.modal.edited_name_ua.placeholder" bundle="${lang}"/>'/>
-
-                        <label for="edited_surname_UA" class="mr-sm-2">
-                            <fmt:message key="users_patients.modal.edited_surname_ua.label" bundle="${lang}"/>
-                        </label>
-                        <input type="text" name="edited_surname_UA" class="form-control mb-2 mr-sm-2" id="edited_surname_UA"
-                               required minlength="2" maxlength="45"
-                               placeholder='<fmt:message key="users_patients.modal.edited_surname_ua.placeholder" bundle="${lang}"/>'/>
-
-                        <label for="edited_birthday" class="mr-sm-2">
-                            <fmt:message key="users_patients.modal.edited_birthday.label" bundle="${lang}"/>
-                        </label>
-                        <input type="date" name="edited_birthday" class="form-control mb-2 mr-sm-2" id="edited_birthday"
-                               required min="1910-01-01"/>
-
-                        <div class="form-check">
-                            <label for="edited_locked" class="form-check-label mr-sm-2">
-                                <fmt:message key="users_patients.modal.edited_locked.label" bundle="${lang}"/>
-                            </label>
-                            <input type="checkbox" name="edited_locked" class="form-check-input" id="edited_locked"/>
-                        </div>
-
-
-                        <input type="hidden" id="patient_id" name="id"/>
+                        <c:set var="editedRole" value="patient"/>
+                        <%@ include file="/WEB-INF/jspf/userEditingModal.jsp" %>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -138,7 +96,7 @@
                 <li class="page-item">
                     <a class="page-link"
                        href="controller?command=usersPatients&currentPage=${currentPage-1}&sortBy=${empty sortBy ? 'surname' : sortBy}&sortDir=${empty sortDirPagination ? 'asc' : sortDirPagination}">
-                        Previous</a>
+                        <fmt:message key="pagination.previous.button" bundle="${lang}"/></a>
                 </li>
             </c:if>
 
@@ -146,7 +104,7 @@
                 <c:choose>
                     <c:when test="${currentPage == i}">
                         <li class="page-item active"><a class="page-link">
-                                ${i} <span class="sr-only">(current)</span></a>
+                                ${i} <span class="sr-only">(<fmt:message key="pagination.current.span" bundle="${lang}"/>)</span></a>
                         </li>
                     </c:when>
                     <c:otherwise>
@@ -162,7 +120,7 @@
                 <li class="page-item">
                     <a class="page-link"
                        href="controller?command=usersPatients&currentPage=${currentPage+1}&sortBy=${empty sortBy ? 'surname' : sortBy}&sortDir=${empty sortDirPagination ? 'asc' : sortDirPagination}">
-                        Next</a>
+                        <fmt:message key="pagination.next.button" bundle="${lang}"/></a>
                 </li>
             </c:if>
         </ul>
