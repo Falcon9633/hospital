@@ -24,6 +24,23 @@ public class MySQLQuery {
     public static final String FIND_DOCTOR_BY_ID = "SELECT * FROM doctor WHERE id=?";
     public static final String INSERT_DOCTOR = "INSERT INTO doctor(id, specialization_id) VALUES(?, ?)";
     public static final String UPDATE_DOCTOR = "UPDATE doctor SET specialization_id=? WHERE id=?";
+    public static final String IS_DOCTOR_TREATED_PATIENT =
+            "SELECT\n" +
+                "d.id\n" +
+            "FROM\n" +
+                "doctor d\n" +
+            "LEFT JOIN\n" +
+                "diagnosis diag ON d.id=diag.created_by\n" +
+            "LEFT JOIN\n" +
+                "medicament med ON d.id=med.created_by\n" +
+            "LEFT JOIN\n" +
+                "`procedure` proc ON d.id=proc.created_by\n" +
+            "LEFT JOIN\n" +
+                "surgery sur ON d.id=sur.created_by\n" +
+            "LEFT JOIN\n" +
+                "medical_card mc ON diag.medical_card_id = mc.id or d.id=mc.doctor_id\n" +
+            "WHERE\n" +
+                "d.id=? and mc.patient_id=?";
     // doctor_account_details bean
     public static final String FIND_ALL_DOCTOR_ACCOUNT_DETAILS_BEANS =
             "SELECT * FROM doctor d\n" +
@@ -139,4 +156,44 @@ public class MySQLQuery {
                 "specialization ds ON d.specialization_id=ds.id\n" +
             "WHERE\n" +
                 "mc.patient_id=?";
+    public static final String FIND_ALL_MEDICAL_CARD_PATIENT_BEANS_BY_DOCTOR_ID =
+            "SELECT\n" +
+                "mc.*,\n" +
+                "pac.name_EN patient_name_EN,\n" +
+                "pac.surname_EN patient_surname_EN,\n" +
+                "pac.name_UA patient_name_UA,\n" +
+                "pac.surname_UA patient_surname_UA,\n" +
+                "p.birthday patient_birthday\n" +
+            "FROM\n" +
+                "medical_card mc\n" +
+            "JOIN\n" +
+                "account_details pac ON mc.patient_id=pac.id\n" +
+            "JOIN\n" +
+                "patient p ON mc.patient_id=p.id\n" +
+            "WHERE\n" +
+                "doctor_id=? and mc.is_discharged=0";
+    // diagnosis
+    public static final String INSERT_DIAGNOSIS =
+            "INSERT INTO diagnosis(name_en, name_ua, description_en, description_ua, created_by, medical_card_id)\n" +
+                "VALUES(?, ?, ?, ?, ?, ?)";
+    // diagnosis_doctor_bean
+    public static final String FIND_ALL_DIAGNOSIS_DOCTOR_BEANS_BY_MEDICAL_CARD_ID =
+            "SELECT\n" +
+                "diag.*,\n" +
+                "dac.name_EN doctor_name_EN,\n" +
+                "dac.surname_EN doctor_surname_EN,\n" +
+                "dac.name_UA doctor_name_UA,\n" +
+                "dac.surname_UA doctor_surname_UA,\n" +
+                "ds.name_EN specialization_name_EN,\n" +
+                "ds.name_UA specialization_name_UA\n" +
+            "FROM\n" +
+                "diagnosis diag\n" +
+            "JOIN\n" +
+                "doctor d ON diag.created_by=d.id\n" +
+            "JOIN\n" +
+                "account_details dac ON d.id=dac.id\n" +
+            "JOIN\n" +
+                "specialization ds ON d.specialization_id=ds.id\n" +
+            "WHERE\n" +
+                "diag.medical_card_id=?";
 }

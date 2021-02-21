@@ -48,15 +48,15 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <filter>
-        <filter-name>SessionFilter</filter-name>
-        <filter-class>ua.com.filter.SessionFilter</filter-class>
-    </filter>
+<!--    <filter>-->
+<!--        <filter-name>SessionFilter</filter-name>-->
+<!--        <filter-class>ua.com.filter.SessionFilter</filter-class>-->
+<!--    </filter>-->
 
-    <filter-mapping>
-        <filter-name>SessionFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+<!--    <filter-mapping>-->
+<!--        <filter-name>SessionFilter</filter-name>-->
+<!--        <url-pattern>/*</url-pattern>-->
+<!--    </filter-mapping>-->
 
     <filter>
         <filter-name>LocaleFilter</filter-name>
@@ -79,13 +79,13 @@
     </jsp-config>
 
 <!--    Error page-->
-    <error-page>
-        <exception-type>java.lang.Throwable</exception-type>
-        <location>/login.jsp</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <exception-type>java.lang.Throwable</exception-type>-->
+<!--        <location>/login.jsp</location>-->
+<!--    </error-page>-->
 
-    <error-page>
-        <error-code>404</error-code>
-        <location>/login.jsp</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <error-code>404</error-code>-->
+<!--        <location>/login.jsp</location>-->
+<!--    </error-page>-->
 </web-app>

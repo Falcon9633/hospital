@@ -14,7 +14,7 @@
         </label>
         <input type="text" name="name_EN" class="form-control mb-2 mr-sm-2" id="name_EN"
                required minlength="3" maxlength="45"
-               placeholder='<fmt:message key="doctor_specialization.name_en.placeholder" bundle="${lang}"/>'
+               placeholder='<fmt:message key="placeholder.name_en" bundle="${lang}"/>'
         />
 
         <label for="name_UA" class="mr-sm-2">
@@ -22,11 +22,11 @@
         </label>
         <input type="text" name="name_UA" class="form-control mb-2 mr-sm-2" id="name_UA"
                required minlength="3" maxlength="45"
-               placeholder='<fmt:message key="doctor_specialization.name_ua.placeholder" bundle="${lang}"/>'
+               placeholder='<fmt:message key="placeholder.name_ua" bundle="${lang}"/>'
         />
 
         <button type="submit" class="btn btn-dark mb-2">
-            <fmt:message key="doctor_specialization.button.create" bundle="${lang}"/>
+            <fmt:message key="button.create" bundle="${lang}"/>
         </button>
     </form>
 
@@ -79,14 +79,14 @@
                         </label>
                         <input type="text" name="edited_name_EN" class="form-control mb-2 mr-sm-2" id="edited_name_EN"
                                required minlength="3" maxlength="45"
-                               placeholder='<fmt:message key="doctor_specialization.name_en.placeholder" bundle="${lang}"/>'/>
+                               placeholder='<fmt:message key="placeholder.name_en" bundle="${lang}"/>'/>
 
                         <label for="edited_name_UA" class="mr-sm-2">
                             <fmt:message key="doctor_specialization.name_ua.label" bundle="${lang}"/>
                         </label>
                         <input type="text" name="edited_name_UA" class="form-control mb-2 mr-sm-2" id="edited_name_UA"
                                required minlength="3" maxlength="45"
-                               placeholder='<fmt:message key="doctor_specialization.name_ua.placeholder" bundle="${lang}"/>'/>
+                               placeholder='<fmt:message key="placeholder.name_ua" bundle="${lang}"/>'/>
 
                         <input type="hidden" id="specialization_id" name="id"/>
                     </form>

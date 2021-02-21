@@ -1,9 +1,10 @@
-package ua.com.command;
+package ua.com.command.admin;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.bean.DoctorAccDetailsBean;
 import ua.com.bean.MedCardDoctorBean;
+import ua.com.command.Command;
 import ua.com.constant.Path;
 import ua.com.constant.SorterConstants;
 import ua.com.dao.DoctorDao;
@@ -55,10 +56,10 @@ public class AdministratePatientMedicalCardsCommand implements Command {
         List<Specialization> specializations = specializationDao.findAll();
         if (!specializations.isEmpty()){
             if (Locale.EN == locale){
-                Sorter.sortByField(specializations, SorterConstants.ASC, Specialization::getNameEN, locale);
+                Sorter.sortByStringField(specializations, SorterConstants.ASC, Specialization::getNameEN, locale);
             }
             if (Locale.UA == locale){
-                Sorter.sortByField(specializations, SorterConstants.ASC, Specialization::getNameUA, locale);
+                Sorter.sortByStringField(specializations, SorterConstants.ASC, Specialization::getNameUA, locale);
             }
         }
         LOGGER.trace("found in db specializations -> {}", specializations);

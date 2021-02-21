@@ -1,7 +1,8 @@
-package ua.com.command;
+package ua.com.command.admin;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ua.com.command.Command;
 import ua.com.constant.Path;
 import ua.com.dao.AccountDao;
 import ua.com.dao.MedicalCardDao;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class CreateMedicalCardCommand implements Command {
-    public static final Logger LOGGER = LogManager.getLogger(CreateMedicalCardCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(CreateMedicalCardCommand.class);
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {

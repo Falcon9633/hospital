@@ -20,7 +20,6 @@ public class SessionFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession(false);
         if (session == null && !"/login.jsp".equals(req.getServletPath())) {
-            System.out.println("session is null");
             resp.sendRedirect(Path.LOGIN_PAGE);
         } else {
             chain.doFilter(request, response);

@@ -32,4 +32,6 @@ public interface DoctorDao {
     List<DoctorAccDetailsBean> findAllDoctorAccDetailsBeans();
 
     List<DoctorAccountBean> findAllDoctorAccountBeans();
+
+    boolean isDoctorTreatedPatient(Long doctorId, Long patientId);
 }

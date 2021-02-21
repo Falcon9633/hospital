@@ -78,6 +78,7 @@ public class AccountDaoImpl implements AccountDao {
         try {
             con = DBUtil.getConnection();
             pstmt = con.prepareStatement(MySQLQuery.FIND_ACCOUNT_BY_ID_AND_ROLE);
+            LOGGER.info(MySQLQuery.FIND_ACCOUNT_BY_ID_AND_ROLE);
             int k = 0;
             pstmt.setLong(++k, id);
             pstmt.setInt(++k, roleId);

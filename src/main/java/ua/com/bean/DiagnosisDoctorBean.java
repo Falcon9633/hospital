@@ -1,13 +1,8 @@
-package ua.com.entity;
+package ua.com.bean;
 
 import java.time.LocalDateTime;
 
-/**
- * This class represents the diagnosis table in the database.
- *
- * @author Orest Dmyterko
- */
-public class Diagnosis {
+public class DiagnosisDoctorBean {
     private Long id;
     private String nameEN;
     private String nameUA;
@@ -17,16 +12,15 @@ public class Diagnosis {
     private Long createdBy;
     private Long medicalCardId;
 
-    public Diagnosis() {
-    }
+    private String doctorNameEN;
+    private String doctorSurnameEN;
+    private String doctorNameUA;
+    private String doctorSurnameUA;
 
-    public Diagnosis(String nameEN, String nameUA, String descriptionEN, String descriptionUA, Long createdBy, Long medicalCardId) {
-        this.nameEN = nameEN;
-        this.nameUA = nameUA;
-        this.descriptionEN = descriptionEN;
-        this.descriptionUA = descriptionUA;
-        this.createdBy = createdBy;
-        this.medicalCardId = medicalCardId;
+    private String specializationNameEN;
+    private String specializationNameUA;
+
+    public DiagnosisDoctorBean() {
     }
 
     public Long getId() {
@@ -93,9 +87,57 @@ public class Diagnosis {
         this.medicalCardId = medicalCardId;
     }
 
+    public String getDoctorNameEN() {
+        return doctorNameEN;
+    }
+
+    public void setDoctorNameEN(String doctorNameEN) {
+        this.doctorNameEN = doctorNameEN;
+    }
+
+    public String getDoctorSurnameEN() {
+        return doctorSurnameEN;
+    }
+
+    public void setDoctorSurnameEN(String doctorSurnameEN) {
+        this.doctorSurnameEN = doctorSurnameEN;
+    }
+
+    public String getDoctorNameUA() {
+        return doctorNameUA;
+    }
+
+    public void setDoctorNameUA(String doctorNameUA) {
+        this.doctorNameUA = doctorNameUA;
+    }
+
+    public String getDoctorSurnameUA() {
+        return doctorSurnameUA;
+    }
+
+    public void setDoctorSurnameUA(String doctorSurnameUA) {
+        this.doctorSurnameUA = doctorSurnameUA;
+    }
+
+    public String getSpecializationNameEN() {
+        return specializationNameEN;
+    }
+
+    public void setSpecializationNameEN(String specializationNameEN) {
+        this.specializationNameEN = specializationNameEN;
+    }
+
+    public String getSpecializationNameUA() {
+        return specializationNameUA;
+    }
+
+    public void setSpecializationNameUA(String specializationNameUA) {
+        this.specializationNameUA = specializationNameUA;
+    }
+
     @Override
     public String toString() {
-        return "Diagnosis{" +
+        return "DiagnosisDoctorBean{" +
                 "id=" + id +
                 ", nameEN='" + nameEN + '\'' +
                 ", nameUA='" + nameUA + '\'' +
@@ -104,6 +146,12 @@ public class Diagnosis {
                 ", createTime=" + createTime +
                 ", createdBy=" + createdBy +
                 ", medicalCardId=" + medicalCardId +
+                ", doctorNameEN='" + doctorNameEN + '\'' +
+                ", doctorSurnameEN='" + doctorSurnameEN + '\'' +
+                ", doctorNameUA='" + doctorNameUA + '\'' +
+                ", doctorSurnameUA='" + doctorSurnameUA + '\'' +
+                ", specializationNameEN='" + specializationNameEN + '\'' +
+                ", specializationNameUA='" + specializationNameUA + '\'' +
                 '}';
     }
 }

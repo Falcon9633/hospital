@@ -21,6 +21,10 @@ public enum Role {
         return Role.values()[roleId];
     }
 
+    public String getName() {
+        return this.name().toLowerCase();
+    }
+
     public String getNameEN() {
         return nameEN;
     }

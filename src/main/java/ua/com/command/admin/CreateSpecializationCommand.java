@@ -1,7 +1,8 @@
-package ua.com.command;
+package ua.com.command.admin;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ua.com.command.Command;
 import ua.com.constant.Path;
 import ua.com.dao.SpecializationDao;
 import ua.com.dao.impl.SpecializationDaoImpl;

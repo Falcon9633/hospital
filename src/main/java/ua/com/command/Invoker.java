@@ -2,6 +2,10 @@ package ua.com.command;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ua.com.command.admin.*;
+import ua.com.command.doctor.CreateDiagnosisCommand;
+import ua.com.command.doctor.DoctorCurrentMedicalCardsCommand;
+import ua.com.command.doctor.DoctorDiagnosesMedicalCardCommand;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +22,7 @@ public class Invoker {
     private static final Map<String, Command> commandContainer = new HashMap<>();
 
     static {
+        // common commands
         commandContainer.put("unknownCommand", new UnknownCommand());
         commandContainer.put("login", new LoginCommand());
         commandContainer.put("logout", new LogoutCommand());
@@ -38,6 +43,10 @@ public class Invoker {
         commandContainer.put("administratePatientMedicalCards", new AdministratePatientMedicalCardsCommand());
         commandContainer.put("createMedicalCard", new CreateMedicalCardCommand());
         commandContainer.put("medicalCardSetDoctor", new MedicalCardSetDoctorCommand());
+        // doctor command
+        commandContainer.put("doctorCurrentMedicalCards", new DoctorCurrentMedicalCardsCommand());
+        commandContainer.put("doctorDiagnosesMedicalCard", new DoctorDiagnosesMedicalCardCommand());
+        commandContainer.put("createDiagnosis", new CreateDiagnosisCommand());
     }
 
     /**

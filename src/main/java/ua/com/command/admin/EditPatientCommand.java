@@ -1,14 +1,13 @@
-package ua.com.command;
+package ua.com.command.admin;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ua.com.command.Command;
 import ua.com.constant.Path;
 import ua.com.dao.AccountDao;
 import ua.com.dao.impl.DaoFactory;
 import ua.com.entity.Account;
 import ua.com.entity.Locale;
-import ua.com.service.AccountService;
-import ua.com.service.impl.AccountServiceImpl;
 import ua.com.util.Validator;
 
 import javax.servlet.http.HttpServletRequest;

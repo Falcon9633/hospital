@@ -1,9 +1,9 @@
-package ua.com.command;
+package ua.com.command.admin;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.bean.DoctorAccountBean;
-import ua.com.constant.MySQLFields;
+import ua.com.command.Command;
 import ua.com.constant.Path;
 import ua.com.constant.SorterConstants;
 import ua.com.dao.DoctorDao;
@@ -53,24 +53,24 @@ public class UsersDoctorsCommand implements Command {
             //sort by surname
             if (SorterConstants.SURNAME.equals(sortBy)){
                 if (locale == Locale.EN) {
-                    Sorter.sortByField(doctorAccountBeans, sortDir, DoctorAccountBean::getSurnameEN, locale);
+                    Sorter.sortByStringField(doctorAccountBeans, sortDir, DoctorAccountBean::getSurnameEN, locale);
                 }
                 if (locale == Locale.UA) {
-                    Sorter.sortByField(doctorAccountBeans, sortDir, DoctorAccountBean::getSurnameUA, locale);
+                    Sorter.sortByStringField(doctorAccountBeans, sortDir, DoctorAccountBean::getSurnameUA, locale);
                 }
             }
             //sort by specialization
             if (SorterConstants.SPECIALIZATION.equals(sortBy)){
                 if (locale == Locale.EN){
-                    Sorter.sortByField(doctorAccountBeans, sortDir, DoctorAccountBean::getSpecializationNameEN, locale);
+                    Sorter.sortByStringField(doctorAccountBeans, sortDir, DoctorAccountBean::getSpecializationNameEN, locale);
                 }
                 if (locale == Locale.UA){
-                    Sorter.sortByField(doctorAccountBeans, sortDir, DoctorAccountBean::getSpecializationNameUA, locale);
+                    Sorter.sortByStringField(doctorAccountBeans, sortDir, DoctorAccountBean::getSpecializationNameUA, locale);
                 }
             }
             //sort by patients count
             if (SorterConstants.PATIENT_COUNT.equals(sortBy)){
-                Sorter.sortByField(doctorAccountBeans, sortDir, DoctorAccountBean::getPatientCount);
+                Sorter.sortByIntegerField(doctorAccountBeans, sortDir, DoctorAccountBean::getPatientCount);
             }
         }
 
@@ -82,10 +82,10 @@ public class UsersDoctorsCommand implements Command {
         LOGGER.trace("found in DB specializations -> {}", specializations);
 
         if (Locale.EN == locale){
-            Sorter.sortByField(specializations, SorterConstants.ASC, Specialization::getNameEN, locale);
+            Sorter.sortByStringField(specializations, SorterConstants.ASC, Specialization::getNameEN, locale);
         }
         if (Locale.UA == locale){
-            Sorter.sortByField(specializations, SorterConstants.ASC, Specialization::getNameEN, locale);
+            Sorter.sortByStringField(specializations, SorterConstants.ASC, Specialization::getNameEN, locale);
         }
         LOGGER.trace("sorted specializations -> {}", specializations);
         req.setAttribute("specializations", specializations);

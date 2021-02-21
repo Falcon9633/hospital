@@ -7,6 +7,8 @@ import ua.com.entity.Specialization;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.Collator;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
@@ -53,7 +55,7 @@ public class Sorter {
         }
     }
 
-    public static <T> void sortByField(List<T> list, String sortDir, Function<T, String> getFieldFunction, Locale locale) {
+    public static <T> void sortByStringField(List<T> list, String sortDir, Function<T, String> getFieldFunction, Locale locale) {
         Collator collator = Collator.getInstance(locale.getJavaLocale());
 
         if (ASC.equals(sortDir)) {
@@ -63,11 +65,20 @@ public class Sorter {
         }
     }
 
-    public static <T> void sortByField(List<T> list, String sortDir, Function<T, Integer> getFieldFunction) {
+    public static <T> void sortByIntegerField(List<T> list, String sortDir, Function<T, Integer> getFieldFunction) {
         if (ASC.equals(sortDir)) {
             list.sort(Comparator.comparing(getFieldFunction));
         } else {
             list.sort(Comparator.comparing(getFieldFunction).reversed());
         }
     }
+
+    public static <T> void sortByLocalDateTimeField(List<T> list, String sortDir, Function<T, LocalDateTime> getFieldFunction) {
+        if (ASC.equals(sortDir)) {
+            list.sort(Comparator.comparing(getFieldFunction));
+        } else {
+            list.sort(Comparator.comparing(getFieldFunction).reversed());
+        }
+    }
+
 }

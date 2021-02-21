@@ -32,9 +32,12 @@ public class PasswordUtil {
         List<Character> charList = pwdStream.collect(Collectors.toList());
         Collections.shuffle(charList);
 
-        return charList.stream()
-                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
-                .toString();
+//        return charList.stream()
+//                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+//                .toString();
+
+        // for demonstration purposes password is always "1"
+        return "1";
     }
 
     public static String encryptPassword(String password) throws NoSuchAlgorithmException {

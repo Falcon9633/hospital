@@ -1,5 +1,7 @@
 package ua.com.bean;
 
+import ua.com.entity.MedicalCard;
+
 import java.time.LocalDateTime;
 
 public class MedCardDoctorBean {
@@ -25,6 +27,16 @@ public class MedCardDoctorBean {
     private String specializationNameUA;
 
     public MedCardDoctorBean() {
+    }
+
+    public MedCardDoctorBean(MedicalCard medicalCard) {
+        this.id = medicalCard.getId();
+        this.isDischarged = medicalCard.isDischarged();
+        this.createTime = medicalCard.getCreateTime();
+        this.updateTime = medicalCard.getUpdateTime();
+        this.updatedBy = medicalCard.getUpdatedBy();
+        this.patientId = medicalCard.getPatientId();
+        this.doctorId = medicalCard.getDoctorId();
     }
 
     public Long getId() {

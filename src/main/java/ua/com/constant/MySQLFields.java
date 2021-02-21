@@ -10,10 +10,14 @@ public class MySQLFields {
     public static final String ID = "id";
     public static final String CREATE_TIME = "create_time";
     public static final String UPDATE_TIME = "update_time";
+    public static final String CREATED_BY = "created_by";
     public static final String UPDATED_BY = "updated_by";
     public static final String NAME_EN = "name_EN";
     public static final String NAME_UA = "name_UA";
     public static final String NUMBER = "number";
+    public static final String DESCRIPTION_EN = "description_EN";
+    public static final String DESCRIPTION_UA = "description_UA";
+    public static final String MEDICAL_CARD_ID = "medical_card_id";
 
     // account
     public static final String ACCOUNT_LOGIN = "login";
@@ -44,6 +48,11 @@ public class MySQLFields {
     public static final String MEDICAL_CARD_DOCTOR_SURNAME_UA = "doctor_surname_UA";
     public static final String MEDICAL_CARD_SPECIALIZATION_NAME_EN = "specialization_name_EN";
     public static final String MEDICAL_CARD_SPECIALIZATION_NAME_UA = "specialization_name_UA";
+    public static final String MEDICAL_CARD_PATIENT_NAME_EN = "patient_name_EN";
+    public static final String MEDICAL_CARD_PATIENT_SURNAME_EN = "patient_surname_EN";
+    public static final String MEDICAL_CARD_PATIENT_NAME_UA = "patient_name_UA";
+    public static final String MEDICAL_CARD_PATIENT_SURNAME_UA = "patient_surname_UA";
+    public static final String MEDICAL_CARD_PATIENT_BIRTHDAY = "patient_birthday";
 
     // doctor
     public static final String DOCTOR_SPECIALIZATION_ID = "specialization_id";

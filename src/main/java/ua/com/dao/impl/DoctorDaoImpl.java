@@ -196,6 +196,38 @@ public class DoctorDaoImpl implements DoctorDao {
         return beans;
     }
 
+    @Override
+    public boolean isDoctorTreatedPatient(Long doctorId, Long patientId) {
+        LOGGER.debug("isDoctorTreatedPatient starts");
+        boolean isTreated = false;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            con = DBUtil.getConnection();
+            pstmt = con.prepareStatement(MySQLQuery.IS_DOCTOR_TREATED_PATIENT);
+            LOGGER.info(MySQLQuery.IS_DOCTOR_TREATED_PATIENT);
+            int k = 0;
+            pstmt.setLong(++k, doctorId);
+            pstmt.setLong(++k, patientId);
+            isTreated = pstmt.execute();
+
+            DBUtil.closeResource(pstmt, con);
+            pstmt = null;
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(pstmt, con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            pstmt = null;
+            con = null;
+        }
+        return isTreated;
+    }
+
     private Doctor mapDoctor(ResultSet rs) throws SQLException{
         LOGGER.debug("mapDoctor starts");
         Doctor doctor = new Doctor();

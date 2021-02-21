@@ -19,6 +19,9 @@ public class Validator {
     private static final int MAX_ACC_DETAILS_EMAIL_LENGTH = 45;
     private static final int MIN_SPECIALIZATION_NAME_LENGTH = 3;
     private static final int MAX_SPECIALIZATION_NAME_LENGTH = 45;
+    private static final int MIN_DIAGNOSIS_NAME_LENGTH = 3;
+    private static final int MAX_DIAGNOSIS_NAME_LENGTH = 45;
+    private static final int MAX_DESCRIPTION_LENGTH = 1024;
 
     private static final Pattern LOGIN_PATTERN = Pattern.compile("^(?![-_\\d])((?![-_]{2})[\\w-])+(?<![-_])$");
     private static final Pattern PASSWORD_PATTERN =
@@ -55,7 +58,7 @@ public class Validator {
      * @return true if matches a condition
      */
     private static boolean isMoreThanLength(String s, int length, HttpSession session, Locale locale, Logger logger, String forward) {
-        if (s.length() > length) {
+        if (s != null && s.length() > length) {
             String errMsg = locale.getMessage("validation.error.is_more_than_length");
             String ch = locale.getMessage("validation.error.characters");
             setErrorMessage(session,
@@ -241,6 +244,16 @@ public class Validator {
                 isMoreThanLength(name, MAX_SPECIALIZATION_NAME_LENGTH, session, locale, logger, forward);
     }
 
+    public static boolean isDiagnosisNameNotValid(String name, HttpSession session, Locale locale, Logger logger, String forward) {
+        return isNullOrEmpty(name, session, locale, logger, forward) ||
+                isLessThanLength(name, MIN_DIAGNOSIS_NAME_LENGTH, session, locale, logger, forward) ||
+                isMoreThanLength(name, MAX_DIAGNOSIS_NAME_LENGTH, session, locale, logger, forward);
+    }
+
+    public static boolean isDescriptionNotValid(String s, HttpSession session, Locale locale, Logger logger, String forward) {
+        return isMoreThanLength(s, MAX_DESCRIPTION_LENGTH, session, locale, logger, forward);
+    }
+
     public static boolean isRequestedIdValid(Long id) {
         return id != null && id != 0;
     }
@@ -284,7 +297,7 @@ public class Validator {
     }
 
     public static int checkLocaleId(int localeId) {
-        if (localeId < 0 || localeId > 1){
+        if (localeId < 0 || localeId > 1) {
             return 0;
         }
         return localeId;

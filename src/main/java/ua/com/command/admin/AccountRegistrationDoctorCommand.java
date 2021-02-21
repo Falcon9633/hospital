@@ -1,14 +1,13 @@
-package ua.com.command;
+package ua.com.command.admin;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ua.com.command.Command;
 import ua.com.constant.Path;
 import ua.com.constant.SorterConstants;
 import ua.com.dao.SpecializationDao;
 import ua.com.dao.impl.DaoFactory;
-import ua.com.dao.impl.SpecializationDaoImpl;
 import ua.com.entity.Locale;
-import ua.com.entity.Role;
 import ua.com.entity.Specialization;
 import ua.com.util.Sorter;
 
@@ -31,10 +30,10 @@ public class AccountRegistrationDoctorCommand implements Command {
         LOGGER.trace("found in DB specializations -> {}", specializations);
 
         if (Locale.EN == locale){
-            Sorter.sortByField(specializations, SorterConstants.ASC, Specialization::getNameEN, locale);
+            Sorter.sortByStringField(specializations, SorterConstants.ASC, Specialization::getNameEN, locale);
         }
         if (Locale.UA == locale){
-            Sorter.sortByField(specializations, SorterConstants.ASC, Specialization::getNameEN, locale);
+            Sorter.sortByStringField(specializations, SorterConstants.ASC, Specialization::getNameEN, locale);
         }
         LOGGER.trace("sorted specializations -> {}", specializations);
 

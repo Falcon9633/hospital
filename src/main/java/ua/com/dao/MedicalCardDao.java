@@ -1,6 +1,7 @@
 package ua.com.dao;
 
 import ua.com.bean.MedCardDoctorBean;
+import ua.com.bean.MedCardPatientBean;
 import ua.com.entity.MedicalCard;
 
 import java.sql.Connection;
@@ -20,6 +21,8 @@ public interface MedicalCardDao {
     MedicalCard insert(MedicalCard medicalCard, Connection con) throws SQLException;
 
     List<MedCardDoctorBean> findAllMedCardDoctorBeanByPatient(Long patientId);
+
+    List<MedCardPatientBean> findAllMedCardPatientBeansByDoctor(Long doctorId);
 
     boolean update(MedicalCard medicalCard);
 }

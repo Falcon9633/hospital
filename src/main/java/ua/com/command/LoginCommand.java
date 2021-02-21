@@ -91,7 +91,7 @@ public class LoginCommand implements Command {
             }
 
             if (role == Role.DOCTOR) {
-                forward = Path.REDIRECT;
+                forward = Path.REDIRECT + Path.DOCTOR_CURRENT_MEDICAL_CARDS_COMMAND;
             }
 
             if (role == Role.NURSE) {

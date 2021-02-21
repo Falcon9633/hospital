@@ -29,4 +29,8 @@ public class DaoFactory {
     public static SpecializationDao getSpecializationDao(){
         return new SpecializationDaoImpl();
     }
+
+    public static DiagnosisDao getDiagnosisDao(){
+        return new DiagnosisDaoImpl();
+    }
 }

@@ -1,8 +1,9 @@
-package ua.com.command;
+package ua.com.command.admin;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.bean.PatientAccountBean;
+import ua.com.command.Command;
 import ua.com.constant.MySQLFields;
 import ua.com.constant.Path;
 import ua.com.constant.SorterConstants;
