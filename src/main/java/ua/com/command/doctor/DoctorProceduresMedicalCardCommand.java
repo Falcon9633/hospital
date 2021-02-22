@@ -3,8 +3,8 @@ package ua.com.command.doctor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.bean.DoctorAccDetailsBean;
-import ua.com.bean.MedicamentDoctorBean;
 import ua.com.bean.NurseAccDetailsBean;
+import ua.com.bean.ProcedureDoctorBean;
 import ua.com.constant.Path;
 import ua.com.constant.SorterConstants;
 import ua.com.dao.*;
@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class DoctorMedicamentsMedicalCardCommand implements ua.com.command.Command {
-    private static final Logger LOGGER = LogManager.getLogger(DoctorMedicamentsMedicalCardCommand.class);
+public class DoctorProceduresMedicalCardCommand implements ua.com.command.Command {
+    private static final Logger LOGGER = LogManager.getLogger(DoctorProceduresMedicalCardCommand.class);
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
@@ -64,16 +64,15 @@ public class DoctorMedicamentsMedicalCardCommand implements ua.com.command.Comma
             return forward;
         }
 
-        MedicamentDao medicamentDao = DaoFactory.getMedicamentDao();
-        List<MedicamentDoctorBean> medicaments = medicamentDao.findAllMedicamentDoctorBeansByMedCard(medicalCardId);
-        LOGGER.trace("found in db medicaments -> {}", medicaments);
-        if (!medicaments.isEmpty()) {
-            Sorter.sortByLocalDateTimeField(medicaments, SorterConstants.ASC, MedicamentDoctorBean::getCreateTime);
+        ProcedureDao procedureDao = DaoFactory.getProcedureDao();
+        List<ProcedureDoctorBean> procedures = procedureDao.findAllProcedureDoctorBeansByMedCard(medicalCardId);
+        LOGGER.trace("found in db procedures -> {}", procedures);
+        if (!procedures.isEmpty()){
+            Sorter.sortByLocalDateTimeField(procedures, SorterConstants.ASC, ProcedureDoctorBean::getCreateTime);
         }
-        req.setAttribute("medicaments", medicaments);
+        req.setAttribute("procedures", procedures);
         req.setAttribute("medicalCardId", medicalCardId);
         req.setAttribute("patientId", patientId);
-
 
         SpecializationDao specializationDao = DaoFactory.getSpecializationDao();
         List<Specialization> specializations = specializationDao.findAll();
@@ -108,7 +107,7 @@ public class DoctorMedicamentsMedicalCardCommand implements ua.com.command.Comma
         req.setAttribute("nurses", nurses);
 
 
-        forward = Path.MEDICAL_CARD_MEDICAMENTS_PAGE;
+        forward = Path.MEDICAL_CARD_PROCEDURES_PAGE;
 
         LOGGER.debug("execute finishes");
         return forward;

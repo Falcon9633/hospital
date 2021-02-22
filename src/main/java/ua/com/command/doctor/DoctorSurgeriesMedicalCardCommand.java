@@ -3,8 +3,7 @@ package ua.com.command.doctor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.bean.DoctorAccDetailsBean;
-import ua.com.bean.MedicamentDoctorBean;
-import ua.com.bean.NurseAccDetailsBean;
+import ua.com.bean.SurgeryDoctorBean;
 import ua.com.constant.Path;
 import ua.com.constant.SorterConstants;
 import ua.com.dao.*;
@@ -24,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class DoctorMedicamentsMedicalCardCommand implements ua.com.command.Command {
-    private static final Logger LOGGER = LogManager.getLogger(DoctorMedicamentsMedicalCardCommand.class);
+public class DoctorSurgeriesMedicalCardCommand implements ua.com.command.Command {
+    private static final Logger LOGGER = LogManager.getLogger(DoctorSurgeriesMedicalCardCommand.class);
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
@@ -64,38 +63,31 @@ public class DoctorMedicamentsMedicalCardCommand implements ua.com.command.Comma
             return forward;
         }
 
-        MedicamentDao medicamentDao = DaoFactory.getMedicamentDao();
-        List<MedicamentDoctorBean> medicaments = medicamentDao.findAllMedicamentDoctorBeansByMedCard(medicalCardId);
-        LOGGER.trace("found in db medicaments -> {}", medicaments);
-        if (!medicaments.isEmpty()) {
-            Sorter.sortByLocalDateTimeField(medicaments, SorterConstants.ASC, MedicamentDoctorBean::getCreateTime);
+        SurgeryDao surgeryDao = DaoFactory.getSurgeryDao();
+        List<SurgeryDoctorBean> surgeries = surgeryDao.findAllSurgeryDoctorBeansByMedCard(medicalCardId);
+        LOGGER.trace("found in db surgeries -> {}", surgeries);
+        if (!surgeries.isEmpty()){
+            Sorter.sortByLocalDateTimeField(surgeries, SorterConstants.ASC, SurgeryDoctorBean::getCreateTime);
         }
-        req.setAttribute("medicaments", medicaments);
+        req.setAttribute("surgeries", surgeries);
         req.setAttribute("medicalCardId", medicalCardId);
         req.setAttribute("patientId", patientId);
-
 
         SpecializationDao specializationDao = DaoFactory.getSpecializationDao();
         List<Specialization> specializations = specializationDao.findAll();
 
         List<DoctorAccDetailsBean> doctors = doctorDao.findAllDoctorAccDetailsBeans();
 
-        AccountDao accountDao = DaoFactory.getAccountDao();
-        List<NurseAccDetailsBean> nurses = accountDao.findAllNurseAccDetailsBeans();
-
         if (Locale.EN == locale) {
             Sorter.sortByStringField(specializations, SorterConstants.ASC, Specialization::getNameEN, locale);
             Sorter.sortByStringField(doctors, SorterConstants.ASC, DoctorAccDetailsBean::getSurnameEN, locale);
-            Sorter.sortByStringField(nurses, SorterConstants.ASC, NurseAccDetailsBean::getSurnameEN, locale);
         }
         if (Locale.UA == locale) {
             Sorter.sortByStringField(specializations, SorterConstants.ASC, Specialization::getNameUA, locale);
             Sorter.sortByStringField(doctors, SorterConstants.ASC, DoctorAccDetailsBean::getSurnameUA, locale);
-            Sorter.sortByStringField(nurses, SorterConstants.ASC, NurseAccDetailsBean::getSurnameUA, locale);
         }
         LOGGER.trace("found in db specializations -> {}", specializations);
         LOGGER.trace("found in db doctors -> {}", doctors);
-        LOGGER.trace("found in db nurses -> {}", nurses);
 
         Map<Specialization, List<DoctorAccDetailsBean>> specDoctors = new LinkedHashMap<>();
         specializations.forEach(s ->
@@ -105,10 +97,7 @@ public class DoctorMedicamentsMedicalCardCommand implements ua.com.command.Comma
                         .collect(Collectors.toList())));
         req.setAttribute("specDoctorsMap", specDoctors);
 
-        req.setAttribute("nurses", nurses);
-
-
-        forward = Path.MEDICAL_CARD_MEDICAMENTS_PAGE;
+        forward = Path.MEDICAL_CARD_SURGERIES_PAGE;
 
         LOGGER.debug("execute finishes");
         return forward;

@@ -180,7 +180,7 @@ public class MySQLQuery {
     public static final String INSERT_DIAGNOSIS =
             "INSERT INTO diagnosis(name_en, name_ua, description_en, description_ua, created_by, medical_card_id)\n" +
                 "VALUES(?, ?, ?, ?, ?, ?)";
-    // diagnosis_doctor_bean
+    // diagnosis_doctor bean
     public static final String FIND_ALL_DIAGNOSIS_DOCTOR_BEANS_BY_MEDICAL_CARD_ID =
             "SELECT\n" +
                 "diag.*,\n" +
@@ -206,7 +206,7 @@ public class MySQLQuery {
             "INSERT INTO medicament(name_en, name_ua, description_en, description_ua, created_by, served_by, medical_card_id)\n" +
                 "VALUES(?, ?, ?, ?, ?, ?, ?)";
     public static final String UPDATE_MEDICAMENT = "UPDATE medicament SET end=? WHERE id=?";
-    // medicament_doctor_bean
+    // medicament_doctor bean
     public static final String FIND_ALL_MEDICAMENT_DOCTOR_BEANS_BY_MEDICAL_CARD_ID =
             "SELECT\n" +
                 "medic.*,\n" +
@@ -232,4 +232,68 @@ public class MySQLQuery {
                 "account_details sac ON medic.served_by=sac.id\n" +
             "WHERE\n" +
                 "medic.medical_card_id=?";
+    // procedure
+    public static final String FIND_PROCEDURE_BY_ID = "SELECT * FROM `procedure` WHERE id=?";
+    public static final String INSERT_PROCEDURE =
+            "INSERT INTO `procedure`(name_en, name_ua, description_en, description_ua, created_by, served_by, medical_card_id)\n" +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?)";
+    public static final String UPDATE_PROCEDURE = "UPDATE `procedure` SET end=? WHERE id=?";
+    // procedure_doctor bean
+    public static final String FIND_ALL_PROCEDURE_DOCTOR_BEANS_BY_MEDICAL_CARD_ID =
+            "SELECT\n" +
+                "proc.*,\n" +
+                "dac.name_EN doctor_name_EN,\n" +
+                "dac.surname_EN doctor_surname_EN,\n" +
+                "dac.name_UA doctor_name_UA,\n" +
+                "dac.surname_UA doctor_surname_UA,\n" +
+                "ds.name_EN specialization_name_EN,\n" +
+                "ds.name_UA specialization_name_UA,\n" +
+                "sac.name_EN served_by_name_EN,\n" +
+                "sac.surname_EN served_by_surname_EN,\n" +
+                "sac.name_UA served_by_name_UA,\n" +
+                "sac.surname_UA served_by_surname_UA\n" +
+            "FROM\n" +
+                "`procedure` proc\n" +
+            "JOIN\n" +
+                "doctor d ON proc.created_by=d.id\n" +
+            "JOIN\n" +
+                "account_details dac ON d.id=dac.id\n" +
+            "JOIN\n" +
+                "specialization ds ON d.specialization_id=ds.id\n" +
+            "JOIN\n" +
+                "account_details sac ON proc.served_by=sac.id\n" +
+            "WHERE\n" +
+                "proc.medical_card_id=?";
+    // surgery
+    public static final String FIND_SURGERY_BY_ID = "SELECT * FROM surgery WHERE id=?";
+    public static final String INSERT_SURGERY =
+            "INSERT INTO surgery(name_en, name_ua, description_en, description_ua, created_by, served_by, medical_card_id)\n" +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?)";
+    public static final String UPDATE_SURGERY = "UPDATE surgery SET end=? WHERE id=?";
+    // procedure_doctor bean
+    public static final String FIND_ALL_SURGERY_DOCTOR_BEANS_BY_MEDICAL_CARD_ID =
+            "SELECT\n" +
+                "s.*,\n" +
+                "dac.name_EN doctor_name_EN,\n" +
+                "dac.surname_EN doctor_surname_EN,\n" +
+                "dac.name_UA doctor_name_UA,\n" +
+                "dac.surname_UA doctor_surname_UA,\n" +
+                "ds.name_EN specialization_name_EN,\n" +
+                "ds.name_UA specialization_name_UA,\n" +
+                "sac.name_EN served_by_name_EN,\n" +
+                "sac.surname_EN served_by_surname_EN,\n" +
+                "sac.name_UA served_by_name_UA,\n" +
+                "sac.surname_UA served_by_surname_UA\n" +
+            "FROM\n" +
+                "surgery s\n" +
+            "JOIN\n" +
+                "doctor d ON s.created_by=d.id\n" +
+            "JOIN\n" +
+                "account_details dac ON d.id=dac.id\n" +
+            "JOIN\n" +
+                "specialization ds ON d.specialization_id=ds.id\n" +
+            "JOIN\n" +
+                "account_details sac ON s.served_by=sac.id\n" +
+            "WHERE\n" +
+                "s.medical_card_id=?";
 }

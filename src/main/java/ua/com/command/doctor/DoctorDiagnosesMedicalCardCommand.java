@@ -49,15 +49,15 @@ public class DoctorDiagnosesMedicalCardCommand implements Command {
             return forward;
         }
 
-        DoctorDao doctorDao = DaoFactory.getDoctorDao();
-        boolean treated = doctorDao.isDoctorTreatedPatient(account.getId(), patientId);
-        if (!treated){
+        MedicalCardDao medicalCardDao = DaoFactory.getMedicalCardDao();
+        MedicalCard medicalCard = medicalCardDao.findById(medicalCardId);
+        if (medicalCard.getId() == null){
             return forward;
         }
 
-        MedicalCardDao medicalCardDao = DaoFactory.getMedicalCardDao();
-        MedicalCard medicalCard = medicalCardDao.findById(medicalCardId);
-        if (medicalCard == null){
+        DoctorDao doctorDao = DaoFactory.getDoctorDao();
+        boolean treated = doctorDao.isDoctorTreatedPatient(account.getId(), patientId);
+        if (!treated){
             return forward;
         }
 

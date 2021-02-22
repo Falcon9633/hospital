@@ -85,6 +85,11 @@ public class CreateMedicamentCommand implements ua.com.command.Command {
 
         MedicalCardDao medicalCardDao = DaoFactory.getMedicalCardDao();
         MedicalCard medicalCard = medicalCardDao.findById(medicalCardId);
+        if (medicalCard.getId() == null){
+            Validator.setErrorMessage(session, locale.getMessage("validation.error.medical_card_not_exist"), LOGGER, forward);
+            return forward;
+        }
+
         if (medicalCard.isDischarged()) {
             Validator.setErrorMessage(session, locale.getMessage("validation.error.patient_is_discharged"), LOGGER, forward);
             return forward;

@@ -50,12 +50,13 @@ CREATE TABLE IF NOT EXISTS `hospital`.`account` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `login` VARCHAR(16) NOT NULL,
   `password` VARCHAR(65) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
   `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `locked` TINYINT(1) NOT NULL DEFAULT 0,
   `updated_by` INT(11) NOT NULL,
   `role_id` INT(11) NOT NULL,
-  `locale_id` INT(11) NOT NULL DEFAULT 1,
+  `locale_id` INT(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `login_UNIQUE` (`login` ASC),
   INDEX `fk_account_role_name_idx` (`role_id` ASC),
@@ -90,8 +91,6 @@ CREATE TABLE IF NOT EXISTS `hospital`.`account_details` (
   `surname_EN` VARCHAR(45) NOT NULL,
   `name_UA` VARCHAR(45) NOT NULL,
   `surname_UA` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_account_details_account_id`
     FOREIGN KEY (`id`)
@@ -107,12 +106,20 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `hospital`.`specialization` ;
 
 CREATE TABLE IF NOT EXISTS `hospital`.`specialization` (
-  `id` INT(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name_EN` VARCHAR(45) NOT NULL,
   `name_UA` VARCHAR(45) NOT NULL,
+  `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name_EN` ASC),
-  UNIQUE INDEX `name_UA_UNIQUE` (`name_UA` ASC))
+  UNIQUE INDEX `name_UA_UNIQUE` (`name_UA` ASC),
+  INDEX `fk_specialization_account_id_idx` (`updated_by` ASC),
+  CONSTRAINT `fk_specialization_account_id`
+    FOREIGN KEY (`updated_by`)
+    REFERENCES `hospital`.`account` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -232,6 +239,7 @@ CREATE TABLE IF NOT EXISTS `hospital`.`medicament` (
   `name_UA` VARCHAR(45) NOT NULL,
   `description_EN` VARCHAR(1024) NOT NULL,
   `description_UA` VARCHAR(1024) NOT NULL,
+  `end` TINYINT(1) NULL DEFAULT 0,
   `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `created_by` INT(11) NOT NULL,
   `served_by` INT NULL,
@@ -269,6 +277,7 @@ CREATE TABLE IF NOT EXISTS `hospital`.`procedure` (
   `name_UA` VARCHAR(45) NOT NULL,
   `description_EN` VARCHAR(1024) NOT NULL,
   `description_UA` VARCHAR(1024) NOT NULL,
+  `end` TINYINT(1) NULL DEFAULT 0,
   `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `created_by` INT(11) NOT NULL,
   `served_by` INT NULL,
@@ -296,46 +305,17 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `hospital`.`sample`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `hospital`.`sample` ;
-
-CREATE TABLE IF NOT EXISTS `hospital`.`sample` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name_EN` VARCHAR(45) NOT NULL,
-  `name_UA` VARCHAR(45) NOT NULL,
-  `description_EN` VARCHAR(1024) NOT NULL,
-  `description_UA` VARCHAR(1024) NOT NULL,
-  `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `created_by` INT(11) NOT NULL,
-  `medical_card_id` INT(11) NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_sample_account_id_idx` (`created_by` ASC),
-  INDEX `fk_sample_medical_card_id_idx` (`medical_card_id` ASC),
-  CONSTRAINT `fk_sample_account_id`
-    FOREIGN KEY (`created_by`)
-    REFERENCES `hospital`.`account` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_sample_medical_card_id`
-    FOREIGN KEY (`medical_card_id`)
-    REFERENCES `hospital`.`medical_card` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `hospital`.`surgery`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `hospital`.`surgery` ;
 
 CREATE TABLE IF NOT EXISTS `hospital`.`surgery` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `type_EN` VARCHAR(45) NOT NULL,
-  `type_UA` VARCHAR(45) NOT NULL,
+  `name_EN` VARCHAR(45) NOT NULL,
+  `name_UA` VARCHAR(45) NOT NULL,
   `description_EN` VARCHAR(1024) NOT NULL,
   `description_UA` VARCHAR(1024) NOT NULL,
+  `end` TINYINT(1) NULL DEFAULT 0,
   `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `created_by` INT(11) NOT NULL,
   `served_by` INT NULL,
@@ -357,36 +337,6 @@ CREATE TABLE IF NOT EXISTS `hospital`.`surgery` (
   CONSTRAINT `fk_surgery_served_by_account_id`
     FOREIGN KEY (`served_by`)
     REFERENCES `hospital`.`account` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `hospital`.`symptom`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `hospital`.`symptom` ;
-
-CREATE TABLE IF NOT EXISTS `hospital`.`symptom` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `patient_complaints_EN` VARCHAR(1024) NULL DEFAULT NULL,
-  `patient_complaints_UA` VARCHAR(1024) NULL DEFAULT NULL,
-  `doctor_observation_EN` VARCHAR(1024) NOT NULL,
-  `doctor_observation_UA` VARCHAR(1024) NOT NULL,
-  `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `created_by` INT(11) NOT NULL,
-  `medical_card_id` INT(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_symptom_account_id_idx` (`created_by` ASC),
-  INDEX `fk_symptom_medical_card_id_idx` (`medical_card_id` ASC),
-  CONSTRAINT `fk_symptom_account_id`
-    FOREIGN KEY (`created_by`)
-    REFERENCES `hospital`.`account` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_symptom_medical_card_id`
-    FOREIGN KEY (`medical_card_id`)
-    REFERENCES `hospital`.`medical_card` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -414,13 +364,13 @@ START TRANSACTION;
 USE `hospital`;
 INSERT INTO `hospital`.`locale` (`id`, `name`) VALUES (0, 'EN');
 INSERT INTO `hospital`.`locale` (`id`, `name`) VALUES (1, 'UA');
-
 COMMIT;
 
 -- -----------------------------------------------------
 -- Data for table `hospital`.`account`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `hospital`.`account` (`id`, `login`, `password`, `create_time`, `update_time`, `locked`, `updated_by`, `role_id`, `locale_id`) VALUES (DEFAULT, 'admin', '1', DEFAULT, DEFAULT, 0, 1, 0, DEFAULT);
-
+INSERT INTO `hospital`.`account` (`id`, `login`, `password`, `email`, `create_time`, `update_time`, `locked`, `updated_by`, `role_id`, `locale_id`) 
+VALUES (DEFAULT, 'admin', '08982AEB8CF865FA0618317DFB44D716:CD674F2C5AECD5759D294E965FA926C3', 'email@gmail.com', DEFAULT, DEFAULT, 0, 1, 0, DEFAULT);
+INSERT INTO `hospital`.`account_details` (`id`, `name_EN`, `surname_EN`, `name_UA`, `surname_UA`) VALUES (1, 'Orest', 'Dmyterko', 'Орест', 'Дмитерко');
 COMMIT;

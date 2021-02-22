@@ -7,19 +7,19 @@
 
 <div class="container-fluid">
     <div class="row">
-        <c:set var="medic" value="true"/>
+        <c:set var="surg" value="true"/>
         <%@ include file="/WEB-INF/jspf/medicalCardSidebar.jsp" %>
         <div class="col-8 ml-5">
             <%@ include file="/WEB-INF/jspf/errorMessage.jsp" %>
 
             <form action="controller" method="post">
-                <input type="hidden" name="command" value="createMedicament"/>
+                <input type="hidden" name="command" value="createSurgery"/>
                 <input type="hidden" name="medical_card_id" value="${medicalCardId}">
                 <input type="hidden" name="patient_id" value="${patientId}">
                 <div class="row">
                     <div class="col">
                         <label for="name_EN" class="mr-sm-2 mt-n2">
-                            <fmt:message key="medical_card_medicaments.label.name_en" bundle="${lang}"/>
+                            <fmt:message key="medical_card_surgeries.label.name_en" bundle="${lang}"/>
                         </label>
                         <input type="text" name="name_EN" class="form-control mb-2 mr-sm-2" id="name_EN"
                                required minlength="3" maxlength="45"
@@ -27,7 +27,7 @@
                     </div>
                     <div class="col">
                         <label for="name_UA" class="mr-sm-2 mt-n2">
-                            <fmt:message key="medical_card_medicaments.label.name_ua" bundle="${lang}"/>
+                            <fmt:message key="medical_card_surgeries.label.name_ua" bundle="${lang}"/>
                         </label>
                         <input type="text" name="name_UA" class="form-control mb-2 mr-sm-2" id="name_UA"
                                required minlength="3" maxlength="45"
@@ -58,10 +58,10 @@
                 <div class="row">
                     <div class="col-11">
                         <label for="emp_id" class="mt-2">
-                            <fmt:message key="medical_card.label.employee" bundle="${lang}"/>
+                            <fmt:message key="medical_card.label.doctor" bundle="${lang}"/>
                         </label>
                         <select class="form-control" name="emp_id" required id="emp_id">
-                            <option value=""><fmt:message key="medical_card.select.employee" bundle="${lang}"/></option>
+                            <option value=""><fmt:message key="medical_card.select.doctor" bundle="${lang}"/></option>
                             <c:forEach var="specDoctors" items="${specDoctorsMap}">
                                 <c:if test="${locale.name == 'en_US'}">
                                     <optgroup label="${specDoctors.key.nameEN}">
@@ -82,19 +82,6 @@
                                             </option>
                                         </c:forEach>
                                     </optgroup>
-                                </c:if>
-                            </c:forEach>
-                            <optgroup label='<fmt:message key="medical_card.optgroup.nurses" bundle="${lang}"/>'/>
-                            <c:forEach var="nurse" items="${nurses}">
-                                <c:if test="${locale.name == 'en_US'}">
-                                    <option value="${nurse.id}">
-                                            ${nurse.surnameEN} ${nurse.nameEN}
-                                    </option>
-                                </c:if>
-                                <c:if test="${locale.name == 'uk_UA'}">
-                                    <option value="${nurse.id}">
-                                            ${nurse.surnameUA} ${nurse.nameUA}
-                                    </option>
                                 </c:if>
                             </c:forEach>
                         </select>
@@ -118,7 +105,7 @@
                         <fmt:message key="medical_card.th.created_time" bundle="${lang}"/>
                     </th>
                     <th>
-                        <fmt:message key="medical_card_medicaments.th.medicaments" bundle="${lang}"/>
+                        <fmt:message key="medical_card_surgeries.th.surgeries" bundle="${lang}"/>
                     </th>
                     <th>
                         <fmt:message key="medical_card.th.created_by" bundle="${lang}"/>
@@ -132,37 +119,37 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="medicament" items="${medicaments}">
+                <c:forEach var="surgery" items="${surgeries}">
                     <tr>
-                        <input type="hidden" data-type="assigmentId" value="${medicament.id}">
-                        <td><custom:formatDate value="${medicament.createTime}" pattern="dd-MM-yyy HH:mm:ss"/></td>
+                        <input type="hidden" data-type="assigmentId" value="${surgery.id}">
+                        <td><custom:formatDate value="${surgery.createTime}" pattern="dd-MM-yyy HH:mm:ss"/></td>
                         <c:if test="${locale.name == 'en_US'}">
-                            <td>${medicament.nameEN}</td>
+                            <td>${surgery.nameEN}</td>
                             <td>
-                                    ${medicament.doctorSurnameEN} ${medicament.doctorNameEN}
-                                (${medicament.specializationNameEN})
+                                    ${surgery.doctorSurnameEN} ${surgery.doctorNameEN}
+                                (${surgery.specializationNameEN})
                             </td>
                             <td>
-                                    ${medicament.servedBySurnameEN} ${medicament.servedByNameEN}
+                                    ${surgery.servedBySurnameEN} ${surgery.servedByNameEN}
                             </td>
-                            <td data-end="${medicament.end}">
-                                    ${medicament.end ? 'finised' : 'actual'}
+                            <td data-end="${surgery.end}">
+                                    ${surgery.end ? 'finised' : 'actual'}
                             </td>
-                            <input type="hidden" data-type="description" value="${medicament.descriptionEN}">
+                            <input type="hidden" data-type="description" value="${surgery.descriptionEN}">
                         </c:if>
                         <c:if test="${locale.name == 'uk_UA'}">
-                            <td>${medicament.nameUA}</td>
+                            <td>${surgery.nameUA}</td>
                             <td>
-                                    ${medicament.doctorSurnameUA} ${medicament.doctorNameUA}
-                                (${medicament.specializationNameUA})
+                                    ${surgery.doctorSurnameUA} ${surgery.doctorNameUA}
+                                (${surgery.specializationNameUA})
                             </td>
                             <td>
-                                    ${medicament.servedBySurnameUA} ${medicament.servedByNameUA}
+                                    ${surgery.servedBySurnameUA} ${surgery.servedByNameUA}
                             </td>
                             <td>
-                                    ${medicament.end ? 'завершено' : 'актуально'}
+                                    ${surgery.end ? 'завершено' : 'актуально'}
                             </td>
-                            <input type="hidden" data-type="description" value="${medicament.descriptionUA}">
+                            <input type="hidden" data-type="description" value="${surgery.descriptionUA}">
                         </c:if>
                     </tr>
                 </c:forEach>
@@ -181,7 +168,7 @@
                             <textarea class="form-control" data-type="descriptionModal" rows="6" readonly></textarea>
                             <c:if test="${role.name == 'doctor'}">
                                 <form action="controller" method="post" id="assigmentForm">
-                                    <input type="hidden" name="command" value="editMedicament">
+                                    <input type="hidden" name="command" value="editSurgery">
                                     <input type="hidden" name="patient_id" value="${patientId}">
                                     <input type="hidden" name="medical_card_id" value="${medicalCardId}">
                                     <input type="hidden" name="assigment_id" value="">
@@ -215,3 +202,4 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/medicalCardModal.js"></script>
 </body>
 </html>
+

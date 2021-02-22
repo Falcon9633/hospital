@@ -6,6 +6,8 @@ public class Path {
     public static final String LOGIN_PAGE = "login.jsp";
     public static final String MEDICAL_CARD_DIAGNOSES_PAGE = "/WEB-INF/jsp/common/medicalCardDiagnoses.jsp";
     public static final String MEDICAL_CARD_MEDICAMENTS_PAGE = "/WEB-INF/jsp/common/medicalCardMedicaments.jsp";
+    public static final String MEDICAL_CARD_PROCEDURES_PAGE = "/WEB-INF/jsp/common/medicalCardProcedures.jsp";
+    public static final String MEDICAL_CARD_SURGERIES_PAGE = "/WEB-INF/jsp/common/medicalCardSurgeries.jsp";
     // admin pages
     public static final String ACCOUNT_REGISTRATION_ADMIN_PAGE = "/WEB-INF/jsp/admin/accountRegistrationAdmin.jsp";
     public static final String ACCOUNT_REGISTRATION_DOCTOR_PAGE = "/WEB-INF/jsp/admin/accountRegistrationDoctor.jsp";
@@ -32,6 +34,10 @@ public class Path {
             "controller?command=doctorDiagnosesMedicalCard&medical_card_id=%d&patient_id=%d";
     public static final String DOCTOR_MEDICAMENTS_MEDICAL_CARD_COMMAND =
             "controller?command=doctorMedicamentsMedicalCard&medical_card_id=%d&patient_id=%d";
+    public static final String DOCTOR_PROCEDURES_MEDICAL_CARD_COMMAND =
+            "controller?command=doctorProceduresMedicalCard&medical_card_id=%d&patient_id=%d";
+    public static final String DOCTOR_SURGERIES_MEDICAL_CARD_COMMAND =
+            "controller?command=doctorSurgeriesMedicalCard&medical_card_id=%d&patient_id=%d";
 
     public static final String LOCALE_COOKIE = "locale";
 }

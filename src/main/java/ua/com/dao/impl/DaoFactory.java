@@ -37,4 +37,12 @@ public class DaoFactory {
     public static MedicamentDao getMedicamentDao(){
         return new MedicamentDaoImpl();
     }
+
+    public static ProcedureDao getProcedureDao() {
+        return new ProcedureDaoImpl();
+    }
+
+    public static SurgeryDao getSurgeryDao() {
+        return new SurgeryDaoImpl();
+    }
 }

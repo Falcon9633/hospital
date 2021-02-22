@@ -8,10 +8,12 @@
            class="list-group-item list-group-item-action bg-dark text-light ${medic ? 'sidebar-active':''}">
             <fmt:message key="medical_card.sidebar.anchor.medicaments" bundle="${lang}"/>
         </a>
-        <a href="#" class="list-group-item list-group-item-action bg-dark text-light ${proc ? 'sidebar-active':''}">
+        <a href="controller?command=doctorProceduresMedicalCard&medical_card_id=${medicalCardId}&patient_id=${patientId}"
+           class="list-group-item list-group-item-action bg-dark text-light ${proc ? 'sidebar-active':''}">
             <fmt:message key="medical_card.sidebar.anchor.procedures" bundle="${lang}"/>
         </a>
-        <a href="#" class="list-group-item list-group-item-action bg-dark text-light ${surg ? 'sidebar-active':''}">
+        <a href="controller?command=doctorSurgeriesMedicalCard&medical_card_id=${medicalCardId}&patient_id=${patientId}"
+           class="list-group-item list-group-item-action bg-dark text-light ${surg ? 'sidebar-active':''}">
             <fmt:message key="medical_card.sidebar.anchor.surgeries" bundle="${lang}"/>
         </a>
     </div>
