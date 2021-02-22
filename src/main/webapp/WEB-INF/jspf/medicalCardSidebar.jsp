@@ -4,7 +4,8 @@
            class="list-group-item list-group-item-action bg-dark text-light ${diag ? 'sidebar-active':''}">
             <fmt:message key="medical_card.sidebar.anchor.diagnoses" bundle="${lang}"/>
         </a>
-        <a href="#" class="list-group-item list-group-item-action bg-dark text-light ${medic ? 'sidebar-active':''}">
+        <a href="controller?command=doctorMedicamentsMedicalCard&medical_card_id=${medicalCardId}&patient_id=${patientId}"
+           class="list-group-item list-group-item-action bg-dark text-light ${medic ? 'sidebar-active':''}">
             <fmt:message key="medical_card.sidebar.anchor.medicaments" bundle="${lang}"/>
         </a>
         <a href="#" class="list-group-item list-group-item-action bg-dark text-light ${proc ? 'sidebar-active':''}">

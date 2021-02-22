@@ -1,10 +1,11 @@
 package ua.com.constant;
 
 public class Path {
-    // common
     public static final String REDIRECT = "redirect:/";
+    // common pages
     public static final String LOGIN_PAGE = "login.jsp";
-    public static final String MEDICAL_CARD_DIAGNOSES = "/WEB-INF/jsp/common/medicalCardDiagnoses.jsp";
+    public static final String MEDICAL_CARD_DIAGNOSES_PAGE = "/WEB-INF/jsp/common/medicalCardDiagnoses.jsp";
+    public static final String MEDICAL_CARD_MEDICAMENTS_PAGE = "/WEB-INF/jsp/common/medicalCardMedicaments.jsp";
     // admin pages
     public static final String ACCOUNT_REGISTRATION_ADMIN_PAGE = "/WEB-INF/jsp/admin/accountRegistrationAdmin.jsp";
     public static final String ACCOUNT_REGISTRATION_DOCTOR_PAGE = "/WEB-INF/jsp/admin/accountRegistrationDoctor.jsp";
@@ -29,6 +30,8 @@ public class Path {
     public static final String DOCTOR_CURRENT_MEDICAL_CARDS_COMMAND = "controller?command=doctorCurrentMedicalCards";
     public static final String DOCTOR_DIAGNOSES_MEDICAL_CARD_COMMAND =
             "controller?command=doctorDiagnosesMedicalCard&medical_card_id=%d&patient_id=%d";
+    public static final String DOCTOR_MEDICAMENTS_MEDICAL_CARD_COMMAND =
+            "controller?command=doctorMedicamentsMedicalCard&medical_card_id=%d&patient_id=%d";
 
     public static final String LOCALE_COOKIE = "locale";
 }

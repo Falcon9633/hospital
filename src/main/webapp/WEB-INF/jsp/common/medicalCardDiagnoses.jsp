@@ -35,7 +35,10 @@
                     </div>
 
                     <div class="col-1">
-                        <button type="submit" class="btn btn-dark mt-4">
+                        <button type="submit" class="btn btn-dark mt-4" data-toggle="confirmation" data-popout="true"
+                                data-placement="bottom" data-title=""
+                                data-btn-ok-label='<fmt:message key="button.popout.confirm" bundle="${lang}"/>'
+                                data-btn-cancel-label='<fmt:message key="button.popout.cancel" bundle="${lang}"/>'>
                             <fmt:message key="button.create" bundle="${lang}"/>
                         </button>
                     </div>
@@ -66,26 +69,19 @@
                 <thead>
                 <tr>
                     <th>
-                        <fmt:message key="medical_card_diagnoses.th.created_time" bundle="${lang}"/>
+                        <fmt:message key="medical_card.th.created_time" bundle="${lang}"/>
                     </th>
                     <th>
                         <fmt:message key="medical_card_diagnoses.th.name" bundle="${lang}"/>
                     </th>
                     <th>
-                        <fmt:message key="medical_card_diagnoses.th.created_by" bundle="${lang}"/>
+                        <fmt:message key="medical_card.th.created_by" bundle="${lang}"/>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="diagnosis" items="${diagnoses}">
-                    <c:if test="${locale.name == 'en_US'}">
-                        <c:set var="description" value="${diagnosis.descriptionEN}"/>
-                    </c:if>
-                    <c:if test="${locale.name == 'uk_UA'}">
-                        <c:set var="description" value="${diagnosis.descriptionUA}"/>
-                    </c:if>
-                    <tr data-toggle="popover" data-content="${description}" data-trigger="click"
-                        title='<fmt:message key="medical_card.description" bundle="${lang}"/>' data-placement="top">
+                    <tr>
                         <td><custom:formatDate value="${diagnosis.createTime}" pattern="dd-MM-yyy HH:mm:ss"/></td>
                         <c:if test="${locale.name == 'en_US'}">
                             <td>${diagnosis.nameEN}</td>
@@ -93,7 +89,7 @@
                                     ${diagnosis.doctorSurnameEN} ${diagnosis.doctorNameEN}
                                 (${diagnosis.specializationNameEN})
                             </td>
-                            <div data-toggle="popover" data-content="${diagnosis.descriptionEN}"></div>
+                            <input type="hidden" data-type="description" value="${diagnosis.descriptionEN}">
                         </c:if>
                         <c:if test="${locale.name == 'uk_UA'}">
                             <td>${diagnosis.nameUA}</td>
@@ -101,11 +97,32 @@
                                     ${diagnosis.doctorSurnameUA} ${diagnosis.doctorNameUA}
                                 (${diagnosis.specializationNameUA})
                             </td>
+                            <input type="hidden" data-type="description" value="${diagnosis.descriptionUA}">
                         </c:if>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
+
+            <div class="modal fade" id="medicalCardModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">
+                                <fmt:message key="medical_card.modal.title" bundle="${lang}"/>
+                            </h3>
+                        </div>
+                        <div class="modal-body">
+                                <textarea class="form-control" data-type="descriptionModal" rows="6" readonly></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" data-dismiss="modal">
+                                <fmt:message key="modal.close.button" bundle="${lang}"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -114,6 +131,8 @@
 
 <c:set var="js" value="true"/>
 <%@ include file="/WEB-INF/jspf/footer.jsp" %>
-<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/popover.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/bootstrap-confirmation.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/confirmationButton.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/medicalCardModal.js"></script>
 </body>
 </html>

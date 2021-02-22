@@ -18,6 +18,12 @@ public class MySQLFields {
     public static final String DESCRIPTION_EN = "description_EN";
     public static final String DESCRIPTION_UA = "description_UA";
     public static final String MEDICAL_CARD_ID = "medical_card_id";
+    public static final String END = "end";
+    public static final String SERVED_BY = "served_by";
+    public static final String SERVED_BY_NAME_EN = "served_by_name_EN";
+    public static final String SERVED_BY_SURNAME_EN = "served_by_surname_EN";
+    public static final String SERVED_BY_NAME_UA = "served_by_name_UA";
+    public static final String SERVED_BY_SURNAME_UA = "served_by_surname_UA";
 
     // account
     public static final String ACCOUNT_LOGIN = "login";

@@ -11,7 +11,6 @@ import ua.com.dao.DoctorDao;
 import ua.com.dao.MedicalCardDao;
 import ua.com.dao.impl.DaoFactory;
 import ua.com.entity.Account;
-import ua.com.entity.Diagnosis;
 import ua.com.entity.Locale;
 import ua.com.entity.MedicalCard;
 import ua.com.util.Sorter;
@@ -20,7 +19,6 @@ import ua.com.util.Validator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DoctorDiagnosesMedicalCardCommand implements Command {
@@ -72,7 +70,8 @@ public class DoctorDiagnosesMedicalCardCommand implements Command {
         req.setAttribute("diagnoses", diagnoses);
         req.setAttribute("medicalCardId", medicalCardId);
         req.setAttribute("patientId", patientId);
-        forward = Path.MEDICAL_CARD_DIAGNOSES;
+
+        forward = Path.MEDICAL_CARD_DIAGNOSES_PAGE;
 
         LOGGER.debug("execute finishes");
         return forward;

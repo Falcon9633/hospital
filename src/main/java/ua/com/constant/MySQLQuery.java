@@ -14,6 +14,10 @@ public class MySQLQuery {
             "INSERT INTO account(login, password, email, updated_by, role_id) VALUES(?, ?, ?, ?, ?)";
     public static final String UPDATE_ACCOUNT = "UPDATE account SET login=?, password=?, email=?, locked=?, " +
             "updated_by=?, role_id=?, locale_id=? WHERE id=?";
+    // nurse_account_details bean
+    public static final String FIND_ALL_NURSE_ACCOUNT_DETAILS_BEANS =
+            "SELECT * FROM account a JOIN account_details ac ON a.id=ac.id\n" +
+            "WHERE a.role_id=2";
     // account_details
     public static final String FIND_ACCOUNT_DETAILS_BY_ID = "SELECT * FROM account_details WHERE id=?";
     public static final String INSERT_ACCOUNT_DETAILS =
@@ -196,4 +200,36 @@ public class MySQLQuery {
                 "specialization ds ON d.specialization_id=ds.id\n" +
             "WHERE\n" +
                 "diag.medical_card_id=?";
+    // medicament
+    public static final String FIND_MEDICAMENT_BY_ID = "SELECT * FROM medicament WHERE id=?";
+    public static final String INSERT_MEDICAMENT =
+            "INSERT INTO medicament(name_en, name_ua, description_en, description_ua, created_by, served_by, medical_card_id)\n" +
+                "VALUES(?, ?, ?, ?, ?, ?, ?)";
+    public static final String UPDATE_MEDICAMENT = "UPDATE medicament SET end=? WHERE id=?";
+    // medicament_doctor_bean
+    public static final String FIND_ALL_MEDICAMENT_DOCTOR_BEANS_BY_MEDICAL_CARD_ID =
+            "SELECT\n" +
+                "medic.*,\n" +
+                "dac.name_EN doctor_name_EN,\n" +
+                "dac.surname_EN doctor_surname_EN,\n" +
+                "dac.name_UA doctor_name_UA,\n" +
+                "dac.surname_UA doctor_surname_UA,\n" +
+                "ds.name_EN specialization_name_EN,\n" +
+                "ds.name_UA specialization_name_UA,\n" +
+                "sac.name_EN served_by_name_EN,\n" +
+                "sac.surname_EN served_by_surname_EN,\n" +
+                "sac.name_UA served_by_name_UA,\n" +
+                "sac.surname_UA served_by_surname_UA\n" +
+            "FROM\n" +
+                "medicament medic\n" +
+            "JOIN\n" +
+                "doctor d ON medic.created_by=d.id\n" +
+            "JOIN\n" +
+                "account_details dac ON d.id=dac.id\n" +
+            "JOIN\n" +
+                "specialization ds ON d.specialization_id=ds.id\n" +
+            "JOIN\n" +
+                "account_details sac ON medic.served_by=sac.id\n" +
+            "WHERE\n" +
+                "medic.medical_card_id=?";
 }

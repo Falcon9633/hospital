@@ -3,9 +3,7 @@ package ua.com.command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.command.admin.*;
-import ua.com.command.doctor.CreateDiagnosisCommand;
-import ua.com.command.doctor.DoctorCurrentMedicalCardsCommand;
-import ua.com.command.doctor.DoctorDiagnosesMedicalCardCommand;
+import ua.com.command.doctor.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,6 +45,9 @@ public class Invoker {
         commandContainer.put("doctorCurrentMedicalCards", new DoctorCurrentMedicalCardsCommand());
         commandContainer.put("doctorDiagnosesMedicalCard", new DoctorDiagnosesMedicalCardCommand());
         commandContainer.put("createDiagnosis", new CreateDiagnosisCommand());
+        commandContainer.put("doctorMedicamentsMedicalCard", new DoctorMedicamentsMedicalCardCommand());
+        commandContainer.put("createMedicament", new CreateMedicamentCommand());
+        commandContainer.put("editMedicament", new EditMedicamentCommand());
     }
 
     /**

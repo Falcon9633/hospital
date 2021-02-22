@@ -118,6 +118,6 @@
 
 <c:set var="js" value="true"/>
 <%@ include file="/WEB-INF/jspf/footer.jsp" %>
-<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/administratePatientMedicalCards.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/administratePatientMedicalCardsModal.js"></script>
 </body>
 </html>

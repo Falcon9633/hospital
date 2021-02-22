@@ -4,7 +4,6 @@ import org.apache.logging.log4j.Logger;
 import ua.com.constant.SorterConstants;
 import ua.com.entity.Locale;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.regex.Pattern;
 
@@ -19,8 +18,8 @@ public class Validator {
     private static final int MAX_ACC_DETAILS_EMAIL_LENGTH = 45;
     private static final int MIN_SPECIALIZATION_NAME_LENGTH = 3;
     private static final int MAX_SPECIALIZATION_NAME_LENGTH = 45;
-    private static final int MIN_DIAGNOSIS_NAME_LENGTH = 3;
-    private static final int MAX_DIAGNOSIS_NAME_LENGTH = 45;
+    private static final int MIN_ASSIGMENT_NAME_LENGTH = 3;
+    private static final int MAX_ASSIGMENT_NAME_LENGTH = 45;
     private static final int MAX_DESCRIPTION_LENGTH = 1024;
 
     private static final Pattern LOGIN_PATTERN = Pattern.compile("^(?![-_\\d])((?![-_]{2})[\\w-])+(?<![-_])$");
@@ -244,10 +243,10 @@ public class Validator {
                 isMoreThanLength(name, MAX_SPECIALIZATION_NAME_LENGTH, session, locale, logger, forward);
     }
 
-    public static boolean isDiagnosisNameNotValid(String name, HttpSession session, Locale locale, Logger logger, String forward) {
+    public static boolean isAssigmentNameNotValid(String name, HttpSession session, Locale locale, Logger logger, String forward) {
         return isNullOrEmpty(name, session, locale, logger, forward) ||
-                isLessThanLength(name, MIN_DIAGNOSIS_NAME_LENGTH, session, locale, logger, forward) ||
-                isMoreThanLength(name, MAX_DIAGNOSIS_NAME_LENGTH, session, locale, logger, forward);
+                isLessThanLength(name, MIN_ASSIGMENT_NAME_LENGTH, session, locale, logger, forward) ||
+                isMoreThanLength(name, MAX_ASSIGMENT_NAME_LENGTH, session, locale, logger, forward);
     }
 
     public static boolean isDescriptionNotValid(String s, HttpSession session, Locale locale, Logger logger, String forward) {

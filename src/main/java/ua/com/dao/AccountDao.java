@@ -1,10 +1,12 @@
 package ua.com.dao;
 
+import ua.com.bean.NurseAccDetailsBean;
 import ua.com.entity.Account;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Data access object for the Account entity.
@@ -22,9 +24,13 @@ public interface AccountDao {
      */
     Account findByLogin(String login);
 
+    List<NurseAccDetailsBean> findAllNurseAccDetailsBeans();
+
     boolean isDoctorExists(Long id);
 
     boolean isPatientExists(Long id);
+
+    boolean isNurseExists(Long id);
 
     /**
      * Inserts given account to the database.

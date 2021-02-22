@@ -2,6 +2,8 @@ package ua.com.dao.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ua.com.bean.DoctorAccDetailsBean;
+import ua.com.bean.NurseAccDetailsBean;
 import ua.com.constant.MySQLFields;
 import ua.com.constant.MySQLQuery;
 import ua.com.dao.AccountDao;
@@ -13,6 +15,8 @@ import ua.com.util.DBUtil;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The MySQL implementation of the AccountDao interface.
@@ -148,6 +152,44 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
+    public List<NurseAccDetailsBean> findAllNurseAccDetailsBeans() {
+        LOGGER.debug("findAllNurseAccDetailsBeans starts");
+        List<NurseAccDetailsBean> beans = new ArrayList<>();
+        Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtil.getConnection();
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(MySQLQuery.FIND_ALL_NURSE_ACCOUNT_DETAILS_BEANS);
+            LOGGER.info(MySQLQuery.FIND_ALL_NURSE_ACCOUNT_DETAILS_BEANS);
+
+            while (rs.next()){
+                beans.add(mapNurseAccDetailsBean(rs));
+            }
+
+            DBUtil.closeResource(rs, stmt, con);
+            rs = null;
+            stmt = null;
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, stmt, con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            rs = null;
+            stmt = null;
+            con = null;
+        }
+
+        LOGGER.debug("findAllNurseAccDetailsBeans finishes");
+        return beans;
+    }
+
+    @Override
     public boolean isDoctorExists(Long id) {
         return isAccountExistByIdAndRole(id, Role.DOCTOR.ordinal());
     }
@@ -155,6 +197,11 @@ public class AccountDaoImpl implements AccountDao {
     @Override
     public boolean isPatientExists(Long id) {
         return isAccountExistByIdAndRole(id, Role.PATIENT.ordinal());
+    }
+
+    @Override
+    public boolean isNurseExists(Long id) {
+        return isAccountExistByIdAndRole(id, Role.NURSE.ordinal());
     }
 
     @Override
@@ -380,5 +427,16 @@ public class AccountDaoImpl implements AccountDao {
         account.setRoleId(rs.getInt(MySQLFields.ACCOUNT_ROLE_ID));
         account.setLocaleId(rs.getInt(MySQLFields.ACCOUNT_LOCALE_ID));
         return account;
+    }
+
+    private NurseAccDetailsBean mapNurseAccDetailsBean(ResultSet rs) throws SQLException {
+        LOGGER.debug("mapNurseAccDetailsBean starts");
+        Account account = mapAccount(rs);
+        NurseAccDetailsBean bean = new NurseAccDetailsBean(account);
+        bean.setNameEN(rs.getString(MySQLFields.NAME_EN));
+        bean.setSurnameEN(rs.getString(MySQLFields.ACCOUNT_DETAILS_SURNAME_EN));
+        bean.setNameUA(rs.getString(MySQLFields.NAME_UA));
+        bean.setSurnameUA(rs.getString(MySQLFields.ACCOUNT_DETAILS_SURNAME_UA));
+        return bean;
     }
 }

@@ -56,6 +56,10 @@ public class Sorter {
     }
 
     public static <T> void sortByStringField(List<T> list, String sortDir, Function<T, String> getFieldFunction, Locale locale) {
+        if (list.isEmpty()){
+            return;
+        }
+
         Collator collator = Collator.getInstance(locale.getJavaLocale());
 
         if (ASC.equals(sortDir)) {
@@ -66,6 +70,10 @@ public class Sorter {
     }
 
     public static <T> void sortByIntegerField(List<T> list, String sortDir, Function<T, Integer> getFieldFunction) {
+        if (list.isEmpty()){
+            return;
+        }
+
         if (ASC.equals(sortDir)) {
             list.sort(Comparator.comparing(getFieldFunction));
         } else {
@@ -74,6 +82,10 @@ public class Sorter {
     }
 
     public static <T> void sortByLocalDateTimeField(List<T> list, String sortDir, Function<T, LocalDateTime> getFieldFunction) {
+        if (list.isEmpty()){
+            return;
+        }
+
         if (ASC.equals(sortDir)) {
             list.sort(Comparator.comparing(getFieldFunction));
         } else {

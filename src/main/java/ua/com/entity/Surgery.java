@@ -13,6 +13,7 @@ public class Surgery {
     private String typeUA;
     private String descriptionEN;
     private String descriptionUA;
+    private boolean end;
     private LocalDateTime createTime;
     private Long createdBy;
     private Long servedBy;

@@ -89,6 +89,6 @@
 
 <c:set var="js" value="true"/>
 <%@ include file="/WEB-INF/jspf/footer.jsp" %>
-<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/doctorEditing.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/doctorEditingModal.js"></script>
 </body>
 </html>

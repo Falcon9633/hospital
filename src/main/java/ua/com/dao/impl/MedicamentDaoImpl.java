@@ -1,6 +1,19 @@
 package ua.com.dao.impl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ua.com.bean.DiagnosisDoctorBean;
+import ua.com.bean.MedicamentDoctorBean;
+import ua.com.constant.MySQLFields;
+import ua.com.constant.MySQLQuery;
 import ua.com.dao.MedicamentDao;
+import ua.com.entity.Medicament;
+import ua.com.entity.Patient;
+import ua.com.util.DBUtil;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The MySQL implementation of the MedicamentDao interface.
@@ -8,4 +21,195 @@ import ua.com.dao.MedicamentDao;
  * @author Orest Dmyterko
  */
 public class MedicamentDaoImpl implements MedicamentDao {
+    private static final Logger LOGGER = LogManager.getLogger(MedicamentDaoImpl.class);
+
+    @Override
+    public Medicament findById(Long id) {
+        LOGGER.debug("findByID starts");
+        Medicament medicament = new Medicament();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtil.getConnection();
+            pstmt = con.prepareStatement(MySQLQuery.FIND_MEDICAMENT_BY_ID);
+            LOGGER.info(MySQLQuery.FIND_MEDICAMENT_BY_ID);
+            pstmt.setLong(1, id);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                medicament = mapMedicament(rs);
+            }
+
+            DBUtil.closeResource(rs, pstmt, con);
+            rs = null;
+            pstmt = null;
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, pstmt, con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            rs = null;
+            pstmt = null;
+            con = null;
+        }
+
+        LOGGER.debug("findByID finishes");
+        return medicament;
+    }
+
+    @Override
+    public List<MedicamentDoctorBean> findAllMedicamentDoctorBeansByMedCard(Long medicalCardId) {
+        LOGGER.debug("findAllMedicamentDoctorBeansByMedCard starts");
+        List<MedicamentDoctorBean> beans = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtil.getConnection();
+            pstmt = con.prepareStatement(MySQLQuery.FIND_ALL_MEDICAMENT_DOCTOR_BEANS_BY_MEDICAL_CARD_ID);
+            LOGGER.info(MySQLQuery.FIND_ALL_MEDICAMENT_DOCTOR_BEANS_BY_MEDICAL_CARD_ID);
+            pstmt.setLong(1, medicalCardId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                beans.add(mapMedicamentDoctorBean(rs));
+            }
+
+            DBUtil.closeResource(rs, pstmt, con);
+            rs = null;
+            pstmt = null;
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, pstmt, con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            rs = null;
+            pstmt = null;
+            con = null;
+        }
+
+        LOGGER.debug("findAllMedicamentDoctorBeansByMedCard finishes");
+        return beans;
+    }
+
+    @Override
+    public Medicament insert(Medicament medicament) {
+        LOGGER.debug("insert starts");
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtil.getConnection();
+            pstmt = con.prepareStatement(MySQLQuery.INSERT_MEDICAMENT, Statement.RETURN_GENERATED_KEYS);
+            LOGGER.info(MySQLQuery.INSERT_MEDICAMENT);
+            int k = 0;
+            pstmt.setString(++k, medicament.getNameEN());
+            pstmt.setString(++k, medicament.getNameUA());
+            pstmt.setString(++k, medicament.getDescriptionEN());
+            pstmt.setString(++k, medicament.getDescriptionUA());
+            pstmt.setLong(++k, medicament.getCreatedBy());
+            pstmt.setLong(++k, medicament.getServedBy());
+            pstmt.setLong(++k, medicament.getMedicalCardId());
+
+            if (pstmt.executeUpdate() > 0) {
+                rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    medicament.setId(rs.getLong(1));
+                }
+            }
+
+            DBUtil.closeResource(rs, pstmt, con);
+            rs = null;
+            pstmt = null;
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, pstmt, con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            rs = null;
+            pstmt = null;
+            con = null;
+        }
+
+        LOGGER.debug("insert finishes");
+        return medicament;
+    }
+
+    @Override
+    public boolean update(Medicament medicament) {
+        LOGGER.debug("update starts");
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            con = DBUtil.getConnection();
+            pstmt = con.prepareStatement(MySQLQuery.UPDATE_MEDICAMENT);
+            LOGGER.info(MySQLQuery.UPDATE_MEDICAMENT);
+            int k = 0;
+            pstmt.setBoolean(++k, medicament.isEnd());
+            pstmt.setLong(++k, medicament.getId());
+            pstmt.executeUpdate();
+
+            DBUtil.closeResource(pstmt, con);
+            pstmt = null;
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+            return false;
+        } finally {
+            try {
+                DBUtil.closeResource(pstmt, con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            pstmt = null;
+            con = null;
+        }
+        LOGGER.debug("update finishes");
+
+        return true;
+    }
+
+    private Medicament mapMedicament(ResultSet rs) throws SQLException {
+        Medicament medicament = new Medicament();
+        medicament.setId(rs.getLong(MySQLFields.ID));
+        medicament.setNameEN(rs.getString(MySQLFields.NAME_EN));
+        medicament.setNameUA(rs.getString(MySQLFields.NAME_UA));
+        medicament.setDescriptionEN(rs.getString(MySQLFields.DESCRIPTION_EN));
+        medicament.setDescriptionUA(rs.getString(MySQLFields.DESCRIPTION_UA));
+        medicament.setEnd(rs.getBoolean(MySQLFields.END));
+        medicament.setCreateTime(rs.getTimestamp(MySQLFields.CREATE_TIME).toLocalDateTime());
+        medicament.setCreatedBy(rs.getLong(MySQLFields.CREATED_BY));
+        medicament.setServedBy(rs.getLong(MySQLFields.SERVED_BY));
+        medicament.setMedicalCardId(rs.getLong(MySQLFields.MEDICAL_CARD_ID));
+        return medicament;
+    }
+
+    private MedicamentDoctorBean mapMedicamentDoctorBean(ResultSet rs) throws SQLException {
+        Medicament medicament = mapMedicament(rs);
+        MedicamentDoctorBean bean = new MedicamentDoctorBean(medicament);
+        bean.setDoctorNameEN(rs.getString(MySQLFields.MEDICAL_CARD_DOCTOR_NAME_EN));
+        bean.setDoctorSurnameEN(rs.getString(MySQLFields.MEDICAL_CARD_DOCTOR_SURNAME_EN));
+        bean.setDoctorNameUA(rs.getString(MySQLFields.MEDICAL_CARD_DOCTOR_NAME_UA));
+        bean.setDoctorSurnameUA(rs.getString(MySQLFields.MEDICAL_CARD_DOCTOR_SURNAME_UA));
+        bean.setSpecializationNameEN(rs.getString(MySQLFields.MEDICAL_CARD_SPECIALIZATION_NAME_EN));
+        bean.setSpecializationNameUA(rs.getString(MySQLFields.MEDICAL_CARD_SPECIALIZATION_NAME_UA));
+        bean.setServedByNameEN(rs.getString(MySQLFields.SERVED_BY_NAME_EN));
+        bean.setServedBySurnameEN(rs.getString(MySQLFields.SERVED_BY_SURNAME_EN));
+        bean.setServedByNameUA(rs.getString(MySQLFields.SERVED_BY_NAME_UA));
+        bean.setServedBySurnameUA(rs.getString(MySQLFields.SERVED_BY_SURNAME_UA));
+        return bean;
+    }
 }
