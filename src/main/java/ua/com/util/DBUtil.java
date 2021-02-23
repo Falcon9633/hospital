@@ -79,4 +79,13 @@ public class DBUtil {
             closeResource(ac);
         }
     }
+
+    public static String addParamToMySqlInQuery(String query, int amount){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < amount; i++) {
+            sb.append(", ?");
+        }
+        String params = sb.delete(0, 2).toString();
+        return String.format(query, params);
+    }
 }

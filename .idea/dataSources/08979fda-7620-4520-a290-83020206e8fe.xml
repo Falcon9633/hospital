@@ -1430,12 +1430,12 @@ SELECT|sys.sys_config
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="387" parent="254" name="type_EN">
+    <column id="387" parent="254" name="name_EN">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="388" parent="254" name="type_UA">
+    <column id="388" parent="254" name="name_UA">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>

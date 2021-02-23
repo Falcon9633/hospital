@@ -7,7 +7,13 @@ import ua.com.bean.MedCardPatientBean;
 import ua.com.constant.MySQLFields;
 import ua.com.constant.MySQLQuery;
 import ua.com.dao.MedicalCardDao;
+import ua.com.dao.MedicamentDao;
+import ua.com.dao.ProcedureDao;
+import ua.com.dao.SurgeryDao;
 import ua.com.entity.MedicalCard;
+import ua.com.entity.Medicament;
+import ua.com.entity.Procedure;
+import ua.com.entity.Surgery;
 import ua.com.util.DBUtil;
 
 import java.sql.*;
@@ -21,6 +27,16 @@ import java.util.List;
  */
 public class MedicalCardDaoImpl implements MedicalCardDao {
     public static final Logger LOGGER = LogManager.getLogger(MedicalCardDaoImpl.class);
+
+    private MedicamentDao medicamentDao;
+    private ProcedureDao procedureDao;
+    private SurgeryDao surgeryDao;
+
+    public MedicalCardDaoImpl(MedicamentDao medicamentDao, ProcedureDao procedureDao, SurgeryDao surgeryDao) {
+        this.medicamentDao = medicamentDao;
+        this.procedureDao = procedureDao;
+        this.surgeryDao = surgeryDao;
+    }
 
     @Override
     public MedicalCard findById(Long id) {
@@ -165,7 +181,7 @@ public class MedicalCardDaoImpl implements MedicalCardDao {
     }
 
     @Override
-    public List<MedCardPatientBean> findAllMedCardPatientBeansByDoctor(Long doctorId) {
+    public List<MedCardPatientBean> findAllMedCardPatientBeansByDoctor(Long doctorId, boolean discharged) {
         LOGGER.debug("findAllMedCardPatientBeansByDoctor starts");
         List<MedCardPatientBean> beans = new ArrayList<>();
         Connection con = null;
@@ -175,10 +191,12 @@ public class MedicalCardDaoImpl implements MedicalCardDao {
             con = DBUtil.getConnection();
             pstmt = con.prepareStatement(MySQLQuery.FIND_ALL_MEDICAL_CARD_PATIENT_BEANS_BY_DOCTOR_ID);
             LOGGER.info(MySQLQuery.FIND_ALL_MEDICAL_CARD_PATIENT_BEANS_BY_DOCTOR_ID);
-            pstmt.setLong(1, doctorId);
+            int k = 0;
+            pstmt.setLong(++k, doctorId);
+            pstmt.setBoolean(++k, discharged);
             rs = pstmt.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 beans.add(mapMedCardPatientBean(rs));
             }
             DBUtil.closeResource(rs, pstmt, con);
@@ -203,12 +221,113 @@ public class MedicalCardDaoImpl implements MedicalCardDao {
     }
 
     @Override
+    public List<MedCardPatientBean> findAllMedCardPatientBeansTreatedByDoctor(Long doctorId) {
+        LOGGER.debug("findAllMedCardPatientBeansTreatedByDoctor starts");
+        List<MedCardPatientBean> beans = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtil.getConnection();
+            pstmt = con.prepareStatement(MySQLQuery.FIND_ALL_MEDICAL_CARD_PATIENT_BEANS_TREATED_BY_DOCTOR_ID);
+            LOGGER.info(MySQLQuery.FIND_ALL_MEDICAL_CARD_PATIENT_BEANS_TREATED_BY_DOCTOR_ID);
+            int k = 0;
+            pstmt.setLong(++k, doctorId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                beans.add(mapMedCardPatientBean(rs));
+            }
+            DBUtil.closeResource(rs, pstmt, con);
+            rs = null;
+            pstmt = null;
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, pstmt, con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            rs = null;
+            pstmt = null;
+            con = null;
+        }
+
+        LOGGER.debug("findAllMedCardPatientBeansTreatedByDoctor finishes");
+        return beans;
+    }
+
+    @Override
+    public List<MedCardPatientBean> findAllMedCardPatientBeansByPatient(Long patientId) {
+        LOGGER.debug("findAllMedCardPatientBeansByPatient starts");
+        List<MedCardPatientBean> beans = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtil.getConnection();
+            pstmt = con.prepareStatement(MySQLQuery.FIND_ALL_MEDICAL_CARD_PATIENT_BEANS_BY_PATIENT_ID);
+            LOGGER.info(MySQLQuery.FIND_ALL_MEDICAL_CARD_PATIENT_BEANS_BY_PATIENT_ID);
+            int k = 0;
+            pstmt.setLong(++k, patientId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                beans.add(mapMedCardPatientBean(rs));
+            }
+            DBUtil.closeResource(rs, pstmt, con);
+            rs = null;
+            pstmt = null;
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, pstmt, con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            rs = null;
+            pstmt = null;
+            con = null;
+        }
+
+        LOGGER.debug("findAllMedCardPatientBeansByPatient finishes");
+        return beans;
+    }
+
+    @Override
     public boolean update(MedicalCard medicalCard) {
         LOGGER.debug("update starts");
         Connection con = null;
-        PreparedStatement pstmt = null;
         try {
             con = DBUtil.getConnection();
+            update(medicalCard, con);
+
+            DBUtil.closeResource(con);
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+            return false;
+        } finally {
+            try {
+                DBUtil.closeResource(con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            con = null;
+        }
+
+        return true;
+    }
+
+    @Override
+    public void update(MedicalCard medicalCard, Connection con) throws SQLException {
+        LOGGER.debug("update starts");
+        PreparedStatement pstmt = null;
+        try {
             pstmt = con.prepareStatement(MySQLQuery.UPDATE_MEDICAL_CARD);
             LOGGER.info(MySQLQuery.UPDATE_MEDICAL_CARD);
             int k = 0;
@@ -219,23 +338,69 @@ public class MedicalCardDaoImpl implements MedicalCardDao {
             pstmt.setLong(++k, medicalCard.getId());
             pstmt.executeUpdate();
 
-            DBUtil.closeResource(pstmt, con);
+            DBUtil.closeResource(pstmt);
             pstmt = null;
-            con = null;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+            throw new SQLException(e.getCause());
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e.getCause());
-            return false;
         } finally {
             try {
-                DBUtil.closeResource(pstmt, con);
+                DBUtil.closeResource(pstmt);
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e.getCause());
             }
             pstmt = null;
-            con = null;
         }
 
         LOGGER.debug("update finishes");
+    }
+
+    @Override
+    public boolean dischargePatient(MedicalCard medicalCard) {
+        LOGGER.debug("dischargePatient starts");
+        Connection con = null;
+        try {
+            con = DBUtil.getConnection();
+            con.setAutoCommit(false);
+
+            List<Medicament> medicaments = medicamentDao.findAllNotEndByMedicalCard(medicalCard.getId(), con);
+            medicamentDao.updateAllToEnd(medicaments, con);
+
+            List<Procedure> procedures = procedureDao.findAllNotEndByMedicalCard(medicalCard.getId(), con);
+            procedureDao.updateAllToEnd(procedures, con);
+
+            List<Surgery> surgeries = surgeryDao.findAllNotEndByMedicalCard(medicalCard.getId(), con);
+            surgeryDao.updateAllToEnd(surgeries, con);
+
+            update(medicalCard, con);
+
+            con.commit();
+            DBUtil.closeResource();
+            con = null;
+        } catch (SQLException e) {
+            if (con != null) {
+                DBUtil.rollback(con);
+            }
+            LOGGER.error(e.getMessage(), e.getCause());
+            return false;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            con = null;
+        }
+        /*
+        find all active medicaments, procedures. surgeries
+        set end to true
+        update medical card
+         */
+        LOGGER.debug("dischargePatient finishes");
         return true;
     }
 

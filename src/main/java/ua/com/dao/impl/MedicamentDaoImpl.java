@@ -63,6 +63,44 @@ public class MedicamentDaoImpl implements MedicamentDao {
     }
 
     @Override
+    public List<Medicament> findAllNotEndByMedicalCard(Long medicalCardId, Connection con) throws SQLException {
+        LOGGER.debug("findAllNotEndByMedicalCard starts");
+        List<Medicament> medicaments = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = con.prepareStatement(MySQLQuery.FIND_ALL_NOT_END_MEDICAMENTS_BY_MEDICAL_CARD_ID);
+            LOGGER.info(MySQLQuery.FIND_ALL_NOT_END_MEDICAMENTS_BY_MEDICAL_CARD_ID);
+            pstmt.setLong(1, medicalCardId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                medicaments.add(mapMedicament(rs));
+            }
+
+            DBUtil.closeResource(rs, pstmt);
+            rs = null;
+            pstmt = null;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+            throw new SQLException(e.getCause());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, pstmt);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            rs = null;
+            pstmt = null;
+        }
+
+        LOGGER.debug("findAllNotEndByMedicalCard finishes");
+        return medicaments;
+    }
+
+    @Override
     public List<MedicamentDoctorBean> findAllMedicamentDoctorBeansByMedCard(Long medicalCardId) {
         LOGGER.debug("findAllMedicamentDoctorBeansByMedCard starts");
         List<MedicamentDoctorBean> beans = new ArrayList<>();
@@ -180,6 +218,43 @@ public class MedicamentDaoImpl implements MedicamentDao {
         LOGGER.debug("update finishes");
 
         return true;
+    }
+
+    @Override
+    public void updateAllToEnd(List<Medicament> medicaments, Connection con) throws SQLException {
+        LOGGER.debug("updateAllToEnd starts");
+        if (medicaments.isEmpty()){
+            return;
+        }
+        PreparedStatement pstmt = null;
+        try {
+            String query = DBUtil.addParamToMySqlInQuery(MySQLQuery.UPDATE_ALL_MEDICAMENTS_TO_END, medicaments.size());
+            pstmt = con.prepareStatement(query);
+            LOGGER.info(query);
+            int k = 0;
+            for (Medicament medicament : medicaments) {
+                pstmt.setLong(++k, medicament.getId());
+            }
+
+            pstmt.executeUpdate();
+
+            DBUtil.closeResource(pstmt);
+            pstmt = null;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+            throw new SQLException(e.getCause());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(pstmt);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            pstmt = null;
+        }
+
+        LOGGER.debug("updateAllToEnd finishes");
     }
 
     private Medicament mapMedicament(ResultSet rs) throws SQLException {

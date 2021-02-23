@@ -19,6 +19,8 @@ public class Path {
     public static final String ADMINISTRATE_PATIENT_MEDICAL_CARDS_PAGE = "/WEB-INF/jsp/admin/administratePatientMedicalCards.jsp";
     // doctor pages
     public static final String DOCTOR_CURRENT_MEDICAL_CARDS_PAGE = "/WEB-INF/jsp/doctor/doctorCurrentMedicalCards.jsp";
+    public static final String DOCTOR_ALL_MEDICAL_CARDS_PAGE = "/WEB-INF/jsp/doctor/doctorAllMedicalCards.jsp";
+    public static final String DOCTOR_PATIENT_HISTORY_MEDICAL_CARDS_PAGE = "/WEB-INF/jsp/doctor/doctorPatientHistoryMedicalCards.jsp";
     // admin commands
     public static final String ACCOUNT_REGISTRATION_ADMIN_COMMAND = "controller?command=accountRegistrationAdmin";
     public static final String ACCOUNT_REGISTRATION_DOCTOR_COMMAND = "controller?command=accountRegistrationDoctor";

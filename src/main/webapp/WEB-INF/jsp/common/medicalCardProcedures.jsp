@@ -12,104 +12,108 @@
         <div class="col-8 ml-5">
             <%@ include file="/WEB-INF/jspf/errorMessage.jsp" %>
 
-            <form action="controller" method="post">
-                <input type="hidden" name="command" value="createProcedure"/>
-                <input type="hidden" name="medical_card_id" value="${medicalCardId}">
-                <input type="hidden" name="patient_id" value="${patientId}">
-                <div class="row">
-                    <div class="col">
-                        <label for="name_EN" class="mr-sm-2 mt-n2">
-                            <fmt:message key="medical_card_procedures.label.name_en" bundle="${lang}"/>
-                        </label>
-                        <input type="text" name="name_EN" class="form-control mb-2 mr-sm-2" id="name_EN"
-                               required minlength="3" maxlength="45"
-                               placeholder='<fmt:message key="placeholder.name_en" bundle="${lang}"/>'/>
-                    </div>
-                    <div class="col">
-                        <label for="name_UA" class="mr-sm-2 mt-n2">
-                            <fmt:message key="medical_card_procedures.label.name_ua" bundle="${lang}"/>
-                        </label>
-                        <input type="text" name="name_UA" class="form-control mb-2 mr-sm-2" id="name_UA"
-                               required minlength="3" maxlength="45"
-                               placeholder='<fmt:message key="placeholder.name_ua" bundle="${lang}"/>'/>
+            <c:if test="${role.name == 'doctor' && !medicalCard.discharged && medicalCard.doctorId == account.id}">
+                <form action="controller" method="post">
+                    <input type="hidden" name="command" value="createProcedure"/>
+                    <input type="hidden" name="medical_card_id" value="${medicalCardId}">
+                    <input type="hidden" name="patient_id" value="${patientId}">
+                    <div class="row">
+                        <div class="col">
+                            <label for="name_EN" class="mr-sm-2 mt-n2">
+                                <fmt:message key="medical_card_procedures.label.name_en" bundle="${lang}"/>
+                            </label>
+                            <input type="text" name="name_EN" class="form-control mb-2 mr-sm-2" id="name_EN"
+                                   required minlength="3" maxlength="45"
+                                   placeholder='<fmt:message key="placeholder.name_en" bundle="${lang}"/>'/>
+                        </div>
+                        <div class="col">
+                            <label for="name_UA" class="mr-sm-2 mt-n2">
+                                <fmt:message key="medical_card_procedures.label.name_ua" bundle="${lang}"/>
+                            </label>
+                            <input type="text" name="name_UA" class="form-control mb-2 mr-sm-2" id="name_UA"
+                                   required minlength="3" maxlength="45"
+                                   placeholder='<fmt:message key="placeholder.name_ua" bundle="${lang}"/>'/>
+                        </div>
+
                     </div>
 
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <label for="description_en" class="mr-sm-2">
-                            <fmt:message key="placeholder.description_en" bundle="${lang}"/>
-                        </label>
-                        <textarea name="description_EN" class="form-control" id="description_en" rows="2"
-                                  maxlength="1024"
-                                  placeholder='<fmt:message key="placeholder.description_en" bundle="${lang}"/>'></textarea>
+                    <div class="row">
+                        <div class="col">
+                            <label for="description_en" class="mr-sm-2">
+                                <fmt:message key="placeholder.description_en" bundle="${lang}"/>
+                            </label>
+                            <textarea name="description_EN" class="form-control" id="description_en" rows="2"
+                                      maxlength="1024"
+                                      placeholder='<fmt:message key="placeholder.description_en" bundle="${lang}"/>'></textarea>
+                        </div>
+                        <div class="col">
+                            <label for="description_ua" class="mr-sm-2">
+                                <fmt:message key="placeholder.description_ua" bundle="${lang}"/>
+                            </label>
+                            <textarea name="description_UA" class="form-control" id="description_ua" rows="2"
+                                      maxlength="1024"
+                                      placeholder='<fmt:message key="placeholder.description_ua" bundle="${lang}"/>'></textarea>
+                        </div>
                     </div>
-                    <div class="col">
-                        <label for="description_ua" class="mr-sm-2">
-                            <fmt:message key="placeholder.description_ua" bundle="${lang}"/>
-                        </label>
-                        <textarea name="description_UA" class="form-control" id="description_ua" rows="2"
-                                  maxlength="1024"
-                                  placeholder='<fmt:message key="placeholder.description_ua" bundle="${lang}"/>'></textarea>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-11">
-                        <label for="emp_id" class="mt-2">
-                            <fmt:message key="medical_card.label.employee" bundle="${lang}"/>
-                        </label>
-                        <select class="form-control" name="emp_id" required id="emp_id">
-                            <option value=""><fmt:message key="medical_card.select.employee" bundle="${lang}"/></option>
-                            <c:forEach var="specDoctors" items="${specDoctorsMap}">
-                                <c:if test="${locale.name == 'en_US'}">
-                                    <optgroup label="${specDoctors.key.nameEN}">
-                                        <c:forEach var="doctor" items="${specDoctors.value}">
-                                            <c:if test="${!empty doctor}">
+                    <div class="row">
+                        <div class="col-11">
+                            <label for="emp_id" class="mt-2">
+                                <fmt:message key="medical_card.label.employee" bundle="${lang}"/>
+                            </label>
+                            <select class="form-control" name="emp_id" required id="emp_id">
+                                <option value=""><fmt:message key="medical_card.select.employee"
+                                                              bundle="${lang}"/></option>
+                                <c:forEach var="specDoctors" items="${specDoctorsMap}">
+                                    <c:if test="${locale.name == 'en_US'}">
+                                        <optgroup label="${specDoctors.key.nameEN}">
+                                            <c:forEach var="doctor" items="${specDoctors.value}">
+                                                <c:if test="${!empty doctor}">
+                                                    <option value="${doctor.id}">
+                                                            ${doctor.surnameEN} ${doctor.nameEN}
+                                                    </option>
+                                                </c:if>
+                                            </c:forEach>
+                                        </optgroup>
+                                    </c:if>
+                                    <c:if test="${locale.name == 'uk_UA'}">
+                                        <optgroup label="${specDoctors.key.nameUA}">
+                                            <c:forEach var="doctor" items="${specDoctors.value}">
                                                 <option value="${doctor.id}">
-                                                        ${doctor.surnameEN} ${doctor.nameEN}
+                                                        ${doctor.surnameUA} ${doctor.nameUA}
                                                 </option>
-                                            </c:if>
-                                        </c:forEach>
-                                    </optgroup>
-                                </c:if>
-                                <c:if test="${locale.name == 'uk_UA'}">
-                                    <optgroup label="${specDoctors.key.nameUA}">
-                                        <c:forEach var="doctor" items="${specDoctors.value}">
-                                            <option value="${doctor.id}">
-                                                    ${doctor.surnameUA} ${doctor.nameUA}
-                                            </option>
-                                        </c:forEach>
-                                    </optgroup>
-                                </c:if>
-                            </c:forEach>
-                            <optgroup label='<fmt:message key="medical_card.optgroup.nurses" bundle="${lang}"/>'/>
-                            <c:forEach var="nurse" items="${nurses}">
-                                <c:if test="${locale.name == 'en_US'}">
-                                    <option value="${nurse.id}">
-                                            ${nurse.surnameEN} ${nurse.nameEN}
-                                    </option>
-                                </c:if>
-                                <c:if test="${locale.name == 'uk_UA'}">
-                                    <option value="${nurse.id}">
-                                            ${nurse.surnameUA} ${nurse.nameUA}
-                                    </option>
-                                </c:if>
-                            </c:forEach>
-                        </select>
-                    </div>
+                                            </c:forEach>
+                                        </optgroup>
+                                    </c:if>
+                                </c:forEach>
+                                <optgroup label='<fmt:message key="medical_card.optgroup.nurses" bundle="${lang}"/>'/>
+                                <c:forEach var="nurse" items="${nurses}">
+                                    <c:if test="${locale.name == 'en_US'}">
+                                        <option value="${nurse.id}">
+                                                ${nurse.surnameEN} ${nurse.nameEN}
+                                        </option>
+                                    </c:if>
+                                    <c:if test="${locale.name == 'uk_UA'}">
+                                        <option value="${nurse.id}">
+                                                ${nurse.surnameUA} ${nurse.nameUA}
+                                        </option>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
+                        </div>
 
-                    <div class="col-1 mt-3">
-                        <button type="submit" class="btn btn-dark mt-4" data-toggle="confirmation" data-popout="true"
-                                data-placement="bottom" data-title=""
-                                data-btn-ok-label='<fmt:message key="button.popout.confirm" bundle="${lang}"/>'
-                                data-btn-cancel-label='<fmt:message key="button.popout.cancel" bundle="${lang}"/>'>
-                            <fmt:message key="button.create" bundle="${lang}"/>
-                        </button>
+                        <div class="col-1 mt-3">
+                            <button type="submit" class="btn btn-dark mt-4" data-toggle="confirmation"
+                                    data-popout="true"
+                                    data-placement="bottom" data-title=""
+                                    data-btn-ok-label='<fmt:message key="button.popout.confirm" bundle="${lang}"/>'
+                                    data-btn-cancel-label='<fmt:message key="button.popout.cancel" bundle="${lang}"/>'>
+                                <fmt:message key="button.create" bundle="${lang}"/>
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </c:if>
 
             <table class="table table-dark table-bordered table-hover">
                 <thead>
@@ -179,7 +183,7 @@
                         </div>
                         <div class="modal-body">
                             <textarea class="form-control" data-type="descriptionModal" rows="6" readonly></textarea>
-                            <c:if test="${role.name == 'doctor'}">
+                            <c:if test="${role.name == 'doctor' && medicalCard.doctorId == account.id}">
                                 <form action="controller" method="post" id="assigmentForm">
                                     <input type="hidden" name="command" value="editProcedure">
                                     <input type="hidden" name="patient_id" value="${patientId}">
@@ -190,7 +194,7 @@
                             </c:if>
                         </div>
                         <div class="modal-footer">
-                            <c:if test="${role.name == 'doctor'}">
+                            <c:if test="${role.name == 'doctor' && !medicalCard.discharged && medicalCard.doctorId == account.id}">
                                 <button type="submit" class="btn btn-primary mr-3" form="assigmentForm">
                                     <fmt:message key="modal.end.button" bundle="${lang}"/>
                                 </button>

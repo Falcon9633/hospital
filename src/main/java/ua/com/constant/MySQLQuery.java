@@ -175,7 +175,48 @@ public class MySQLQuery {
             "JOIN\n" +
                 "patient p ON mc.patient_id=p.id\n" +
             "WHERE\n" +
-                "doctor_id=? and mc.is_discharged=0";
+                "doctor_id=? and mc.is_discharged=?";
+    public static final String FIND_ALL_MEDICAL_CARD_PATIENT_BEANS_TREATED_BY_DOCTOR_ID =
+            "SELECT\n" +
+                "mc.*,\n" +
+                "pac.name_EN patient_name_EN,\n" +
+                "pac.surname_EN patient_surname_EN,\n" +
+                "pac.name_UA patient_name_UA,\n" +
+                "pac.surname_UA patient_surname_UA,\n" +
+                "p.birthday patient_birthday\n" +
+            "FROM\n" +
+                "medical_card mc\n" +
+            "JOIN\n" +
+                "account_details pac ON mc.patient_id=pac.id\n" +
+            "JOIN\n" +
+                "patient p ON mc.patient_id=p.id\n" +
+            "WHERE\n" +
+                "mc.id IN\n" +
+                "(SELECT id FROM medical_card WHERE doctor_id=(SELECT @doctorId:=?)\n" +
+                "UNION\n" +
+                "SELECT medical_card_id FROM medicament m WHERE m.created_by=@doctorId\n" +
+                "UNION\n" +
+                "SELECT medical_card_id FROM `procedure` p WHERE p.created_by=@doctorId\n" +
+                "UNION\n" +
+                "SELECT medical_card_id FROM surgery s WHERE s.created_by=@doctorId\n" +
+                "UNION\n" +
+                "SELECT medical_card_id FROM diagnosis d WHERE d.created_by=@doctorId)";
+    public static final String FIND_ALL_MEDICAL_CARD_PATIENT_BEANS_BY_PATIENT_ID =
+            "SELECT\n" +
+                "mc.*,\n" +
+                "pad.name_EN patient_name_EN,\n" +
+                "pad.surname_EN patient_surname_EN,\n" +
+                "pad.name_UA patient_name_UA,\n" +
+                "pad.surname_UA patient_surname_UA,\n" +
+                "p.birthday patient_birthday\n" +
+            "FROM\n" +
+                "medical_card mc\n" +
+            "JOIN\n" +
+                "account_details pad ON mc.patient_id=pad.id\n" +
+            "JOIN\n" +
+                "patient p ON mc.patient_id=p.id\n" +
+            "WHERE\n" +
+                    "mc.patient_id=?";
     // diagnosis
     public static final String INSERT_DIAGNOSIS =
             "INSERT INTO diagnosis(name_en, name_ua, description_en, description_ua, created_by, medical_card_id)\n" +
@@ -202,10 +243,13 @@ public class MySQLQuery {
                 "diag.medical_card_id=?";
     // medicament
     public static final String FIND_MEDICAMENT_BY_ID = "SELECT * FROM medicament WHERE id=?";
+    public static final String FIND_ALL_NOT_END_MEDICAMENTS_BY_MEDICAL_CARD_ID =
+            "SELECT * FROM medicament WHERE medical_card_id=? AND end=0";
     public static final String INSERT_MEDICAMENT =
             "INSERT INTO medicament(name_en, name_ua, description_en, description_ua, created_by, served_by, medical_card_id)\n" +
                 "VALUES(?, ?, ?, ?, ?, ?, ?)";
     public static final String UPDATE_MEDICAMENT = "UPDATE medicament SET end=? WHERE id=?";
+    public static final String UPDATE_ALL_MEDICAMENTS_TO_END = "UPDATE medicament SET end=1 WHERE id IN (%s)";
     // medicament_doctor bean
     public static final String FIND_ALL_MEDICAMENT_DOCTOR_BEANS_BY_MEDICAL_CARD_ID =
             "SELECT\n" +
@@ -234,10 +278,13 @@ public class MySQLQuery {
                 "medic.medical_card_id=?";
     // procedure
     public static final String FIND_PROCEDURE_BY_ID = "SELECT * FROM `procedure` WHERE id=?";
+    public static final String FIND_ALL_NOT_END_PROCEDURES_BY_MEDICAL_CARD_ID =
+            "SELECT * FROM `procedure` WHERE medical_card_id=? AND end=0";
     public static final String INSERT_PROCEDURE =
             "INSERT INTO `procedure`(name_en, name_ua, description_en, description_ua, created_by, served_by, medical_card_id)\n" +
                     "VALUES(?, ?, ?, ?, ?, ?, ?)";
     public static final String UPDATE_PROCEDURE = "UPDATE `procedure` SET end=? WHERE id=?";
+    public static final String UPDATE_ALL_PROCEDURES_TO_END = "UPDATE `procedure` SET end=1 WHERE id IN (%s)";
     // procedure_doctor bean
     public static final String FIND_ALL_PROCEDURE_DOCTOR_BEANS_BY_MEDICAL_CARD_ID =
             "SELECT\n" +
@@ -266,10 +313,13 @@ public class MySQLQuery {
                 "proc.medical_card_id=?";
     // surgery
     public static final String FIND_SURGERY_BY_ID = "SELECT * FROM surgery WHERE id=?";
+    public static final String FIND_ALL_NOT_END_SURGERIES_BY_MEDICAL_CARD_ID =
+            "SELECT * FROM surgery WHERE medical_card_id=? AND end=0";
     public static final String INSERT_SURGERY =
             "INSERT INTO surgery(name_en, name_ua, description_en, description_ua, created_by, served_by, medical_card_id)\n" +
                     "VALUES(?, ?, ?, ?, ?, ?, ?)";
     public static final String UPDATE_SURGERY = "UPDATE surgery SET end=? WHERE id=?";
+    public static final String UPDATE_ALL_SURGERIES_TO_END = "UPDATE surgery SET end=1 WHERE id IN (%s)";
     // procedure_doctor bean
     public static final String FIND_ALL_SURGERY_DOCTOR_BEANS_BY_MEDICAL_CARD_ID =
             "SELECT\n" +

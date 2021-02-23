@@ -43,6 +43,8 @@ public class Invoker {
         commandContainer.put("medicalCardSetDoctor", new MedicalCardSetDoctorCommand());
         // doctor command
         commandContainer.put("doctorCurrentMedicalCards", new DoctorCurrentMedicalCardsCommand());
+        commandContainer.put("doctorAllMedicalCards", new DoctorAllMedicalCardsCommand());
+        commandContainer.put("doctorPatientHistoryMedicalCards", new DoctorPatientHistoryMedicalCards());
         commandContainer.put("doctorDiagnosesMedicalCard", new DoctorDiagnosesMedicalCardCommand());
         commandContainer.put("createDiagnosis", new CreateDiagnosisCommand());
         commandContainer.put("doctorMedicamentsMedicalCard", new DoctorMedicamentsMedicalCardCommand());
@@ -54,6 +56,7 @@ public class Invoker {
         commandContainer.put("doctorSurgeriesMedicalCard", new DoctorSurgeriesMedicalCardCommand());
         commandContainer.put("createSurgery", new CreateSurgeryCommand());
         commandContainer.put("editSurgery", new EditSurgeryCommand());
+        commandContainer.put("dischargePatient", new DischargePatientCommand());
     }
 
     /**

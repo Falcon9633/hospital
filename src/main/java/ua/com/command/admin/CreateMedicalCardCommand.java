@@ -54,7 +54,7 @@ public class CreateMedicalCardCommand implements Command {
 
         MedicalCard medicalCard = new MedicalCard(account.getId(), patientId);
 
-        MedicalCardDao medicalCardDao = new MedicalCardDaoImpl();
+        MedicalCardDao medicalCardDao = DaoFactory.getMedicalCardDao();
         MedicalCard insertedMedCard = medicalCardDao.insert(medicalCard);
 
         if (insertedMedCard.getId() == null){

@@ -2,34 +2,27 @@ package ua.com.command.doctor;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.com.bean.DiagnosisDoctorBean;
-import ua.com.command.Command;
 import ua.com.constant.Path;
-import ua.com.constant.SorterConstants;
-import ua.com.dao.DiagnosisDao;
-import ua.com.dao.DoctorDao;
 import ua.com.dao.MedicalCardDao;
 import ua.com.dao.impl.DaoFactory;
 import ua.com.entity.Account;
 import ua.com.entity.Locale;
 import ua.com.entity.MedicalCard;
-import ua.com.util.Sorter;
 import ua.com.util.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
-public class DoctorDiagnosesMedicalCardCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(DoctorDiagnosesMedicalCardCommand.class);
+public class DischargePatientCommand implements ua.com.command.Command {
+    private static final Logger LOGGER = LogManager.getLogger(DischargePatientCommand.class);
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         LOGGER.debug("execute starts");
         HttpSession session = req.getSession();
+        session.removeAttribute("errorMessage");
         Locale locale = (Locale) session.getAttribute("locale");
-        Account account = (Account) session.getAttribute("account");
 
         String forward = Path.REDIRECT + Path.DOCTOR_CURRENT_MEDICAL_CARDS_COMMAND;
 
@@ -49,30 +42,31 @@ public class DoctorDiagnosesMedicalCardCommand implements Command {
             return forward;
         }
 
+        forward = Path.REDIRECT + String.format(Path.DOCTOR_DIAGNOSES_MEDICAL_CARD_COMMAND, medicalCardId, patientId);
+
         MedicalCardDao medicalCardDao = DaoFactory.getMedicalCardDao();
         MedicalCard medicalCard = medicalCardDao.findById(medicalCardId);
         if (medicalCard.getId() == null){
+            Validator.setErrorMessage(session, locale.getMessage("validation.error.medical_card_not_exist"), LOGGER, forward);
             return forward;
         }
 
-        DoctorDao doctorDao = DaoFactory.getDoctorDao();
-        boolean treated = doctorDao.isDoctorTreatedPatient(account.getId(), patientId);
-        if (!treated){
+        if (medicalCard.isDischarged()) {
+            Validator.setErrorMessage(session, locale.getMessage("validation.error.patient_is_discharged"), LOGGER, forward);
             return forward;
         }
 
-        DiagnosisDao diagnosisDao = DaoFactory.getDiagnosisDao();
-        List<DiagnosisDoctorBean> diagnoses = diagnosisDao.findAllDiagnosisDoctorBeansByMedCard(medicalCardId);
-        LOGGER.trace("found in db diagnoses -> {}", diagnoses);
-        if (!diagnoses.isEmpty()){
-            Sorter.sortByLocalDateTimeField(diagnoses, SorterConstants.ASC, DiagnosisDoctorBean::getCreateTime);
+        Account account = (Account) session.getAttribute("account");
+        if (!medicalCard.getDoctorId().equals(account.getId())){
+            Validator.setErrorMessage(session, locale.getMessage("validation.error.no_access"), LOGGER, forward);
         }
-        req.setAttribute("diagnoses", diagnoses);
-        req.setAttribute("medicalCardId", medicalCardId);
-        req.setAttribute("patientId", patientId);
-        req.setAttribute("medicalCard", medicalCard);
 
-        forward = Path.MEDICAL_CARD_DIAGNOSES_PAGE;
+        medicalCard.setDischarged(true);
+        medicalCard.setUpdatedBy(account.getId());
+        boolean successful = medicalCardDao.dischargePatient(medicalCard);
+        if (!successful){
+            Validator.setErrorMessage(session, locale.getMessage("discharge_patient_command.error.failed_to_discharge_patient"), LOGGER);
+        }
 
         LOGGER.debug("execute finishes");
         return forward;

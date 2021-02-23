@@ -63,6 +63,44 @@ public class SurgeryDaoImpl implements SurgeryDao {
     }
 
     @Override
+    public List<Surgery> findAllNotEndByMedicalCard(Long medicalCardId, Connection con) throws SQLException {
+        LOGGER.debug("findAllNotEndByMedicalCard starts");
+        List<Surgery> surgeries = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = con.prepareStatement(MySQLQuery.FIND_ALL_NOT_END_SURGERIES_BY_MEDICAL_CARD_ID);
+            LOGGER.info(MySQLQuery.FIND_ALL_NOT_END_SURGERIES_BY_MEDICAL_CARD_ID);
+            pstmt.setLong(1, medicalCardId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                surgeries.add(mapSurgery(rs));
+            }
+
+            DBUtil.closeResource(rs, pstmt);
+            rs = null;
+            pstmt = null;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+            throw new SQLException(e.getCause());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, pstmt);
+            } catch (Exception e){
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            rs= null;
+            pstmt = null;
+        }
+
+        LOGGER.debug("findAllNotEndByMedicalCard finishes");
+        return surgeries;
+    }
+
+    @Override
     public List<SurgeryDoctorBean> findAllSurgeryDoctorBeansByMedCard(Long medicalCardId) {
         LOGGER.debug("findAllSurgeryDoctorBeansByMedCard starts");
         List<SurgeryDoctorBean> beans = new ArrayList<>();
@@ -180,6 +218,42 @@ public class SurgeryDaoImpl implements SurgeryDao {
         LOGGER.debug("update finishes");
 
         return true;
+    }
+
+    @Override
+    public void updateAllToEnd(List<Surgery> surgeries, Connection con) throws SQLException {
+        LOGGER.debug("updateAllToEnd starts");
+        if (surgeries.isEmpty()){
+            return;
+        }
+        PreparedStatement pstmt = null;
+        try {
+            String query = DBUtil.addParamToMySqlInQuery(MySQLQuery.UPDATE_ALL_SURGERIES_TO_END, surgeries.size());
+            pstmt = con.prepareStatement(query);
+            LOGGER.info(query);
+            int k = 0;
+            for (Surgery surgery : surgeries) {
+                pstmt.setLong(++k, surgery.getId());
+            }
+            pstmt.executeUpdate();
+
+            DBUtil.closeResource(pstmt);
+            pstmt = null;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+            throw new SQLException(e.getCause());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(pstmt);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            pstmt = null;
+        }
+
+        LOGGER.debug("updateAllToEnd finishes");
     }
 
     private Surgery mapSurgery(ResultSet rs) throws SQLException {

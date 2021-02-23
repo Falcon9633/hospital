@@ -6,6 +6,7 @@ import ua.com.bean.ProcedureDoctorBean;
 import ua.com.constant.MySQLFields;
 import ua.com.constant.MySQLQuery;
 import ua.com.dao.ProcedureDao;
+import ua.com.entity.Medicament;
 import ua.com.entity.Procedure;
 import ua.com.util.DBUtil;
 
@@ -58,6 +59,44 @@ public class ProcedureDaoImpl implements ProcedureDao {
 
         LOGGER.debug("findByID finishes");
         return procedure;
+    }
+
+    @Override
+    public List<Procedure> findAllNotEndByMedicalCard(Long medicalCardId, Connection con) throws SQLException {
+        LOGGER.debug("findAllNotEndByMedicalCard starts");
+        List<Procedure> procedures = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = con.prepareStatement(MySQLQuery.FIND_ALL_NOT_END_PROCEDURES_BY_MEDICAL_CARD_ID);
+            LOGGER.info(MySQLQuery.FIND_ALL_NOT_END_PROCEDURES_BY_MEDICAL_CARD_ID);
+            pstmt.setLong(1, medicalCardId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                procedures.add(mapProcedure(rs));
+            }
+
+            DBUtil.closeResource(rs, pstmt);
+            rs = null;
+            pstmt = null;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+            throw new SQLException(e.getCause());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, pstmt);
+            } catch (Exception e){
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            rs= null;
+            pstmt = null;
+        }
+
+        LOGGER.debug("findAllNotEndByMedicalCard finishes");
+        return procedures;
     }
 
     @Override
@@ -178,6 +217,42 @@ public class ProcedureDaoImpl implements ProcedureDao {
         LOGGER.debug("update finishes");
 
         return true;
+    }
+
+    @Override
+    public void updateAllToEnd(List<Procedure> procedures, Connection con) throws SQLException {
+        LOGGER.debug("updateAllToEnd starts");
+        if (procedures.isEmpty()){
+            return;
+        }
+        PreparedStatement pstmt = null;
+        try {
+            String query = DBUtil.addParamToMySqlInQuery(MySQLQuery.UPDATE_ALL_PROCEDURES_TO_END, procedures.size());
+            pstmt = con.prepareStatement(query);
+            LOGGER.info(query);
+            int k = 0;
+            for (Procedure procedure : procedures) {
+                pstmt.setLong(++k, procedure.getId());
+            }
+            pstmt.executeUpdate();
+
+            DBUtil.closeResource(pstmt);
+            pstmt = null;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+            throw new SQLException(e.getCause());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(pstmt);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            pstmt = null;
+        }
+
+        LOGGER.debug("updateAllToEnd finishes");
     }
 
     private Procedure mapProcedure(ResultSet rs) throws SQLException {

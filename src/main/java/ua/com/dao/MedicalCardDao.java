@@ -22,7 +22,15 @@ public interface MedicalCardDao {
 
     List<MedCardDoctorBean> findAllMedCardDoctorBeanByPatient(Long patientId);
 
-    List<MedCardPatientBean> findAllMedCardPatientBeansByDoctor(Long doctorId);
+    List<MedCardPatientBean> findAllMedCardPatientBeansByDoctor(Long doctorId, boolean discharged);
+
+    List<MedCardPatientBean> findAllMedCardPatientBeansTreatedByDoctor(Long doctorId);
+
+    List<MedCardPatientBean> findAllMedCardPatientBeansByPatient(Long patientId);
 
     boolean update(MedicalCard medicalCard);
+
+    void update(MedicalCard medicalCard, Connection con) throws SQLException;
+
+    boolean dischargePatient(MedicalCard medicalCard);
 }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  */
 public class MedicalCard {
     private Long id;
-    private boolean isDischarged;
+    private boolean discharged;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
     private Long updatedBy;
@@ -33,11 +33,11 @@ public class MedicalCard {
     }
 
     public boolean isDischarged() {
-        return isDischarged;
+        return discharged;
     }
 
     public void setDischarged(boolean discharged) {
-        isDischarged = discharged;
+        this.discharged = discharged;
     }
 
     public LocalDateTime getCreateTime() {
@@ -84,7 +84,7 @@ public class MedicalCard {
     public String toString() {
         return "MedicalCard{" +
                 "id=" + id +
-                ", isDischarged=" + isDischarged +
+                ", isDischarged=" + discharged +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", updatedBy=" + updatedBy +

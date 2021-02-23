@@ -59,8 +59,8 @@
                         <a class="dropdown-item" href="controller?command=doctorCurrentMedicalCards">
                             <fmt:message key="header.doctor.medical_cards.current" bundle="${lang}"/>
                         </a>
-                        <a class="dropdown-item" href="">
-                            <fmt:message key="header.doctor.medical_cards.discharged" bundle="${lang}"/>
+                        <a class="dropdown-item" href="controller?command=doctorAllMedicalCards">
+                            <fmt:message key="header.doctor.medical_cards.all" bundle="${lang}"/>
                         </a>
                     </div>
                 </li>

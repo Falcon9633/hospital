@@ -4,10 +4,7 @@ import ua.com.dao.*;
 
 public class DaoFactory {
     public static AccountDao getAccountDao(){
-        AccountDetailsDao accountDetailsDao = new AccountDetailsDaoImpl();
-        DoctorDao doctorDao = new DoctorDaoImpl();
-        PatientDao patientDao = new PatientDaoImpl();
-        return new AccountDaoImpl(accountDetailsDao, doctorDao, patientDao);
+        return new AccountDaoImpl(getAccountDetailsDao(), getDoctorDao(), getPatientDao());
     }
 
     public static AccountDetailsDao getAccountDetailsDao(){
@@ -19,7 +16,7 @@ public class DaoFactory {
     }
 
     public static MedicalCardDao getMedicalCardDao(){
-        return new MedicalCardDaoImpl();
+        return new MedicalCardDaoImpl(getMedicamentDao(), getProcedureDao(), getSurgeryDao());
     }
 
     public static PatientDao getPatientDao(){
