@@ -1,5 +1,6 @@
 package ua.com.dao;
 
+import ua.com.bean.EmployeeSurgeryBean;
 import ua.com.bean.SurgeryDoctorBean;
 import ua.com.entity.Surgery;
 
@@ -18,6 +19,8 @@ public interface SurgeryDao {
     List<Surgery> findAllNotEndByMedicalCard(Long medicalCardId, Connection con) throws SQLException;
 
     List<SurgeryDoctorBean> findAllSurgeryDoctorBeansByMedCard(Long medicalCardId);
+
+    List<EmployeeSurgeryBean> findAllEmployeeSurgeryBeansByEmp(Long id);
 
     Surgery insert(Surgery surgery);
 

@@ -64,6 +64,22 @@
                         </a>
                     </div>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="controller?command=doctorAssigment">
+                        <fmt:message key="header.doctor.assignment" bundle="${lang}"/>
+                    </a>
+                </li>
+            </ul>
+        </c:if>
+
+        <c:if test="${role.name == 'nurse'}">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="controller?command=nurseAssignment">
+                        <fmt:message key="header.nurse.assignment" bundle="${lang}"/>
+                    </a>
+                </li>
             </ul>
         </c:if>
 
@@ -76,16 +92,14 @@
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">
-                    <c:choose>
-                        <c:when test="${locale.name == 'en_US'}">
+                        <c:if test="${locale.name == 'en_US'}">
                             ${accountDetails.nameEN} ${accountDetails.surnameEN}<br>
                             (${role.nameEN})
-                        </c:when>
-                        <c:when test="${locale.name == 'uk_UA'}">
+                        </c:if>
+                        <c:if test="${locale.name == 'uk_UA'}">
                             ${accountDetails.nameUA} ${accountDetails.surnameUA}<br>
                             (${role.nameUA})
-                        </c:when>
-                    </c:choose>
+                        </c:if>
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="controller?command=logout">

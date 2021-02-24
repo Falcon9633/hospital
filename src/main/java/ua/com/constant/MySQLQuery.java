@@ -276,6 +276,31 @@ public class MySQLQuery {
                 "account_details sac ON medic.served_by=sac.id\n" +
             "WHERE\n" +
                 "medic.medical_card_id=?";
+    // employee_medicament bean
+    public static final String FIND_ALL_EMPLOYEE_MEDICAMENT_BEANS_BY_EMP_ID =
+            "SELECT\n" +
+                "med.*,\n" +
+                "p.birthday patient_birthday,\n" +
+                "pad.name_EN patient_name_EN,\n" +
+                "pad.surname_EN patient_surname_EN,\n" +
+                "pad.name_UA patient_name_UA,\n" +
+                "pad.surname_UA patient_surname_UA,\n" +
+                "cbad.name_EN created_by_name_EN,\n" +
+                "cbad.surname_EN created_by_surname_EN,\n" +
+                "cbad.name_UA created_by_name_UA,\n" +
+                "cbad.surname_UA created_by_surname_UA\n" +
+            "FROM\n" +
+                "medicament med\n" +
+            "JOIN\n" +
+                "account_details cbad ON med.created_by=cbad.id\n" +
+            "JOIN\n" +
+                "medical_card mc ON med.medical_card_id=mc.id\n" +
+            "JOIN\n" +
+                "patient p ON mc.patient_id=p.id\n" +
+            "JOIN\n" +
+                "account_details pad ON p.id=pad.id\n" +
+            "WHERE\n" +
+                "med.end=0 AND med.served_by=?";
     // procedure
     public static final String FIND_PROCEDURE_BY_ID = "SELECT * FROM `procedure` WHERE id=?";
     public static final String FIND_ALL_NOT_END_PROCEDURES_BY_MEDICAL_CARD_ID =
@@ -311,6 +336,31 @@ public class MySQLQuery {
                 "account_details sac ON proc.served_by=sac.id\n" +
             "WHERE\n" +
                 "proc.medical_card_id=?";
+    // employee_procedure bean
+    public static final String FIND_ALL_EMPLOYEE_PROCEDURE_BEANS_BY_EMP_ID =
+            "SELECT\n" +
+                    "proc.*,\n" +
+                    "p.birthday patient_birthday,\n" +
+                    "pad.name_EN patient_name_EN,\n" +
+                    "pad.surname_EN patient_surname_EN,\n" +
+                    "pad.name_UA patient_name_UA,\n" +
+                    "pad.surname_UA patient_surname_UA,\n" +
+                    "cbad.name_EN created_by_name_EN,\n" +
+                    "cbad.surname_EN created_by_surname_EN,\n" +
+                    "cbad.name_UA created_by_name_UA,\n" +
+                    "cbad.surname_UA created_by_surname_UA\n" +
+                    "FROM\n" +
+                    "`procedure` proc\n" +
+                    "JOIN\n" +
+                    "account_details cbad ON proc.created_by=cbad.id\n" +
+                    "JOIN\n" +
+                    "medical_card mc ON proc.medical_card_id=mc.id\n" +
+                    "JOIN\n" +
+                    "patient p ON mc.patient_id=p.id\n" +
+                    "JOIN\n" +
+                    "account_details pad ON p.id=pad.id\n" +
+                    "WHERE\n" +
+                    "proc.end=0 AND proc.served_by=?";
     // surgery
     public static final String FIND_SURGERY_BY_ID = "SELECT * FROM surgery WHERE id=?";
     public static final String FIND_ALL_NOT_END_SURGERIES_BY_MEDICAL_CARD_ID =
@@ -320,7 +370,7 @@ public class MySQLQuery {
                     "VALUES(?, ?, ?, ?, ?, ?, ?)";
     public static final String UPDATE_SURGERY = "UPDATE surgery SET end=? WHERE id=?";
     public static final String UPDATE_ALL_SURGERIES_TO_END = "UPDATE surgery SET end=1 WHERE id IN (%s)";
-    // procedure_doctor bean
+    // surgery_doctor bean
     public static final String FIND_ALL_SURGERY_DOCTOR_BEANS_BY_MEDICAL_CARD_ID =
             "SELECT\n" +
                 "s.*,\n" +
@@ -346,4 +396,29 @@ public class MySQLQuery {
                 "account_details sac ON s.served_by=sac.id\n" +
             "WHERE\n" +
                 "s.medical_card_id=?";
+    // employee_surgery bean
+    public static final String FIND_ALL_EMPLOYEE_SURGERY_BEANS_BY_EMP_ID =
+            "SELECT\n" +
+                    "s.*,\n" +
+                    "p.birthday patient_birthday,\n" +
+                    "pad.name_EN patient_name_EN,\n" +
+                    "pad.surname_EN patient_surname_EN,\n" +
+                    "pad.name_UA patient_name_UA,\n" +
+                    "pad.surname_UA patient_surname_UA,\n" +
+                    "cbad.name_EN created_by_name_EN,\n" +
+                    "cbad.surname_EN created_by_surname_EN,\n" +
+                    "cbad.name_UA created_by_name_UA,\n" +
+                    "cbad.surname_UA created_by_surname_UA\n" +
+                    "FROM\n" +
+                    "surgery s\n" +
+                    "JOIN\n" +
+                    "account_details cbad ON s.created_by=cbad.id\n" +
+                    "JOIN\n" +
+                    "medical_card mc ON s.medical_card_id=mc.id\n" +
+                    "JOIN\n" +
+                    "patient p ON mc.patient_id=p.id\n" +
+                    "JOIN\n" +
+                    "account_details pad ON p.id=pad.id\n" +
+                    "WHERE\n" +
+                    "s.end=0 AND s.served_by=?";
 }

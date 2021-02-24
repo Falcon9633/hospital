@@ -1,5 +1,6 @@
 package ua.com.dao;
 
+import ua.com.bean.EmployeeProcedureBean;
 import ua.com.bean.ProcedureDoctorBean;
 import ua.com.entity.Medicament;
 import ua.com.entity.Procedure;
@@ -19,6 +20,8 @@ public interface ProcedureDao {
     List<Procedure> findAllNotEndByMedicalCard(Long medicalCardId, Connection con) throws SQLException;
 
     List<ProcedureDoctorBean> findAllProcedureDoctorBeansByMedCard(Long medicalCardId);
+
+    List<EmployeeProcedureBean> findAllEmployeeProcedureBeansByEmp(Long id);
 
     Procedure insert(Procedure procedure);
 

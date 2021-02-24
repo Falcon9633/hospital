@@ -20,7 +20,7 @@
                     <fmt:message key="users_patients.th_birthday" bundle="${lang}"/>
                 </a></th>
             <th><fmt:message key="users.th_email" bundle="${lang}"/></th>
-            <th><fmt:message key="users.th_created_time" bundle="${lang}"/></th>
+            <th><fmt:message key="th.created_time" bundle="${lang}"/></th>
             <th><fmt:message key="users.th_updated_by" bundle="${lang}"/></th>
             <th><fmt:message key="users.th_locked" bundle="${lang}"/></th>
         </tr>

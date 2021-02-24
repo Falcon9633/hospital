@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.command.admin.*;
 import ua.com.command.doctor.*;
+import ua.com.command.nurse.NurseAssignmentCommand;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,6 +58,9 @@ public class Invoker {
         commandContainer.put("createSurgery", new CreateSurgeryCommand());
         commandContainer.put("editSurgery", new EditSurgeryCommand());
         commandContainer.put("dischargePatient", new DischargePatientCommand());
+        commandContainer.put("doctorAssigment", new DoctorAssigmentCommand());
+        // nurse command
+        commandContainer.put("nurseAssignment", new NurseAssignmentCommand());
     }
 
     /**

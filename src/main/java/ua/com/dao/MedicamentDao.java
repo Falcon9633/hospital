@@ -1,5 +1,7 @@
 package ua.com.dao;
 
+import ua.com.bean.EmployeeAssignmentBean;
+import ua.com.bean.EmployeeMedicamentBean;
 import ua.com.bean.MedicamentDoctorBean;
 import ua.com.entity.Medicament;
 
@@ -19,8 +21,9 @@ public interface MedicamentDao {
 
     List<MedicamentDoctorBean> findAllMedicamentDoctorBeansByMedCard(Long medicalCardId);
 
-    Medicament insert(Medicament medicament);
+    List<EmployeeMedicamentBean> findAllEmployeeMedicamentBeansByEmp(Long id);
 
+    Medicament insert(Medicament medicament);
 
     boolean update(Medicament medicament);
 

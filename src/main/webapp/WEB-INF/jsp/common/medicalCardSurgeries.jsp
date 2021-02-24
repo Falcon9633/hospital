@@ -106,13 +106,13 @@
                 <thead>
                 <tr>
                     <th>
-                        <fmt:message key="medical_card.th.created_time" bundle="${lang}"/>
+                        <fmt:message key="th.created_time" bundle="${lang}"/>
                     </th>
                     <th>
                         <fmt:message key="medical_card_surgeries.th.surgeries" bundle="${lang}"/>
                     </th>
                     <th>
-                        <fmt:message key="medical_card.th.created_by" bundle="${lang}"/>
+                        <fmt:message key="th.created_by" bundle="${lang}"/>
                     </th>
                     <th>
                         <fmt:message key="medical_card.th.served_by" bundle="${lang}"/>

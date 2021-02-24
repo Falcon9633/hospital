@@ -201,7 +201,7 @@ public class PatientDaoImpl implements PatientDao {
     private Patient mapPatient(ResultSet rs) throws SQLException {
         Patient patient = new Patient();
         patient.setId(rs.getLong(MySQLFields.ID));
-        patient.setBirthday(rs.getDate(MySQLFields.PATIENT_BIRTHDAY).toLocalDate());
+        patient.setBirthday(rs.getDate(MySQLFields.BIRTHDAY).toLocalDate());
         return patient;
     }
 
@@ -213,7 +213,7 @@ public class PatientDaoImpl implements PatientDao {
         bean.setNameUA(rs.getString(MySQLFields.NAME_UA));
         bean.setSurnameUA(rs.getString(MySQLFields.ACCOUNT_DETAILS_SURNAME_UA));
         bean.setEmail(rs.getString(MySQLFields.ACCOUNT_EMAIL));
-        bean.setBirthday(rs.getDate(MySQLFields.PATIENT_BIRTHDAY).toLocalDate());
+        bean.setBirthday(rs.getDate(MySQLFields.BIRTHDAY).toLocalDate());
         bean.setLocked(rs.getBoolean(MySQLFields.ACCOUNT_LOCKED));
         bean.setCreateTime(rs.getTimestamp(MySQLFields.CREATE_TIME).toLocalDateTime());
         bean.setUpdateTime(rs.getTimestamp(MySQLFields.UPDATE_TIME).toLocalDateTime());

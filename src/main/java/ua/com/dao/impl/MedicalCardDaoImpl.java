@@ -439,11 +439,11 @@ public class MedicalCardDaoImpl implements MedicalCardDao {
         LOGGER.debug("mapMedCardPatientBean starts");
         MedicalCard medicalCard = mapMedicalCard(rs);
         MedCardPatientBean bean = new MedCardPatientBean(medicalCard);
-        bean.setPatientNameEN(rs.getString(MySQLFields.MEDICAL_CARD_PATIENT_NAME_EN));
-        bean.setPatientSurnameEN(rs.getString(MySQLFields.MEDICAL_CARD_PATIENT_SURNAME_EN));
-        bean.setPatientNameUA(rs.getString(MySQLFields.MEDICAL_CARD_PATIENT_NAME_UA));
-        bean.setPatientSurnameUA(rs.getString(MySQLFields.MEDICAL_CARD_PATIENT_SURNAME_UA));
-        bean.setPatientBirthday(rs.getDate(MySQLFields.MEDICAL_CARD_PATIENT_BIRTHDAY).toLocalDate());
+        bean.setPatientNameEN(rs.getString(MySQLFields.PATIENT_NAME_EN));
+        bean.setPatientSurnameEN(rs.getString(MySQLFields.PATIENT_SURNAME_EN));
+        bean.setPatientNameUA(rs.getString(MySQLFields.PATIENT_NAME_UA));
+        bean.setPatientSurnameUA(rs.getString(MySQLFields.PATIENT_SURNAME_UA));
+        bean.setPatientBirthday(rs.getDate(MySQLFields.PATIENT_BIRTHDAY).toLocalDate());
         return bean;
     }
 }

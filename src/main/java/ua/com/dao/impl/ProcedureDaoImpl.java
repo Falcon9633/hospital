@@ -2,6 +2,8 @@ package ua.com.dao.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ua.com.bean.EmployeeProcedureBean;
+import ua.com.bean.EmployeeSurgeryBean;
 import ua.com.bean.ProcedureDoctorBean;
 import ua.com.constant.MySQLFields;
 import ua.com.constant.MySQLQuery;
@@ -135,6 +137,45 @@ public class ProcedureDaoImpl implements ProcedureDao {
         }
 
         LOGGER.debug("findAllProcedureDoctorBeansByMedCard finishes");
+        return beans;
+    }
+
+    @Override
+    public List<EmployeeProcedureBean> findAllEmployeeProcedureBeansByEmp(Long id) {
+        LOGGER.debug("findAllEmployeeProcedureBeansByEmp starts");
+        List<EmployeeProcedureBean> beans = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtil.getConnection();
+            pstmt = con.prepareStatement(MySQLQuery.FIND_ALL_EMPLOYEE_PROCEDURE_BEANS_BY_EMP_ID);
+            LOGGER.info(MySQLQuery.FIND_ALL_EMPLOYEE_PROCEDURE_BEANS_BY_EMP_ID);
+            pstmt.setLong(1, id);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                beans.add(ObjectMapper.mapEmployeeProcedureBean(rs));
+            }
+
+            DBUtil.closeResource(rs, pstmt, con);
+            rs = null;
+            pstmt = null;
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, pstmt, con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            rs = null;
+            pstmt = null;
+            con = null;
+        }
+
+        LOGGER.debug("findAllEmployeeProcedureBeansByEmp finishes");
         return beans;
     }
 
