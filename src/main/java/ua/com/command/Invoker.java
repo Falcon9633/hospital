@@ -23,10 +23,10 @@ public class Invoker {
 
     static {
         // common commands
-        commandContainer.put("unknownCommand", new UnknownCommand());
         commandContainer.put("login", new LoginCommand());
-        commandContainer.put("logout", new LogoutCommand());
         commandContainer.put("changeLocale", new ChangeLocaleCommand());
+        commandContainer.put("unknownCommand", new UnknownCommand());
+        commandContainer.put("logout", new LogoutCommand());
         commandContainer.put("settings", new SettingsCommand());
         commandContainer.put("changeEmail", new ChangeEmailCommand());
         commandContainer.put("changePassword", new ChangePasswordCommand());
