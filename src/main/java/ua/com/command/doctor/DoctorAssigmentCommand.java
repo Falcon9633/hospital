@@ -43,15 +43,9 @@ public class DoctorAssigmentCommand implements ua.com.command.Command {
         List<EmployeeProcedureBean> procedures = procedureDao.findAllEmployeeProcedureBeansByEmp(account.getId());
         LOGGER.trace("found in db procedures -> {}", procedures);
 
-        if (!medicaments.isEmpty()){
-            Sorter.sortByLocalDateTimeField(medicaments, SorterConstants.ASC, EmployeeMedicamentBean::getCreateTime);
-        }
-        if (!surgeries.isEmpty()){
-            Sorter.sortByLocalDateTimeField(surgeries, SorterConstants.ASC, EmployeeSurgeryBean::getCreateTime);
-        }
-        if (!procedures.isEmpty()){
-            Sorter.sortByLocalDateTimeField(procedures, SorterConstants.ASC, EmployeeProcedureBean::getCreateTime);
-        }
+        Sorter.sortByLocalDateTimeField(medicaments, SorterConstants.ASC, EmployeeMedicamentBean::getCreateTime);
+        Sorter.sortByLocalDateTimeField(surgeries, SorterConstants.ASC, EmployeeSurgeryBean::getCreateTime);
+        Sorter.sortByLocalDateTimeField(procedures, SorterConstants.ASC, EmployeeProcedureBean::getCreateTime);
 
         req.setAttribute("medicaments", medicaments);
         req.setAttribute("surgeries", surgeries);

@@ -73,6 +73,7 @@ public class DoctorSurgeriesMedicalCardCommand implements ua.com.command.Command
         req.setAttribute("medicalCardId", medicalCardId);
         req.setAttribute("patientId", patientId);
         req.setAttribute("medicalCard", medicalCard);
+        req.setAttribute("doctorSideBar", true);
 
         SpecializationDao specializationDao = DaoFactory.getSpecializationDao();
         List<Specialization> specializations = specializationDao.findAll();

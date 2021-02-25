@@ -23,11 +23,11 @@
     <table class="table table-dark table-bordered table-hover">
         <thead>
         <tr>
-            <th><fmt:message key="administrate_patient_medical_cards.th_created_time" bundle="${lang}"/></th>
-            <th><fmt:message key="administrate_patient_medical_cards.th_doctor_details" bundle="${lang}"/></th>
-            <th><fmt:message key="administrate_patient_medical_cards.th_last_time_updated" bundle="${lang}"/></th>
-            <th><fmt:message key="administrate_patient_medical_cards.th_updated_by" bundle="${lang}"/></th>
-            <th><fmt:message key="administrate_patient_medical_cards.th_discharged" bundle="${lang}"/></th>
+            <th><fmt:message key="th.created_time" bundle="${lang}"/></th>
+            <th><fmt:message key="th.doctor_details" bundle="${lang}"/></th>
+            <th><fmt:message key="administrate_patient_medical_cards.th.last_time_updated" bundle="${lang}"/></th>
+            <th><fmt:message key="administrate_patient_medical_cards.th.updated_by" bundle="${lang}"/></th>
+            <th><fmt:message key="administrate_patient_medical_cards.th.discharged" bundle="${lang}"/></th>
         </tr>
         </thead>
         <tbody>

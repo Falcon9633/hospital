@@ -1,4 +1,4 @@
-const EMPLOYEE_ASSIGNMENT_MODAL = $('#employeeAssignmentModal');
+const EMPLOYEE_ASSIGNMENT_MODAL = $('#assignmentModal');
 const DESCRIPTION = $('[data-type=descriptionModal]');
 
 function init() {

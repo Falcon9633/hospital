@@ -129,7 +129,7 @@
                         <fmt:message key="th.created_by" bundle="${lang}"/>
                     </th>
                     <th>
-                        <fmt:message key="medical_card.th.served_by" bundle="${lang}"/>
+                        <fmt:message key="th.served_by" bundle="${lang}"/>
                     </th>
                     <th>
                         <fmt:message key="medical_card.th.end" bundle="${lang}"/>

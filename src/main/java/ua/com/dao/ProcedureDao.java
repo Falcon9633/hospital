@@ -1,6 +1,7 @@
 package ua.com.dao;
 
 import ua.com.bean.EmployeeProcedureBean;
+import ua.com.bean.PatientProcedureBean;
 import ua.com.bean.ProcedureDoctorBean;
 import ua.com.entity.Medicament;
 import ua.com.entity.Procedure;
@@ -21,7 +22,9 @@ public interface ProcedureDao {
 
     List<ProcedureDoctorBean> findAllProcedureDoctorBeansByMedCard(Long medicalCardId);
 
-    List<EmployeeProcedureBean> findAllEmployeeProcedureBeansByEmp(Long id);
+    List<EmployeeProcedureBean> findAllEmployeeProcedureBeansByEmp(Long empId);
+
+    List<PatientProcedureBean> findAllPatientProcedureBeansByPatient(Long patientId);
 
     Procedure insert(Procedure procedure);
 

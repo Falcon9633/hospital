@@ -1,14 +1,12 @@
-package ua.com.command.doctor;
+package ua.com.command.patient;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.com.bean.DiagnosisDoctorBean;
-import ua.com.command.Command;
+import ua.com.bean.SurgeryDoctorBean;
 import ua.com.constant.Path;
 import ua.com.constant.SorterConstants;
-import ua.com.dao.DiagnosisDao;
-import ua.com.dao.DoctorDao;
 import ua.com.dao.MedicalCardDao;
+import ua.com.dao.SurgeryDao;
 import ua.com.dao.impl.DaoFactory;
 import ua.com.entity.Account;
 import ua.com.entity.MedicalCard;
@@ -20,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class DoctorDiagnosesMedicalCardCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(DoctorDiagnosesMedicalCardCommand.class);
+public class PatientSurgeriesMedicalCardCommand implements ua.com.command.Command {
+    private static final Logger LOGGER = LogManager.getLogger(PatientSurgeriesMedicalCardCommand.class);
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
@@ -29,21 +27,17 @@ public class DoctorDiagnosesMedicalCardCommand implements Command {
         HttpSession session = req.getSession();
         Account account = (Account) session.getAttribute("account");
 
-        String forward = Path.REDIRECT + Path.DOCTOR_CURRENT_MEDICAL_CARDS_COMMAND;
+        String forward = Path.REDIRECT + Path.PATIENT_MEDICAL_CARDS_COMMAND;
 
         Long medicalCardId = null;
-        Long patientId = null;
         try {
             medicalCardId = Long.parseLong(req.getParameter("medical_card_id"));
-            patientId = Long.parseLong(req.getParameter("patient_id"));
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage(), e.getCause());
         }
         LOGGER.trace("requested param medical_card_id -> {}", medicalCardId);
-        LOGGER.trace("requested param patient_id -> {}", patientId);
 
-        if (!Validator.isRequestedIdValid(medicalCardId) ||
-                !Validator.isRequestedIdValid(patientId)) {
+        if (!Validator.isRequestedIdValid(medicalCardId)) {
             return forward;
         }
 
@@ -53,24 +47,20 @@ public class DoctorDiagnosesMedicalCardCommand implements Command {
             return forward;
         }
 
-        DoctorDao doctorDao = DaoFactory.getDoctorDao();
-        boolean treated = doctorDao.isDoctorTreatedPatient(account.getId(), patientId);
-        if (!treated) {
+        if (!medicalCard.getPatientId().equals(account.getId())){
             return forward;
         }
 
-        DiagnosisDao diagnosisDao = DaoFactory.getDiagnosisDao();
-        List<DiagnosisDoctorBean> diagnoses = diagnosisDao.findAllDiagnosisDoctorBeansByMedCard(medicalCardId);
-        LOGGER.trace("found in db diagnoses -> {}", diagnoses);
-        Sorter.sortByLocalDateTimeField(diagnoses, SorterConstants.ASC, DiagnosisDoctorBean::getCreateTime);
+        SurgeryDao surgeryDao = DaoFactory.getSurgeryDao();
+        List<SurgeryDoctorBean> surgeries = surgeryDao.findAllSurgeryDoctorBeansByMedCard(medicalCardId);
+        LOGGER.trace("found in db surgeries -> {}", surgeries);
+        Sorter.sortByLocalDateTimeField(surgeries, SorterConstants.ASC, SurgeryDoctorBean::getCreateTime);
 
-        req.setAttribute("diagnoses", diagnoses);
+        req.setAttribute("surgeries", surgeries);
         req.setAttribute("medicalCardId", medicalCardId);
-        req.setAttribute("patientId", patientId);
-        req.setAttribute("medicalCard", medicalCard);
-        req.setAttribute("doctorSideBar", true);
+        req.setAttribute("patientSideBar", true);
 
-        forward = Path.MEDICAL_CARD_DIAGNOSES_PAGE;
+        forward = Path.MEDICAL_CARD_SURGERIES_PAGE;
 
         LOGGER.debug("execute finishes");
         return forward;

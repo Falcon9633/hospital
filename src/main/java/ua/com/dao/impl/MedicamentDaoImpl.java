@@ -2,15 +2,13 @@ package ua.com.dao.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.com.bean.DiagnosisDoctorBean;
-import ua.com.bean.EmployeeAssignmentBean;
 import ua.com.bean.EmployeeMedicamentBean;
 import ua.com.bean.MedicamentDoctorBean;
+import ua.com.bean.PatientMedicamentBean;
 import ua.com.constant.MySQLFields;
 import ua.com.constant.MySQLQuery;
 import ua.com.dao.MedicamentDao;
 import ua.com.entity.Medicament;
-import ua.com.entity.Patient;
 import ua.com.util.DBUtil;
 
 import java.sql.*;
@@ -142,7 +140,7 @@ public class MedicamentDaoImpl implements MedicamentDao {
     }
 
     @Override
-    public List<EmployeeMedicamentBean> findAllEmployeeMedicamentBeansByEmp(Long id) {
+    public List<EmployeeMedicamentBean> findAllEmployeeMedicamentBeansByEmp(Long empId) {
         LOGGER.debug("findAllEmployeeMedicamentBeansByEmpId starts");
         List<EmployeeMedicamentBean> beans = new ArrayList<>();
         Connection con = null;
@@ -152,7 +150,7 @@ public class MedicamentDaoImpl implements MedicamentDao {
             con = DBUtil.getConnection();
             pstmt = con.prepareStatement(MySQLQuery.FIND_ALL_EMPLOYEE_MEDICAMENT_BEANS_BY_EMP_ID);
             LOGGER.info(MySQLQuery.FIND_ALL_EMPLOYEE_MEDICAMENT_BEANS_BY_EMP_ID);
-            pstmt.setLong(1, id);
+            pstmt.setLong(1, empId);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -177,6 +175,45 @@ public class MedicamentDaoImpl implements MedicamentDao {
         }
 
         LOGGER.debug("findAllEmployeeMedicamentBeansByEmpId finishes");
+        return beans;
+    }
+
+    @Override
+    public List<PatientMedicamentBean> findAllPatientMedicamentBeansByPatient(Long patientId) {
+        LOGGER.debug("findAllPatientMedicamentBeansByPatient starts");
+        List<PatientMedicamentBean> beans = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtil.getConnection();
+            pstmt = con.prepareStatement(MySQLQuery.FIND_ALL_PATIENT_MEDICAMENT_BEANS_BY_PATIENT_ID);
+            LOGGER.info(MySQLQuery.FIND_ALL_PATIENT_MEDICAMENT_BEANS_BY_PATIENT_ID);
+            pstmt.setLong(1, patientId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                beans.add(ObjectMapper.mapPatientMedicamentBean(rs));
+            }
+
+            DBUtil.closeResource(rs, pstmt, con);
+            rs = null;
+            pstmt = null;
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, pstmt, con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            rs = null;
+            pstmt = null;
+            con = null;
+        }
+
+        LOGGER.debug("findAllPatientMedicamentBeansByPatient finishes");
         return beans;
     }
 
@@ -317,12 +354,12 @@ public class MedicamentDaoImpl implements MedicamentDao {
     private MedicamentDoctorBean mapMedicamentDoctorBean(ResultSet rs) throws SQLException {
         Medicament medicament = mapMedicament(rs);
         MedicamentDoctorBean bean = new MedicamentDoctorBean(medicament);
-        bean.setDoctorNameEN(rs.getString(MySQLFields.MEDICAL_CARD_DOCTOR_NAME_EN));
-        bean.setDoctorSurnameEN(rs.getString(MySQLFields.MEDICAL_CARD_DOCTOR_SURNAME_EN));
-        bean.setDoctorNameUA(rs.getString(MySQLFields.MEDICAL_CARD_DOCTOR_NAME_UA));
-        bean.setDoctorSurnameUA(rs.getString(MySQLFields.MEDICAL_CARD_DOCTOR_SURNAME_UA));
-        bean.setSpecializationNameEN(rs.getString(MySQLFields.MEDICAL_CARD_SPECIALIZATION_NAME_EN));
-        bean.setSpecializationNameUA(rs.getString(MySQLFields.MEDICAL_CARD_SPECIALIZATION_NAME_UA));
+        bean.setDoctorNameEN(rs.getString(MySQLFields.DOCTOR_NAME_EN));
+        bean.setDoctorSurnameEN(rs.getString(MySQLFields.DOCTOR_SURNAME_EN));
+        bean.setDoctorNameUA(rs.getString(MySQLFields.DOCTOR_NAME_UA));
+        bean.setDoctorSurnameUA(rs.getString(MySQLFields.DOCTOR_SURNAME_UA));
+        bean.setSpecializationNameEN(rs.getString(MySQLFields.SPECIALIZATION_NAME_EN));
+        bean.setSpecializationNameUA(rs.getString(MySQLFields.SPECIALIZATION_NAME_UA));
         bean.setServedByNameEN(rs.getString(MySQLFields.SERVED_BY_NAME_EN));
         bean.setServedBySurnameEN(rs.getString(MySQLFields.SERVED_BY_SURNAME_EN));
         bean.setServedByNameUA(rs.getString(MySQLFields.SERVED_BY_NAME_UA));

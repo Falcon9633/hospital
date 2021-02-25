@@ -1,6 +1,7 @@
 package ua.com.util;
 
 import ua.com.bean.DoctorAccountBean;
+import ua.com.bean.MedCardDoctorBean;
 import ua.com.bean.SpecializationAccountDetailsBean;
 import ua.com.entity.Locale;
 import ua.com.entity.Specialization;
@@ -93,4 +94,7 @@ public class Sorter {
         }
     }
 
+    public static void sortMedCardDoctorBeanByDischAndCreateDate(List<MedCardDoctorBean> medCards) {
+        medCards.sort(Comparator.comparing(MedCardDoctorBean::isDischarged).thenComparing(Comparator.comparing(MedCardDoctorBean::getCreateTime).reversed()));
+    }
 }

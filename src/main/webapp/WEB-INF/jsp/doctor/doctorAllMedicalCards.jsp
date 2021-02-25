@@ -13,9 +13,9 @@
         <tr>
             <th><fmt:message key="doctor_medical_cards.th.patient_details" bundle="${lang}"/></th>
             <th><fmt:message key="doctor_medical_cards.th.patient_birthday" bundle="${lang}"/></th>
-            <th><fmt:message key="doctor_medical_cards.th.discharged" bundle="${lang}"/></th>
-            <th><fmt:message key="doctor_medical_cards.th.create_time" bundle="${lang}"/></th>
-            <th><fmt:message key="doctor_medical_cards.th.medical_card" bundle="${lang}"/></th>
+            <th><fmt:message key="th.status" bundle="${lang}"/></th>
+            <th><fmt:message key="th.create_time" bundle="${lang}"/></th>
+            <th><fmt:message key="th.medical_card" bundle="${lang}"/></th>
         </tr>
         </thead>
         <tbody>
@@ -32,10 +32,10 @@
                 <td><custom:formatDate value="${medCard.patientBirthday}" pattern="dd-MM-yyy"/></td>
                 <c:choose>
                     <c:when test="${medCard.discharged}">
-                        <td><fmt:message key="doctor_medical_cards.td.discharged" bundle="${lang}"/></td>
+                        <td><fmt:message key="td.discharged" bundle="${lang}"/></td>
                     </c:when>
                     <c:otherwise>
-                        <td><fmt:message key="doctor_medical_cards.td.staying" bundle="${lang}"/></td>
+                        <td><fmt:message key="td.staying" bundle="${lang}"/></td>
                     </c:otherwise>
                 </c:choose>
                 <td><custom:formatDate value="${medCard.createTime}" pattern="dd-MM-yyyy HH:mm:ss"/></td>

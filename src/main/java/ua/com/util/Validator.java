@@ -41,7 +41,7 @@ public class Validator {
      * @param s to be checked
      * @return true if matches at least one condition
      */
-    private static boolean isNullOrEmpty(String s, HttpSession session, Locale locale, Logger logger, String forward) {
+    public static boolean isNullOrEmpty(String s, HttpSession session, Locale locale, Logger logger, String forward) {
         if (s == null || s.isEmpty()) {
             setErrorMessage(session, locale.getMessage("validation.error.is_null_or_empty"), logger, forward);
             return true;

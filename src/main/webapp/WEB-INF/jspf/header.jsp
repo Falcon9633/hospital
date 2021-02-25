@@ -67,7 +67,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="controller?command=doctorAssigment">
-                        <fmt:message key="header.doctor.assignment" bundle="${lang}"/>
+                        <fmt:message key="header.doctor.assignments" bundle="${lang}"/>
                     </a>
                 </li>
             </ul>
@@ -77,12 +77,27 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="controller?command=nurseAssignment">
-                        <fmt:message key="header.nurse.assignment" bundle="${lang}"/>
+                        <fmt:message key="header.nurse.assignments" bundle="${lang}"/>
                     </a>
                 </li>
             </ul>
         </c:if>
 
+        <c:if test="${role.name == 'patient'}">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="controller?command=patientMedicalCards">
+                        <fmt:message key="header.patient.medical_cards" bundle="${lang}"/>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="controller?command=patientAssignment">
+                        <fmt:message key="header.patient.assignments" bundle="${lang}"/>
+                    </a>
+                </li>
+            </ul>
+        </c:if>
 
         <ul class="navbar-nav ml-auto">
             <li class="nav-item mt-sm-2 mr-sm-1">
@@ -102,6 +117,9 @@
                         </c:if>
                 </a>
                 <div class="dropdown-menu">
+                    <a class="dropdown-item" href="controller?command=settings">
+                        <fmt:message key="header.settings" bundle="${lang}"/>
+                    </a>
                     <a class="dropdown-item" href="controller?command=logout">
                         <fmt:message key="header.logout" bundle="${lang}"/>
                     </a>

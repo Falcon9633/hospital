@@ -42,7 +42,7 @@ public class DoctorPatientHistoryMedicalCards implements ua.com.command.Command 
 
         DoctorDao doctorDao = DaoFactory.getDoctorDao();
         boolean treated = doctorDao.isDoctorTreatedPatient(account.getId(), patientId);
-        if (!treated){
+        if (!treated) {
             return forward;
         }
 
@@ -52,9 +52,7 @@ public class DoctorPatientHistoryMedicalCards implements ua.com.command.Command 
         List<MedCardPatientBean> medCards = medicalCardDao.findAllMedCardPatientBeansByPatient(patientId);
         LOGGER.trace("found ind db medCards -> {}", medCards);
 
-        if (!medCards.isEmpty()){
-            Sorter.sortByLocalDateTimeField(medCards, SorterConstants.DESC, MedCardPatientBean::getCreateTime);
-        }
+        Sorter.sortByLocalDateTimeField(medCards, SorterConstants.DESC, MedCardPatientBean::getCreateTime);
 
         req.setAttribute("medCards", medCards);
         LOGGER.trace("sorted medCards -> {}", medCards);

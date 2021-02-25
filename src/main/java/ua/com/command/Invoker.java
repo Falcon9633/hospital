@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import ua.com.command.admin.*;
 import ua.com.command.doctor.*;
 import ua.com.command.nurse.NurseAssignmentCommand;
+import ua.com.command.patient.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,9 @@ public class Invoker {
         commandContainer.put("login", new LoginCommand());
         commandContainer.put("logout", new LogoutCommand());
         commandContainer.put("changeLocale", new ChangeLocaleCommand());
+        commandContainer.put("settings", new SettingsCommand());
+        commandContainer.put("changeEmail", new ChangeEmailCommand());
+        commandContainer.put("changePassword", new ChangePasswordCommand());
         // admin commands
         commandContainer.put("accountRegistrationAdmin", new AccountRegistrationAdminCommand());
         commandContainer.put("accountRegistrationDoctor", new AccountRegistrationDoctorCommand());
@@ -61,6 +65,13 @@ public class Invoker {
         commandContainer.put("doctorAssigment", new DoctorAssigmentCommand());
         // nurse command
         commandContainer.put("nurseAssignment", new NurseAssignmentCommand());
+        // patient command
+        commandContainer.put("patientMedicalCards", new PatientMedicalCardsCommand());
+        commandContainer.put("patientDiagnosesMedicalCard", new PatientDiagnosesMedicalCardCommand());
+        commandContainer.put("patientMedicamentsMedicalCard", new PatientMedicamentsMedicalCardCommand());
+        commandContainer.put("patientProceduresMedicalCard", new PatientProceduresMedicalCardCommand());
+        commandContainer.put("patientSurgeriesMedicalCard", new PatientSurgeriesMedicalCardCommand());
+        commandContainer.put("patientAssignment", new PatientAssignmentCommand());
     }
 
     /**

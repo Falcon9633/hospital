@@ -33,6 +33,16 @@ public class MySQLFields {
     public static final String CREATED_BY_SURNAME_EN = "created_by_surname_EN";
     public static final String CREATED_BY_NAME_UA = "created_by_name_UA";
     public static final String CREATED_BY_SURNAME_UA = "created_by_surname_UA";
+    public static final String DOCTOR_NAME_EN = "doctor_name_EN";
+    public static final String DOCTOR_SURNAME_EN = "doctor_surname_EN";
+    public static final String DOCTOR_NAME_UA = "doctor_name_UA";
+    public static final String DOCTOR_SURNAME_UA = "doctor_surname_UA";
+    public static final String EMPLOYEE_NAME_EN = "emp_name_EN";
+    public static final String EMPLOYEE_SURNAME_EN = "emp_surname_EN";
+    public static final String EMPLOYEE_NAME_UA = "emp_name_UA";
+    public static final String EMPLOYEE_SURNAME_UA = "emp_surname_UA";
+    public static final String SPECIALIZATION_NAME_EN = "specialization_name_EN";
+    public static final String SPECIALIZATION_NAME_UA = "specialization_name_UA";
 
     // account
     public static final String ACCOUNT_LOGIN = "login";
@@ -57,12 +67,6 @@ public class MySQLFields {
     public static final String MEDICAL_CARD_IS_DISCHARGED = "is_discharged";
     public static final String MEDICAL_CARD_PATIENT_ID = "patient_id";
     public static final String MEDICAL_CARD_DOCTOR_ID = "doctor_id";
-    public static final String MEDICAL_CARD_DOCTOR_NAME_EN = "doctor_name_EN";
-    public static final String MEDICAL_CARD_DOCTOR_SURNAME_EN = "doctor_surname_EN";
-    public static final String MEDICAL_CARD_DOCTOR_NAME_UA = "doctor_name_UA";
-    public static final String MEDICAL_CARD_DOCTOR_SURNAME_UA = "doctor_surname_UA";
-    public static final String MEDICAL_CARD_SPECIALIZATION_NAME_EN = "specialization_name_EN";
-    public static final String MEDICAL_CARD_SPECIALIZATION_NAME_UA = "specialization_name_UA";
 
     // doctor
     public static final String DOCTOR_SPECIALIZATION_ID = "specialization_id";

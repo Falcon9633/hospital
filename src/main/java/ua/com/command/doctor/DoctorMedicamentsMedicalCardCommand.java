@@ -67,13 +67,12 @@ public class DoctorMedicamentsMedicalCardCommand implements ua.com.command.Comma
         MedicamentDao medicamentDao = DaoFactory.getMedicamentDao();
         List<MedicamentDoctorBean> medicaments = medicamentDao.findAllMedicamentDoctorBeansByMedCard(medicalCardId);
         LOGGER.trace("found in db medicaments -> {}", medicaments);
-        if (!medicaments.isEmpty()) {
-            Sorter.sortByLocalDateTimeField(medicaments, SorterConstants.ASC, MedicamentDoctorBean::getCreateTime);
-        }
+        Sorter.sortByLocalDateTimeField(medicaments, SorterConstants.ASC, MedicamentDoctorBean::getCreateTime);
         req.setAttribute("medicaments", medicaments);
         req.setAttribute("medicalCardId", medicalCardId);
         req.setAttribute("patientId", patientId);
         req.setAttribute("medicalCard", medicalCard);
+        req.setAttribute("doctorSideBar", true);
 
         SpecializationDao specializationDao = DaoFactory.getSpecializationDao();
         List<Specialization> specializations = specializationDao.findAll();

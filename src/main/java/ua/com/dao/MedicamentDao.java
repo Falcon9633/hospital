@@ -3,6 +3,7 @@ package ua.com.dao;
 import ua.com.bean.EmployeeAssignmentBean;
 import ua.com.bean.EmployeeMedicamentBean;
 import ua.com.bean.MedicamentDoctorBean;
+import ua.com.bean.PatientMedicamentBean;
 import ua.com.entity.Medicament;
 
 import java.sql.Connection;
@@ -21,7 +22,9 @@ public interface MedicamentDao {
 
     List<MedicamentDoctorBean> findAllMedicamentDoctorBeansByMedCard(Long medicalCardId);
 
-    List<EmployeeMedicamentBean> findAllEmployeeMedicamentBeansByEmp(Long id);
+    List<EmployeeMedicamentBean> findAllEmployeeMedicamentBeansByEmp(Long empId);
+
+    List<PatientMedicamentBean> findAllPatientMedicamentBeansByPatient(Long patientId);
 
     Medicament insert(Medicament medicament);
 

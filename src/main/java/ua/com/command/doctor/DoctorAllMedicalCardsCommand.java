@@ -30,9 +30,7 @@ public class DoctorAllMedicalCardsCommand implements ua.com.command.Command {
         List<MedCardPatientBean> medCards = medicalCardDao.findAllMedCardPatientBeansTreatedByDoctor(account.getId());
         LOGGER.trace("found ind db medCards -> {}", medCards);
 
-        if (!medCards.isEmpty()){
-                Sorter.sortByLocalDateTimeField(medCards, SorterConstants.DESC, MedCardPatientBean::getCreateTime);
-        }
+        Sorter.sortByLocalDateTimeField(medCards, SorterConstants.DESC, MedCardPatientBean::getCreateTime);
 
         req.setAttribute("medCards", medCards);
         LOGGER.trace("sorted medCards -> {}", medCards);

@@ -3,12 +3,11 @@ package ua.com.dao.impl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.bean.EmployeeProcedureBean;
-import ua.com.bean.EmployeeSurgeryBean;
+import ua.com.bean.PatientProcedureBean;
 import ua.com.bean.ProcedureDoctorBean;
 import ua.com.constant.MySQLFields;
 import ua.com.constant.MySQLQuery;
 import ua.com.dao.ProcedureDao;
-import ua.com.entity.Medicament;
 import ua.com.entity.Procedure;
 import ua.com.util.DBUtil;
 
@@ -141,7 +140,7 @@ public class ProcedureDaoImpl implements ProcedureDao {
     }
 
     @Override
-    public List<EmployeeProcedureBean> findAllEmployeeProcedureBeansByEmp(Long id) {
+    public List<EmployeeProcedureBean> findAllEmployeeProcedureBeansByEmp(Long empId) {
         LOGGER.debug("findAllEmployeeProcedureBeansByEmp starts");
         List<EmployeeProcedureBean> beans = new ArrayList<>();
         Connection con = null;
@@ -151,7 +150,7 @@ public class ProcedureDaoImpl implements ProcedureDao {
             con = DBUtil.getConnection();
             pstmt = con.prepareStatement(MySQLQuery.FIND_ALL_EMPLOYEE_PROCEDURE_BEANS_BY_EMP_ID);
             LOGGER.info(MySQLQuery.FIND_ALL_EMPLOYEE_PROCEDURE_BEANS_BY_EMP_ID);
-            pstmt.setLong(1, id);
+            pstmt.setLong(1, empId);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -176,6 +175,45 @@ public class ProcedureDaoImpl implements ProcedureDao {
         }
 
         LOGGER.debug("findAllEmployeeProcedureBeansByEmp finishes");
+        return beans;
+    }
+
+    @Override
+    public List<PatientProcedureBean> findAllPatientProcedureBeansByPatient(Long patientId) {
+        LOGGER.debug("findAllPatientProcedureBeansByPatient starts");
+        List<PatientProcedureBean> beans = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtil.getConnection();
+            pstmt = con.prepareStatement(MySQLQuery.FIND_ALL_PATIENT_PROCEDURE_BEANS_BY_PATIENT_ID);
+            LOGGER.info(MySQLQuery.FIND_ALL_PATIENT_PROCEDURE_BEANS_BY_PATIENT_ID);
+            pstmt.setLong(1, patientId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                beans.add(ObjectMapper.mapPatientProcedureBean(rs));
+            }
+
+            DBUtil.closeResource(rs, pstmt, con);
+            rs = null;
+            pstmt = null;
+            con = null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+        } finally {
+            try {
+                DBUtil.closeResource(rs, pstmt, con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            rs = null;
+            pstmt = null;
+            con = null;
+        }
+
+        LOGGER.debug("findAllPatientProcedureBeansByPatient finishes");
         return beans;
     }
 
@@ -314,12 +352,12 @@ public class ProcedureDaoImpl implements ProcedureDao {
     private ProcedureDoctorBean mapProcedureDoctorBean(ResultSet rs) throws SQLException {
         Procedure procedure = mapProcedure(rs);
         ProcedureDoctorBean bean = new ProcedureDoctorBean(procedure);
-        bean.setDoctorNameEN(rs.getString(MySQLFields.MEDICAL_CARD_DOCTOR_NAME_EN));
-        bean.setDoctorSurnameEN(rs.getString(MySQLFields.MEDICAL_CARD_DOCTOR_SURNAME_EN));
-        bean.setDoctorNameUA(rs.getString(MySQLFields.MEDICAL_CARD_DOCTOR_NAME_UA));
-        bean.setDoctorSurnameUA(rs.getString(MySQLFields.MEDICAL_CARD_DOCTOR_SURNAME_UA));
-        bean.setSpecializationNameEN(rs.getString(MySQLFields.MEDICAL_CARD_SPECIALIZATION_NAME_EN));
-        bean.setSpecializationNameUA(rs.getString(MySQLFields.MEDICAL_CARD_SPECIALIZATION_NAME_UA));
+        bean.setDoctorNameEN(rs.getString(MySQLFields.DOCTOR_NAME_EN));
+        bean.setDoctorSurnameEN(rs.getString(MySQLFields.DOCTOR_SURNAME_EN));
+        bean.setDoctorNameUA(rs.getString(MySQLFields.DOCTOR_NAME_UA));
+        bean.setDoctorSurnameUA(rs.getString(MySQLFields.DOCTOR_SURNAME_UA));
+        bean.setSpecializationNameEN(rs.getString(MySQLFields.SPECIALIZATION_NAME_EN));
+        bean.setSpecializationNameUA(rs.getString(MySQLFields.SPECIALIZATION_NAME_UA));
         bean.setServedByNameEN(rs.getString(MySQLFields.SERVED_BY_NAME_EN));
         bean.setServedBySurnameEN(rs.getString(MySQLFields.SERVED_BY_SURNAME_EN));
         bean.setServedByNameUA(rs.getString(MySQLFields.SERVED_BY_NAME_UA));

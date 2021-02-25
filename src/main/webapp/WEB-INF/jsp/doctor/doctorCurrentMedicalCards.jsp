@@ -14,7 +14,8 @@
             <th>#</th>
             <th><fmt:message key="doctor_medical_cards.th.patient_details" bundle="${lang}"/></th>
             <th><fmt:message key="doctor_medical_cards.th.patient_birthday" bundle="${lang}"/></th>
-            <th><fmt:message key="doctor_medical_cards.th.medical_card" bundle="${lang}"/></th>
+            <th><fmt:message key="th.created_time" bundle="${lang}"/></th>
+            <th><fmt:message key="th.medical_card" bundle="${lang}"/></th>
             <th><fmt:message key="doctor_current_medical_cards.th.history" bundle="${lang}"/></th>
         </tr>
         </thead>
@@ -31,6 +32,7 @@
                     </c:if>
                 </td>
                 <td><custom:formatDate value="${medCard.patientBirthday}" pattern="dd-MM-yyy"/></td>
+                <td><custom:formatDate value="${medCard.createTime}" pattern="dd-MM-yyyy HH:mm:ss"/></td>
                 <td>
                     <a href="controller?command=doctorDiagnosesMedicalCard&medical_card_id=${medCard.id}&patient_id=${medCard.patientId}"
                        class="btn btn-light" role="button" aria-pressed="true">

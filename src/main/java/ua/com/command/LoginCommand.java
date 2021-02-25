@@ -46,14 +46,14 @@ public class LoginCommand implements Command {
 
         String login = req.getParameter("login");
         LOGGER.trace("requested param login -> {}", login);
-//        if (Validator.isLoginNotValid(login, session, locale, LOGGER, forward)) {
-//            return forward;
-//        }
+        if (Validator.isNullOrEmpty(login, session, locale, LOGGER, forward)) {
+            return forward;
+        }
 
         String password = req.getParameter("password");
-//        if (Validator.isPasswordNotValid(password, session, locale, LOGGER, forward)){
-//            return forward;
-//        }
+        if (Validator.isNullOrEmpty(password, session, locale, LOGGER, forward)){
+            return forward;
+        }
 
         AccountDao accountDao = DaoFactory.getAccountDao();
         Account account = accountDao.findByLogin(login);
@@ -99,7 +99,7 @@ public class LoginCommand implements Command {
             }
 
             if (role == Role.PATIENT) {
-                forward = Path.REDIRECT;
+                forward = Path.REDIRECT + Path.PATIENT_MEDICAL_CARDS_COMMAND;
             }
 
             session.setAttribute("account", account);
@@ -108,7 +108,7 @@ public class LoginCommand implements Command {
             session.setAttribute("locale", Locale.getLocale(account.getLocaleId()));
         }
 
-        LOGGER.debug("execute finishes, forward -> {}", forward);
+        LOGGER.debug("execute finishes");
         return forward;
     }
 

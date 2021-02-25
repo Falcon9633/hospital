@@ -28,7 +28,7 @@
 
         <a class="flag-icon flag-icon-ua" href="${localUA}"></a>
         <a class="flag-icon flag-icon-us" href="${localEN}"></a>
-        <p class="margin-t text-whitesmoke"><small><fmt:message key="login.copyrights" bundle="${lang}"/></small></p>
+        <p class="margin-t text-whitesmoke"><small>Hospital &copy; 2021</small></p>
     </div>
 </div>
 

@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jsp" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jsp" %>
 <%@ include file="/WEB-INF/jspf/directive/i18n.jsp" %>
-<fmt:message key="doctor_patient_history_medical_cards.title" var="title" bundle="${lang}"/>
+<fmt:message key="patient_medical_card.title" var="title" bundle="${lang}"/>
 <%@ include file="/WEB-INF/jspf/head.jsp" %>
 <%@ include file="/WEB-INF/jspf/header.jsp" %>
 
@@ -11,8 +11,7 @@
     <table class="table table-dark table-bordered table-hover">
         <thead>
         <tr>
-            <th><fmt:message key="doctor_medical_cards.th.patient_details" bundle="${lang}"/></th>
-            <th><fmt:message key="doctor_medical_cards.th.patient_birthday" bundle="${lang}"/></th>
+            <th><fmt:message key="th.doctor_details" bundle="${lang}"/></th>
             <th><fmt:message key="th.status" bundle="${lang}"/></th>
             <th><fmt:message key="th.create_time" bundle="${lang}"/></th>
             <th><fmt:message key="th.medical_card" bundle="${lang}"/></th>
@@ -23,13 +22,14 @@
             <tr>
                 <td>
                     <c:if test="${locale.name == 'en_US'}">
-                        ${medCard.patientSurnameEN} ${medCard.patientNameEN}
+                        ${medCard.doctorSurnameEN} ${medCard.doctorNameEN}
+                        (${medCard.specializationNameEN})
                     </c:if>
                     <c:if test="${locale.name == 'uk_UA'}">
-                        ${medCard.patientSurnameUA} ${medCard.patientNameUA}
+                        ${medCard.doctorSurnameUA} ${medCard.doctorNameUA}
+                        (${medCard.specializationNameUA})
                     </c:if>
                 </td>
-                <td><custom:formatDate value="${medCard.patientBirthday}" pattern="dd-MM-yyy"/></td>
                 <c:choose>
                     <c:when test="${medCard.discharged}">
                         <td><fmt:message key="td.discharged" bundle="${lang}"/></td>
@@ -40,7 +40,7 @@
                 </c:choose>
                 <td><custom:formatDate value="${medCard.createTime}" pattern="dd-MM-yyyy HH:mm:ss"/></td>
                 <td>
-                    <a href="controller?command=doctorDiagnosesMedicalCard&medical_card_id=${medCard.id}&patient_id=${medCard.patientId}"
+                    <a href="controller?command=patientDiagnosesMedicalCard&medical_card_id=${medCard.id}"
                        class="btn btn-light" role="button" aria-pressed="true">
                         <fmt:message key="button.choose" bundle="${lang}"/>
                     </a>

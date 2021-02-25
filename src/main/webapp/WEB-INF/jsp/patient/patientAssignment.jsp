@@ -13,7 +13,7 @@
         <tr>
             <th><fmt:message key="assignment.th.assignment" bundle="${lang}"/></th>
             <th><fmt:message key="assignment.th.type" bundle="${lang}"/></th>
-            <th><fmt:message key="employee_assignment.th.patient" bundle="${lang}"/></th>
+            <th><fmt:message key="th.served_by" bundle="${lang}"/></th>
             <th><fmt:message key="th.created_by" bundle="${lang}"/></th>
             <th><fmt:message key="th.created_time" bundle="${lang}"/></th>
         </tr>
@@ -25,8 +25,13 @@
                     <td>${medicament.nameEN}</td>
                     <td><fmt:message key="td.medicament" bundle="${lang}"/></td>
                     <td>
-                            ${medicament.patientSurnameEN} ${medicament.patientNameEN}
-                        (${medicament.patientBirthday})
+                        ${medicament.empSurnameEN} ${medicament.empNameEN}
+                        <c:choose>
+                            <c:when test="${!empty medicament.doctorSpecializationNameEN}">
+                                (${medicament.doctorSpecializationNameEN})
+                            </c:when>
+                            <c:otherwise>(<fmt:message key="td.nurse" bundle="${lang}"/>)</c:otherwise>
+                        </c:choose>
                     </td>
                     <td>${medicament.createdBySurnameEN} ${medicament.createdByNameEN}</td>
                     <input type="hidden" data-type="description" value="${medicament.descriptionEN}">
@@ -35,8 +40,13 @@
                     <td>${medicament.nameUA}</td>
                     <td><fmt:message key="td.medicament" bundle="${lang}"/></td>
                     <td>
-                            ${medicament.patientSurnameUA} ${medicament.patientNameUA}
-                        (${medicament.patientBirthday})
+                        ${medicament.empSurnameUA} ${medicament.empNameUA}
+                        <c:choose>
+                            <c:when test="${!empty medicament.doctorSpecializationNameUA}">
+                                (${empty medicament.doctorSpecializationNameUA})
+                            </c:when>
+                            <c:otherwise>(<fmt:message key="td.nurse" bundle="${lang}"/>)</c:otherwise>
+                        </c:choose>
                     </td>
                     <td>${medicament.createdBySurnameUA} ${medicament.createdByNameUA}</td>
                     <input type="hidden" data-type="description" value="${medicament.descriptionEN}">
@@ -50,8 +60,13 @@
                     <td>${procedure.nameEN}</td>
                     <td><fmt:message key="td.procedure" bundle="${lang}"/></td>
                     <td>
-                        ${procedure.patientSurnameEN} ${procedure.patientNameEN}
-                        (${procedure.patientBirthday})
+                            ${procedure.empSurnameEN} ${procedure.empNameEN}
+                        <c:choose>
+                            <c:when test="${!empty procedure.doctorSpecializationNameEN}">
+                                (${procedure.doctorSpecializationNameEN})
+                            </c:when>
+                            <c:otherwise>(<fmt:message key="td.nurse" bundle="${lang}"/>)</c:otherwise>
+                        </c:choose>
                     </td>
                     <td>${procedure.createdBySurnameEN} ${procedure.createdByNameEN}</td>
                     <input type="hidden" data-type="description" value="${procedure.descriptionEN}">
@@ -60,8 +75,13 @@
                     <td>${procedure.nameUA}</td>
                     <td><fmt:message key="td.procedure" bundle="${lang}"/></td>
                     <td>
-                        ${procedure.patientSurnameUA} ${procedure.patientNameUA}
-                        (${procedure.patientBirthday})
+                            ${procedure.empSurnameUA} ${procedure.empNameUA}
+                        <c:choose>
+                            <c:when test="${!empty procedure.doctorSpecializationNameUA}">
+                                (${empty procedure.doctorSpecializationNameUA})
+                            </c:when>
+                            <c:otherwise>(<fmt:message key="td.nurse" bundle="${lang}"/>)</c:otherwise>
+                        </c:choose>
                     </td>
                     <td>${procedure.createdBySurnameUA} ${procedure.createdByNameUA}</td>
                     <input type="hidden" data-type="description" value="${procedure.descriptionEN}">
@@ -75,8 +95,13 @@
                     <td>${surgery.nameEN}</td>
                     <td><fmt:message key="td.surgery" bundle="${lang}"/></td>
                     <td>
-                        ${surgery.patientSurnameEN} ${surgery.patientNameEN}
-                        (${surgery.patientBirthday})
+                            ${surgery.empSurnameEN} ${surgery.empNameEN}
+                        <c:choose>
+                            <c:when test="${!empty surgery.doctorSpecializationNameEN}">
+                                (${surgery.doctorSpecializationNameEN})
+                            </c:when>
+                            <c:otherwise>(<fmt:message key="td.nurse" bundle="${lang}"/>)</c:otherwise>
+                        </c:choose>
                     </td>
                     <td>${surgery.createdBySurnameEN} ${surgery.createdByNameEN}</td>
                     <input type="hidden" data-type="description" value="${surgery.descriptionEN}">
@@ -85,8 +110,13 @@
                     <td>${surgery.nameUA}</td>
                     <td><fmt:message key="td.surgery" bundle="${lang}"/></td>
                     <td>
-                        ${surgery.patientSurnameUA} ${surgery.patientNameUA}
-                        (${surgery.patientBirthday})
+                            ${surgery.empSurnameUA} ${surgery.empNameUA}
+                        <c:choose>
+                            <c:when test="${!empty surgery.doctorSpecializationNameUA}">
+                                (${empty surgery.doctorSpecializationNameUA})
+                            </c:when>
+                            <c:otherwise>(<fmt:message key="td.nurse" bundle="${lang}"/>)</c:otherwise>
+                        </c:choose>
                     </td>
                     <td>${surgery.createdBySurnameUA} ${surgery.createdByNameUA}</td>
                     <input type="hidden" data-type="description" value="${surgery.descriptionEN}">
