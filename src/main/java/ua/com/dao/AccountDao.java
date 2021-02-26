@@ -2,6 +2,7 @@ package ua.com.dao;
 
 import ua.com.bean.NurseAccDetailsBean;
 import ua.com.entity.Account;
+import ua.com.entity.Role;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -47,6 +48,9 @@ public interface AccountDao {
     void update(Account account);
 
     void update(Account account, Connection con) throws SQLException;
+
+    boolean registerAccount(String login, Long updatedBy, Role role, String nameEN, String surnameEN, String nameUA,
+                            String surnameUA, String email, Integer specializationId, LocalDate birthday);
 
     boolean editDoctor(Long doctorId, Integer specializationId, String nameEN, String surnameEN, String nameUA,
                        String surnameUA, boolean locked, Long updateBy);

@@ -1,6 +1,8 @@
 package ua.com.bean;
 
+import ua.com.entity.AccountDetails;
 import ua.com.entity.Medicament;
+import ua.com.entity.Specialization;
 
 import java.time.LocalDateTime;
 
@@ -32,7 +34,7 @@ public class MedicamentDoctorBean {
     public MedicamentDoctorBean() {
     }
 
-    public MedicamentDoctorBean(Medicament medicament) {
+    public MedicamentDoctorBean(Medicament medicament, AccountDetails doctorAccDetails, Specialization specialization) {
         this.id = medicament.getId();
         this.nameEN = medicament.getNameEN();
         this.nameUA = medicament.getNameUA();
@@ -43,6 +45,14 @@ public class MedicamentDoctorBean {
         this.createdBy = medicament.getCreatedBy();
         this.servedBy = medicament.getServedBy();
         this.medicalCardId = medicament.getMedicalCardId();
+
+        this.doctorNameEN = doctorAccDetails.getNameEN();
+        this.doctorSurnameEN = doctorAccDetails.getSurnameEN();
+        this.doctorNameUA = doctorAccDetails.getNameUA();
+        this.doctorSurnameUA = doctorAccDetails.getSurnameUA();
+
+        this.specializationNameEN = specialization.getNameEN();
+        this.specializationNameUA = specialization.getNameUA();
     }
 
     public Long getId() {

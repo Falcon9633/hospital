@@ -14,7 +14,7 @@
             <th><fmt:message key="doctor_medical_cards.th.patient_details" bundle="${lang}"/></th>
             <th><fmt:message key="doctor_medical_cards.th.patient_birthday" bundle="${lang}"/></th>
             <th><fmt:message key="th.status" bundle="${lang}"/></th>
-            <th><fmt:message key="th.create_time" bundle="${lang}"/></th>
+            <th><fmt:message key="th.created_time" bundle="${lang}"/></th>
             <th><fmt:message key="th.medical_card" bundle="${lang}"/></th>
         </tr>
         </thead>

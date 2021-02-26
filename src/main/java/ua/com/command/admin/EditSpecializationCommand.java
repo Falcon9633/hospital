@@ -67,7 +67,7 @@ public class EditSpecializationCommand implements Command {
         for (Specialization s : foundByName) {
             if (!foundById.getId().equals(s.getId())) {
                 Validator.setErrorMessage(session,
-                        locale.getMessage("edit_specialization_command.error.specialization_already_exist"), LOGGER, forward);
+                        locale.getMessage("validation.error.specialization_already_exist"), LOGGER, forward);
                 return forward;
             }
         }

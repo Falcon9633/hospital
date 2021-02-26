@@ -1,5 +1,8 @@
 package ua.com.bean;
 
+import ua.com.entity.Assignment;
+import ua.com.entity.Specialization;
+
 import java.time.LocalDateTime;
 
 public class PatientAssignmentBean {
@@ -26,7 +29,17 @@ public class PatientAssignmentBean {
     private String createdByNameUA;
     private String createdBySurnameUA;
 
-    public PatientAssignmentBean() {
+    public PatientAssignmentBean(Assignment assignment) {
+        this.id = assignment.getId();
+        this.nameEN = assignment.getNameEN();
+        this.nameUA = assignment.getNameUA();
+        this.descriptionEN = assignment.getDescriptionEN();
+        this.descriptionUA = assignment.getDescriptionUA();
+        this.end = assignment.isEnd();
+        this.createTime = assignment.getCreateTime();
+        this.createdBy = assignment.getCreatedBy();
+        this.servedBy = assignment.getServedBy();
+        this.medicalCardId = assignment.getMedicalCardId();
     }
 
     public Long getId() {
@@ -213,5 +226,10 @@ public class PatientAssignmentBean {
                 ", createdByNameUA='" + createdByNameUA + '\'' +
                 ", createdBySurnameUA='" + createdBySurnameUA + '\'' +
                 '}';
+    }
+
+    public void setSpecialization(Specialization specialization) {
+        this.doctorSpecializationNameEN = specialization.getNameEN();
+        this.doctorSpecializationNameUA = specialization.getNameUA();
     }
 }

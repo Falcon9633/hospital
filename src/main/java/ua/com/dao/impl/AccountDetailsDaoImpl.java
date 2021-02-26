@@ -60,7 +60,7 @@ public class AccountDetailsDaoImpl implements AccountDetailsDao {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                accountDetails = mapAccountDetails(rs);
+                accountDetails = ObjectMapper.mapAccountDetails(rs);
             }
 
             DBUtil.closeResource(rs, pstmt);
@@ -148,24 +148,5 @@ public class AccountDetailsDaoImpl implements AccountDetailsDao {
             pstmt = null;
         }
         LOGGER.debug("update finishes");
-    }
-
-    /**
-     * Extracts accountDetails from the result set.
-     *
-     * @param rs which should be mapped
-     * @return AccountDetails entity
-     * @throws SQLException if the columnLabel is not valid;
-     *                      if a database access error occurs or this method is called on a closed result set
-     */
-    private AccountDetails mapAccountDetails(ResultSet rs) throws SQLException {
-        LOGGER.debug("mapAccountDetails starts");
-        AccountDetails accountDetails = new AccountDetails();
-        accountDetails.setId(rs.getLong(MySQLFields.ID));
-        accountDetails.setNameEN(rs.getString(MySQLFields.NAME_EN));
-        accountDetails.setSurnameEN(rs.getString(MySQLFields.ACCOUNT_DETAILS_SURNAME_EN));
-        accountDetails.setNameUA(rs.getString(MySQLFields.NAME_UA));
-        accountDetails.setSurnameUA(rs.getString(MySQLFields.ACCOUNT_DETAILS_SURNAME_UA));
-        return accountDetails;
     }
 }

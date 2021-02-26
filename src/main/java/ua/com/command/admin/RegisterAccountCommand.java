@@ -9,8 +9,6 @@ import ua.com.dao.impl.DaoFactory;
 import ua.com.entity.Account;
 import ua.com.entity.Locale;
 import ua.com.entity.Role;
-import ua.com.service.AccountService;
-import ua.com.service.impl.AccountServiceImpl;
 import ua.com.util.Validator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,7 +66,6 @@ public class RegisterAccountCommand implements Command {
         }
 
         Locale locale = (Locale) session.getAttribute("locale");
-        LOGGER.trace("session locale -> {}", locale);
 
         String login = req.getParameter("login");
         LOGGER.trace("requested param login -> {}", login);
@@ -146,8 +143,7 @@ public class RegisterAccountCommand implements Command {
         }
 
         Account account = (Account) session.getAttribute("account");
-        AccountService accountService = new AccountServiceImpl();
-        boolean successful = accountService.registerAccount(login, account.getId(), registrationRole, nameEN, surnameEN,
+        boolean successful = accountDao.registerAccount(login, account.getId(), registrationRole, nameEN, surnameEN,
                 nameUA, surnameUA, email, specializationId, birthday);
 
         if (!successful) {

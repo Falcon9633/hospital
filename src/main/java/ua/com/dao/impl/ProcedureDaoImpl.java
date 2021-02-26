@@ -38,7 +38,7 @@ public class ProcedureDaoImpl implements ProcedureDao {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                procedure = mapProcedure(rs);
+                procedure = ObjectMapper.mapProcedure(rs);
             }
 
             DBUtil.closeResource(rs, pstmt, con);
@@ -75,7 +75,7 @@ public class ProcedureDaoImpl implements ProcedureDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()){
-                procedures.add(mapProcedure(rs));
+                procedures.add(ObjectMapper.mapProcedure(rs));
             }
 
             DBUtil.closeResource(rs, pstmt);
@@ -115,7 +115,7 @@ public class ProcedureDaoImpl implements ProcedureDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                beans.add(mapProcedureDoctorBean(rs));
+                beans.add(ObjectMapper.mapProcedureDoctorBean(rs));
             }
 
             DBUtil.closeResource(rs, pstmt, con);
@@ -332,36 +332,5 @@ public class ProcedureDaoImpl implements ProcedureDao {
         }
 
         LOGGER.debug("updateAllToEnd finishes");
-    }
-
-    private Procedure mapProcedure(ResultSet rs) throws SQLException {
-        Procedure procedure = new Procedure();
-        procedure.setId(rs.getLong(MySQLFields.ID));
-        procedure.setNameEN(rs.getString(MySQLFields.NAME_EN));
-        procedure.setNameUA(rs.getString(MySQLFields.NAME_UA));
-        procedure.setDescriptionEN(rs.getString(MySQLFields.DESCRIPTION_EN));
-        procedure.setDescriptionUA(rs.getString(MySQLFields.DESCRIPTION_UA));
-        procedure.setEnd(rs.getBoolean(MySQLFields.END));
-        procedure.setCreateTime(rs.getTimestamp(MySQLFields.CREATE_TIME).toLocalDateTime());
-        procedure.setCreatedBy(rs.getLong(MySQLFields.CREATED_BY));
-        procedure.setServedBy(rs.getLong(MySQLFields.SERVED_BY));
-        procedure.setMedicalCardId(rs.getLong(MySQLFields.MEDICAL_CARD_ID));
-        return procedure;
-    }
-
-    private ProcedureDoctorBean mapProcedureDoctorBean(ResultSet rs) throws SQLException {
-        Procedure procedure = mapProcedure(rs);
-        ProcedureDoctorBean bean = new ProcedureDoctorBean(procedure);
-        bean.setDoctorNameEN(rs.getString(MySQLFields.DOCTOR_NAME_EN));
-        bean.setDoctorSurnameEN(rs.getString(MySQLFields.DOCTOR_SURNAME_EN));
-        bean.setDoctorNameUA(rs.getString(MySQLFields.DOCTOR_NAME_UA));
-        bean.setDoctorSurnameUA(rs.getString(MySQLFields.DOCTOR_SURNAME_UA));
-        bean.setSpecializationNameEN(rs.getString(MySQLFields.SPECIALIZATION_NAME_EN));
-        bean.setSpecializationNameUA(rs.getString(MySQLFields.SPECIALIZATION_NAME_UA));
-        bean.setServedByNameEN(rs.getString(MySQLFields.SERVED_BY_NAME_EN));
-        bean.setServedBySurnameEN(rs.getString(MySQLFields.SERVED_BY_SURNAME_EN));
-        bean.setServedByNameUA(rs.getString(MySQLFields.SERVED_BY_NAME_UA));
-        bean.setServedBySurnameUA(rs.getString(MySQLFields.SERVED_BY_SURNAME_UA));
-        return bean;
     }
 }

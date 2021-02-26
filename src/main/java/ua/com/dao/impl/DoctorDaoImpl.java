@@ -134,7 +134,7 @@ public class DoctorDaoImpl implements DoctorDao {
             LOGGER.info(MySQLQuery.FIND_ALL_DOCTOR_ACCOUNT_DETAILS_BEANS);
 
             while (rs.next()){
-                beans.add(mapDoctorAccDetailsBean(rs));
+                beans.add(ObjectMapper.mapDoctorAccDetailsBean(rs));
             }
 
             DBUtil.closeResource(rs, stmt, con);
@@ -172,7 +172,7 @@ public class DoctorDaoImpl implements DoctorDao {
             LOGGER.info(MySQLQuery.FIND_ALL_DOCTOR_ACCOUNT_BEANS);
 
             while (rs.next()){
-                beans.add(mapDoctorAccountBean(rs));
+                beans.add(ObjectMapper.mapDoctorAccountBean(rs));
             }
 
             DBUtil.closeResource(rs, stmt, con);
@@ -236,32 +236,4 @@ public class DoctorDaoImpl implements DoctorDao {
         return doctor;
     }
 
-    private DoctorAccDetailsBean mapDoctorAccDetailsBean(ResultSet rs) throws SQLException {
-        LOGGER.debug("mapDoctorAccDetailsBean starts");
-        DoctorAccDetailsBean bean = new DoctorAccDetailsBean();
-        bean.setId(rs.getLong(MySQLFields.ID));
-        bean.setSpecializationId(rs.getInt(MySQLFields.DOCTOR_SPECIALIZATION_ID));
-        bean.setNameEN(rs.getString(MySQLFields.NAME_EN));
-        bean.setSurnameEN(rs.getString(MySQLFields.ACCOUNT_DETAILS_SURNAME_EN));
-        bean.setNameUA(rs.getString(MySQLFields.NAME_UA));
-        bean.setSurnameUA(rs.getString(MySQLFields.ACCOUNT_DETAILS_SURNAME_UA));
-        return bean;
-    }
-
-    private DoctorAccountBean mapDoctorAccountBean(ResultSet rs) throws SQLException{
-        LOGGER.debug("mapDoctorAccountBean starts");
-        DoctorAccountBean bean = new DoctorAccountBean(mapDoctorAccDetailsBean(rs));
-        bean.setEmail(rs.getString(MySQLFields.ACCOUNT_EMAIL));
-        bean.setLocked(rs.getBoolean(MySQLFields.ACCOUNT_LOCKED));
-        bean.setCreateTime(rs.getTimestamp(MySQLFields.CREATE_TIME).toLocalDateTime());
-        bean.setUpdateTime(rs.getTimestamp(MySQLFields.UPDATE_TIME).toLocalDateTime());
-        bean.setUpdatedByNameEN(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_NAME_EN));
-        bean.setUpdatedBySurnameEN(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_SURNAME_EN));
-        bean.setUpdatedByNameUA(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_NAME_UA));
-        bean.setUpdatedBySurnameUA(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_SURNAME_UA));
-        bean.setPatientCount(rs.getInt(MySQLFields.DOCTOR_PATIENT_COUNT));
-        bean.setSpecializationNameEN(rs.getString(MySQLFields.SPECIALIZATION_NAME_EN));
-        bean.setSpecializationNameUA(rs.getString(MySQLFields.SPECIALIZATION_NAME_UA));
-        return bean;
-    }
 }

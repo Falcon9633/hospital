@@ -45,7 +45,7 @@ public class CreateSpecializationCommand implements Command {
         LOGGER.trace("foundByName -> {}", foundByName);
         if (foundByName.size() > 0) {
             Validator.setErrorMessage(session,
-                    locale.getMessage("create_specialization_command.error.specialization_already_exist"), LOGGER, forward);
+                    locale.getMessage("validation.error.specialization_already_exist"), LOGGER, forward);
             return forward;
         }
 

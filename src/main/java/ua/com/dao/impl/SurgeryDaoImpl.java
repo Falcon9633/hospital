@@ -38,7 +38,7 @@ public class SurgeryDaoImpl implements SurgeryDao {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                surgery = mapSurgery(rs);
+                surgery = ObjectMapper.mapSurgery(rs);
             }
 
             DBUtil.closeResource(rs, pstmt, con);
@@ -75,7 +75,7 @@ public class SurgeryDaoImpl implements SurgeryDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()){
-                surgeries.add(mapSurgery(rs));
+                surgeries.add(ObjectMapper.mapSurgery(rs));
             }
 
             DBUtil.closeResource(rs, pstmt);
@@ -115,7 +115,7 @@ public class SurgeryDaoImpl implements SurgeryDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                beans.add(mapSurgeryDoctorBean(rs));
+                beans.add(ObjectMapper.mapSurgeryDoctorBean(rs));
             }
 
             DBUtil.closeResource(rs, pstmt, con);
@@ -332,36 +332,5 @@ public class SurgeryDaoImpl implements SurgeryDao {
         }
 
         LOGGER.debug("updateAllToEnd finishes");
-    }
-
-    private Surgery mapSurgery(ResultSet rs) throws SQLException {
-        Surgery surgery = new Surgery();
-        surgery.setId(rs.getLong(MySQLFields.ID));
-        surgery.setNameEN(rs.getString(MySQLFields.NAME_EN));
-        surgery.setNameUA(rs.getString(MySQLFields.NAME_UA));
-        surgery.setDescriptionEN(rs.getString(MySQLFields.DESCRIPTION_EN));
-        surgery.setDescriptionUA(rs.getString(MySQLFields.DESCRIPTION_UA));
-        surgery.setEnd(rs.getBoolean(MySQLFields.END));
-        surgery.setCreateTime(rs.getTimestamp(MySQLFields.CREATE_TIME).toLocalDateTime());
-        surgery.setCreatedBy(rs.getLong(MySQLFields.CREATED_BY));
-        surgery.setServedBy(rs.getLong(MySQLFields.SERVED_BY));
-        surgery.setMedicalCardId(rs.getLong(MySQLFields.MEDICAL_CARD_ID));
-        return surgery;
-    }
-
-    private SurgeryDoctorBean mapSurgeryDoctorBean(ResultSet rs) throws SQLException {
-        Surgery surgery = mapSurgery(rs);
-        SurgeryDoctorBean bean = new SurgeryDoctorBean(surgery);
-        bean.setDoctorNameEN(rs.getString(MySQLFields.DOCTOR_NAME_EN));
-        bean.setDoctorSurnameEN(rs.getString(MySQLFields.DOCTOR_SURNAME_EN));
-        bean.setDoctorNameUA(rs.getString(MySQLFields.DOCTOR_NAME_UA));
-        bean.setDoctorSurnameUA(rs.getString(MySQLFields.DOCTOR_SURNAME_UA));
-        bean.setSpecializationNameEN(rs.getString(MySQLFields.SPECIALIZATION_NAME_EN));
-        bean.setSpecializationNameUA(rs.getString(MySQLFields.SPECIALIZATION_NAME_UA));
-        bean.setServedByNameEN(rs.getString(MySQLFields.SERVED_BY_NAME_EN));
-        bean.setServedBySurnameEN(rs.getString(MySQLFields.SERVED_BY_SURNAME_EN));
-        bean.setServedByNameUA(rs.getString(MySQLFields.SERVED_BY_NAME_UA));
-        bean.setServedBySurnameUA(rs.getString(MySQLFields.SERVED_BY_SURNAME_UA));
-        return bean;
     }
 }

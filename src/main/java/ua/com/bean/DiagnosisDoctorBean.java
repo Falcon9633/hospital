@@ -1,5 +1,8 @@
 package ua.com.bean;
 
+import ua.com.entity.AccountDetails;
+import ua.com.entity.Specialization;
+
 import java.time.LocalDateTime;
 
 public class DiagnosisDoctorBean {
@@ -20,7 +23,14 @@ public class DiagnosisDoctorBean {
     private String specializationNameEN;
     private String specializationNameUA;
 
-    public DiagnosisDoctorBean() {
+    public DiagnosisDoctorBean(AccountDetails doctorAccDetails, Specialization specialization) {
+        this.doctorNameEN = doctorAccDetails.getNameEN();
+        this.doctorSurnameEN = doctorAccDetails.getSurnameEN();
+        this.doctorNameUA = doctorAccDetails.getNameUA();
+        this.doctorSurnameUA = doctorAccDetails.getSurnameUA();
+
+        this.specializationNameEN = specialization.getNameEN();
+        this.specializationNameUA = specialization.getNameUA();
     }
 
     public Long getId() {

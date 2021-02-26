@@ -43,13 +43,13 @@
                         ${medicament.empSurnameUA} ${medicament.empNameUA}
                         <c:choose>
                             <c:when test="${!empty medicament.doctorSpecializationNameUA}">
-                                (${empty medicament.doctorSpecializationNameUA})
+                                (${medicament.doctorSpecializationNameUA})
                             </c:when>
                             <c:otherwise>(<fmt:message key="td.nurse" bundle="${lang}"/>)</c:otherwise>
                         </c:choose>
                     </td>
                     <td>${medicament.createdBySurnameUA} ${medicament.createdByNameUA}</td>
-                    <input type="hidden" data-type="description" value="${medicament.descriptionEN}">
+                    <input type="hidden" data-type="description" value="${medicament.descriptionUA}">
                 </c:if>
                 <td><custom:formatDate value="${medicament.createTime}" pattern="dd-MM-yyy HH:mm:ss"/></td>
             </tr>
@@ -78,13 +78,13 @@
                             ${procedure.empSurnameUA} ${procedure.empNameUA}
                         <c:choose>
                             <c:when test="${!empty procedure.doctorSpecializationNameUA}">
-                                (${empty procedure.doctorSpecializationNameUA})
+                                (${procedure.doctorSpecializationNameUA})
                             </c:when>
                             <c:otherwise>(<fmt:message key="td.nurse" bundle="${lang}"/>)</c:otherwise>
                         </c:choose>
                     </td>
                     <td>${procedure.createdBySurnameUA} ${procedure.createdByNameUA}</td>
-                    <input type="hidden" data-type="description" value="${procedure.descriptionEN}">
+                    <input type="hidden" data-type="description" value="${procedure.descriptionUA}">
                 </c:if>
                 <td><custom:formatDate value="${procedure.createTime}" pattern="dd-MM-yyy HH:mm:ss"/></td>
             </tr>
@@ -113,13 +113,13 @@
                             ${surgery.empSurnameUA} ${surgery.empNameUA}
                         <c:choose>
                             <c:when test="${!empty surgery.doctorSpecializationNameUA}">
-                                (${empty surgery.doctorSpecializationNameUA})
+                                (${surgery.doctorSpecializationNameUA})
                             </c:when>
                             <c:otherwise>(<fmt:message key="td.nurse" bundle="${lang}"/>)</c:otherwise>
                         </c:choose>
                     </td>
                     <td>${surgery.createdBySurnameUA} ${surgery.createdByNameUA}</td>
-                    <input type="hidden" data-type="description" value="${surgery.descriptionEN}">
+                    <input type="hidden" data-type="description" value="${surgery.descriptionUA}">
                 </c:if>
                 <td><custom:formatDate value="${surgery.createTime}" pattern="dd-MM-yyy HH:mm:ss"/></td>
             </tr>

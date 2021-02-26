@@ -1,6 +1,7 @@
 package ua.com.bean;
 
 import ua.com.entity.Account;
+import ua.com.entity.AccountDetails;
 
 import java.time.LocalDateTime;
 
@@ -24,7 +25,7 @@ public class NurseAccDetailsBean {
     public NurseAccDetailsBean() {
     }
 
-    public NurseAccDetailsBean(Account account) {
+    public NurseAccDetailsBean(Account account, AccountDetails accountDetails) {
         this.id = account.getId();
         this.login = account.getLogin();
         this.password = account.getPassword();
@@ -35,6 +36,11 @@ public class NurseAccDetailsBean {
         this.updatedBy = account.getUpdatedBy();
         this.roleId = account.getRoleId();
         this.localeId = account.getLocaleId();
+
+        this.nameEN = accountDetails.getNameEN();
+        this.surnameEN = accountDetails.getSurnameEN();
+        this.nameUA = accountDetails.getNameUA();
+        this.surnameUA = accountDetails.getSurnameUA();
     }
 
     public Long getId() {

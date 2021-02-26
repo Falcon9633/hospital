@@ -45,11 +45,11 @@
             <tr>
                 <c:if test="${locale.name == 'en_US'}">
                     <td>${spec.nameEN}</td>
-                    <td>${spec.accountNameEN} ${spec.accountSurnameEN}</td>
+                    <td>${spec.updatedByNameEN} ${spec.updatedBySurnameEN}</td>
                 </c:if>
                 <c:if test="${locale.name == 'uk_UA'}">
                     <td>${spec.nameUA}</td>
-                    <td>${spec.accountNameUA} ${spec.accountSurnameUA}</td>
+                    <td>${spec.updatedByNameUA} ${spec.updatedBySurnameUA}</td>
                 </c:if>
                 <td>
                     <custom:formatDate value="${spec.updateTime}" pattern="dd-MM-yyyy HH:mm:ss"/>

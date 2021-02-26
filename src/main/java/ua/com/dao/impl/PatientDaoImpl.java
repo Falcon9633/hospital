@@ -34,7 +34,7 @@ public class PatientDaoImpl implements PatientDao {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                patient = mapPatient(rs);
+                patient = ObjectMapper.mapPatient(rs);
             }
 
             DBUtil.closeResource(rs, pstmt);
@@ -107,7 +107,7 @@ public class PatientDaoImpl implements PatientDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                beans.add(mapPatientAccountBean(rs));
+                beans.add(ObjectMapper.mapPatientAccountBean(rs));
             }
 
             DBUtil.closeResource(rs, pstmt, con);
@@ -196,31 +196,5 @@ public class PatientDaoImpl implements PatientDao {
             pstmt = null;
         }
         LOGGER.debug("update finishes");
-    }
-
-    private Patient mapPatient(ResultSet rs) throws SQLException {
-        Patient patient = new Patient();
-        patient.setId(rs.getLong(MySQLFields.ID));
-        patient.setBirthday(rs.getDate(MySQLFields.BIRTHDAY).toLocalDate());
-        return patient;
-    }
-
-    private PatientAccountBean mapPatientAccountBean(ResultSet rs) throws SQLException {
-        PatientAccountBean bean = new PatientAccountBean();
-        bean.setId(rs.getLong(MySQLFields.ID));
-        bean.setNameEN(rs.getString(MySQLFields.NAME_EN));
-        bean.setSurnameEN(rs.getString(MySQLFields.ACCOUNT_DETAILS_SURNAME_EN));
-        bean.setNameUA(rs.getString(MySQLFields.NAME_UA));
-        bean.setSurnameUA(rs.getString(MySQLFields.ACCOUNT_DETAILS_SURNAME_UA));
-        bean.setEmail(rs.getString(MySQLFields.ACCOUNT_EMAIL));
-        bean.setBirthday(rs.getDate(MySQLFields.BIRTHDAY).toLocalDate());
-        bean.setLocked(rs.getBoolean(MySQLFields.ACCOUNT_LOCKED));
-        bean.setCreateTime(rs.getTimestamp(MySQLFields.CREATE_TIME).toLocalDateTime());
-        bean.setUpdateTime(rs.getTimestamp(MySQLFields.UPDATE_TIME).toLocalDateTime());
-        bean.setUpdatedByNameEN(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_NAME_EN));
-        bean.setUpdatedBySurnameEN(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_SURNAME_EN));
-        bean.setUpdatedByNameUA(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_NAME_UA));
-        bean.setUpdatedBySurnameUA(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_SURNAME_UA));
-        return bean;
     }
 }

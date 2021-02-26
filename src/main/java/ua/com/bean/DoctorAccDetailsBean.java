@@ -1,5 +1,7 @@
 package ua.com.bean;
 
+import ua.com.entity.AccountDetails;
+
 public class DoctorAccDetailsBean {
     private Long id;
     private Integer specializationId;
@@ -8,7 +10,11 @@ public class DoctorAccDetailsBean {
     private String nameUA;
     private String surnameUA;
 
-    public DoctorAccDetailsBean() {
+    public DoctorAccDetailsBean(AccountDetails accountDetails) {
+        this.nameEN = accountDetails.getNameEN();
+        this.surnameEN = accountDetails.getSurnameEN();
+        this.nameUA = accountDetails.getNameUA();
+        this.surnameUA = accountDetails.getSurnameUA();
     }
 
     public Long getId() {

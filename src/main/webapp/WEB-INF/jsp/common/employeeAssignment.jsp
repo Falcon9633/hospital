@@ -39,7 +39,7 @@
                         (${medicament.patientBirthday})
                     </td>
                     <td>${medicament.createdBySurnameUA} ${medicament.createdByNameUA}</td>
-                    <input type="hidden" data-type="description" value="${medicament.descriptionEN}">
+                    <input type="hidden" data-type="description" value="${medicament.descriptionUA}">
                 </c:if>
                 <td><custom:formatDate value="${medicament.createTime}" pattern="dd-MM-yyy HH:mm:ss"/></td>
             </tr>
@@ -64,7 +64,7 @@
                         (${procedure.patientBirthday})
                     </td>
                     <td>${procedure.createdBySurnameUA} ${procedure.createdByNameUA}</td>
-                    <input type="hidden" data-type="description" value="${procedure.descriptionEN}">
+                    <input type="hidden" data-type="description" value="${procedure.descriptionUA}">
                 </c:if>
                 <td><custom:formatDate value="${procedure.createTime}" pattern="dd-MM-yyy HH:mm:ss"/></td>
             </tr>
@@ -89,7 +89,7 @@
                         (${surgery.patientBirthday})
                     </td>
                     <td>${surgery.createdBySurnameUA} ${surgery.createdByNameUA}</td>
-                    <input type="hidden" data-type="description" value="${surgery.descriptionEN}">
+                    <input type="hidden" data-type="description" value="${surgery.descriptionUA}">
                 </c:if>
                 <td><custom:formatDate value="${surgery.createTime}" pattern="dd-MM-yyy HH:mm:ss"/></td>
             </tr>

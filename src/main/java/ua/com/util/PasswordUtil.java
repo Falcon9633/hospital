@@ -37,7 +37,7 @@ public class PasswordUtil {
 //                .toString();
 
         // for demonstration purposes password is always "1"
-        return "1";
+        return "1234Zz";
     }
 
     public static String encryptPassword(String password) throws NoSuchAlgorithmException {

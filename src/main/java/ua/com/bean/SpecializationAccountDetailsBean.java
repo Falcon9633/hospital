@@ -1,5 +1,7 @@
 package ua.com.bean;
 
+import ua.com.entity.AccountDetails;
+
 import java.time.LocalDateTime;
 
 public class SpecializationAccountDetailsBean {
@@ -7,12 +9,16 @@ public class SpecializationAccountDetailsBean {
     private String nameEN;
     private String nameUA;
     private LocalDateTime updateTime;
-    private String accountNameEN;
-    private String accountSurnameEN;
-    private String accountNameUA;
-    private String accountSurnameUA;
+    private String updatedByNameEN;
+    private String updatedBySurnameEN;
+    private String updatedByNameUA;
+    private String updatedBySurnameUA;
 
-    public SpecializationAccountDetailsBean() {
+    public SpecializationAccountDetailsBean(AccountDetails updatedByAccDetails) {
+        this.updatedByNameEN = updatedByAccDetails.getNameEN();
+        this.updatedBySurnameEN = updatedByAccDetails.getSurnameEN();
+        this.updatedByNameUA = updatedByAccDetails.getNameUA();
+        this.updatedBySurnameUA = updatedByAccDetails.getSurnameUA();
     }
 
     public Integer getId() {
@@ -47,36 +53,36 @@ public class SpecializationAccountDetailsBean {
         this.updateTime = updateTime;
     }
 
-    public String getAccountNameEN() {
-        return accountNameEN;
+    public String getUpdatedByNameEN() {
+        return updatedByNameEN;
     }
 
-    public void setAccountNameEN(String accountNameEN) {
-        this.accountNameEN = accountNameEN;
+    public void setUpdatedByNameEN(String updatedByNameEN) {
+        this.updatedByNameEN = updatedByNameEN;
     }
 
-    public String getAccountSurnameEN() {
-        return accountSurnameEN;
+    public String getUpdatedBySurnameEN() {
+        return updatedBySurnameEN;
     }
 
-    public void setAccountSurnameEN(String accountSurnameEN) {
-        this.accountSurnameEN = accountSurnameEN;
+    public void setUpdatedBySurnameEN(String updatedBySurnameEN) {
+        this.updatedBySurnameEN = updatedBySurnameEN;
     }
 
-    public String getAccountNameUA() {
-        return accountNameUA;
+    public String getUpdatedByNameUA() {
+        return updatedByNameUA;
     }
 
-    public void setAccountNameUA(String accountNameUA) {
-        this.accountNameUA = accountNameUA;
+    public void setUpdatedByNameUA(String updatedByNameUA) {
+        this.updatedByNameUA = updatedByNameUA;
     }
 
-    public String getAccountSurnameUA() {
-        return accountSurnameUA;
+    public String getUpdatedBySurnameUA() {
+        return updatedBySurnameUA;
     }
 
-    public void setAccountSurnameUA(String accountSurnameUA) {
-        this.accountSurnameUA = accountSurnameUA;
+    public void setUpdatedBySurnameUA(String updatedBySurnameUA) {
+        this.updatedBySurnameUA = updatedBySurnameUA;
     }
 
     @Override
@@ -86,10 +92,10 @@ public class SpecializationAccountDetailsBean {
                 ", nameEN='" + nameEN + '\'' +
                 ", nameUA='" + nameUA + '\'' +
                 ", updateTime=" + updateTime +
-                ", accountNameEN='" + accountNameEN + '\'' +
-                ", accountSurnameEN='" + accountSurnameEN + '\'' +
-                ", accountNameUA='" + accountNameUA + '\'' +
-                ", accountSurnameUA='" + accountSurnameUA + '\'' +
+                ", accountNameEN='" + updatedByNameEN + '\'' +
+                ", accountSurnameEN='" + updatedBySurnameEN + '\'' +
+                ", accountNameUA='" + updatedByNameUA + '\'' +
+                ", accountSurnameUA='" + updatedBySurnameUA + '\'' +
                 '}';
     }
 }

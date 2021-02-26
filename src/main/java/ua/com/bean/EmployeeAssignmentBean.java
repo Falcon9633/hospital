@@ -1,5 +1,7 @@
 package ua.com.bean;
 
+import ua.com.entity.Assignment;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -26,7 +28,17 @@ public abstract class EmployeeAssignmentBean {
     private String createdByNameUA;
     private String createdBySurnameUA;
 
-    public EmployeeAssignmentBean() {
+    public EmployeeAssignmentBean(Assignment assignment) {
+        this.id = assignment.getId();
+        this.nameEN = assignment.getNameEN();
+        this.nameUA = assignment.getNameUA();
+        this.descriptionEN = assignment.getDescriptionEN();
+        this.descriptionUA = assignment.getDescriptionUA();
+        this.end = assignment.isEnd();
+        this.createTime = assignment.getCreateTime();
+        this.createdBy = assignment.getCreatedBy();
+        this.servedBy = assignment.getServedBy();
+        this.medicalCardId = assignment.getMedicalCardId();
     }
 
     public Long getId() {

@@ -19,7 +19,7 @@
             <%@ include file="/WEB-INF/jspf/allSpecializationSelect.jsp" %>
         </div>
         <button type="submit" class="btn btn-dark">
-            <fmt:message key="account_registration.button.register" bundle="${lang}"/>
+            <fmt:message key="button.register" bundle="${lang}"/>
         </button>
         <%@ include file="/WEB-INF/jspf/errorMessage.jsp" %>
     </form>

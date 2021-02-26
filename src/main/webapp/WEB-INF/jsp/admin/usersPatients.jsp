@@ -90,42 +90,43 @@
         </div>
     </div>
 
-    <nav aria-label="Patient navigation">
-        <ul class="pagination justify-content-center">
-            <c:if test="${currentPage != 1}">
-                <li class="page-item">
-                    <a class="page-link"
-                       href="controller?command=usersPatients&currentPage=${currentPage-1}&sortBy=${empty sortBy ? 'surname' : sortBy}&sortDir=${empty sortDirPagination ? 'asc' : sortDirPagination}">
-                        <fmt:message key="pagination.previous.button" bundle="${lang}"/></a>
-                </li>
-            </c:if>
+    <c:if test="${numOfPages > 1}">
+        <nav aria-label="Patient navigation">
+            <ul class="pagination justify-content-center">
+                <c:if test="${currentPage != 1}">
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="controller?command=usersPatients&currentPage=${currentPage-1}&sortBy=${empty sortBy ? 'surname' : sortBy}&sortDir=${empty sortDirPagination ? 'asc' : sortDirPagination}">
+                            <fmt:message key="pagination.previous.button" bundle="${lang}"/></a>
+                    </li>
+                </c:if>
 
-            <c:forEach begin="1" end="${numOfPages}" var="i">
-                <c:choose>
-                    <c:when test="${currentPage == i}">
-                        <li class="page-item active"><a class="page-link">
-                                ${i} <span class="sr-only">(<fmt:message key="pagination.current.span" bundle="${lang}"/>)</span></a>
-                        </li>
-                    </c:when>
-                    <c:otherwise>
-                        <li class="page-item">
-                            <a class="page-link"
-                               href="controller?command=usersPatients&currentPage=${i}&sortBy=${empty sortBy ? 'surname' : sortBy}&sortDir=${empty sortDirPagination ? 'asc' : sortDirPagination}">${i}</a>
-                        </li>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
+                <c:forEach begin="1" end="${numOfPages}" var="i">
+                    <c:choose>
+                        <c:when test="${currentPage == i}">
+                            <li class="page-item active"><a class="page-link">
+                                    ${i} <span class="sr-only">(<fmt:message key="pagination.current.span" bundle="${lang}"/>)</span></a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="controller?command=usersPatients&currentPage=${i}&sortBy=${empty sortBy ? 'surname' : sortBy}&sortDir=${empty sortDirPagination ? 'asc' : sortDirPagination}">${i}</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
 
-            <c:if test="${currentPage lt noOfPages}">
-                <li class="page-item">
-                    <a class="page-link"
-                       href="controller?command=usersPatients&currentPage=${currentPage+1}&sortBy=${empty sortBy ? 'surname' : sortBy}&sortDir=${empty sortDirPagination ? 'asc' : sortDirPagination}">
-                        <fmt:message key="pagination.next.button" bundle="${lang}"/></a>
-                </li>
-            </c:if>
-        </ul>
-    </nav>
-
+                <c:if test="${currentPage lt noOfPages}">
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="controller?command=usersPatients&currentPage=${currentPage+1}&sortBy=${empty sortBy ? 'surname' : sortBy}&sortDir=${empty sortDirPagination ? 'asc' : sortDirPagination}">
+                            <fmt:message key="pagination.next.button" bundle="${lang}"/></a>
+                    </li>
+                </c:if>
+            </ul>
+        </nav>
+    </c:if>
 </div>
 
 <c:set var="js" value="true"/>

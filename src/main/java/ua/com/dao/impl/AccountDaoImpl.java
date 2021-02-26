@@ -12,7 +12,9 @@ import ua.com.dao.DoctorDao;
 import ua.com.dao.PatientDao;
 import ua.com.entity.*;
 import ua.com.util.DBUtil;
+import ua.com.util.PasswordUtil;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public class AccountDaoImpl implements AccountDao {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                account = mapAccount(rs);
+                account = ObjectMapper.mapAccount(rs);
             }
 
             DBUtil.closeResource(rs, pstmt);
@@ -127,7 +129,7 @@ public class AccountDaoImpl implements AccountDao {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                account = mapAccount(rs);
+                account = ObjectMapper.mapAccount(rs);
             }
 
             DBUtil.closeResource(rs, pstmt, con);
@@ -164,8 +166,8 @@ public class AccountDaoImpl implements AccountDao {
             rs = stmt.executeQuery(MySQLQuery.FIND_ALL_NURSE_ACCOUNT_DETAILS_BEANS);
             LOGGER.info(MySQLQuery.FIND_ALL_NURSE_ACCOUNT_DETAILS_BEANS);
 
-            while (rs.next()){
-                beans.add(mapNurseAccDetailsBean(rs));
+            while (rs.next()) {
+                beans.add(ObjectMapper.mapNurseAccDetailsBean(rs));
             }
 
             DBUtil.closeResource(rs, stmt, con);
@@ -305,7 +307,61 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public boolean editDoctor(Long doctorId, Integer specializationId, String nameEN, String surnameEN, String nameUA, String surnameUA, boolean locked, Long updateBy) {
+    public boolean registerAccount(String login, Long updatedBy, Role role, String nameEN, String surnameEN,
+                                   String nameUA, String surnameUA, String email, Integer specializationId, LocalDate birthday) {
+        LOGGER.debug("registerAccount starts");
+        Connection con = null;
+        try {
+            String pwd = PasswordUtil.generateRandomPassword();
+            String encryptedPwd = PasswordUtil.encryptPassword(pwd);
+            Account account = new Account(login, encryptedPwd, email, updatedBy, role.ordinal());
+
+            con = DBUtil.getConnection();
+            con.setAutoCommit(false);
+
+            insertAccount(con, account);
+
+            AccountDetails accountDetails = new AccountDetails(account.getId(), nameEN, surnameEN, nameUA, surnameUA);
+            accountDetailsDao.insertAccountDetails(con, accountDetails);
+
+            if (role == Role.DOCTOR) {
+                Doctor doctor = new Doctor(account.getId(), specializationId);
+                doctorDao.insertDoctor(con, doctor);
+            }
+
+            if (role == Role.PATIENT) {
+                Patient patient = new Patient(account.getId(), birthday);
+                patientDao.insertPatient(con, patient);
+            }
+
+            con.commit();
+            con.close();
+            con = null;
+        } catch (SQLException e) {
+            if (con != null) {
+                DBUtil.rollback(con);
+            }
+            LOGGER.error(e.getMessage(), e.getCause());
+            return false;
+        } catch (NoSuchAlgorithmException e) {
+            LOGGER.error(e.getMessage(), e.getCause());
+            return false;
+        } finally {
+            try {
+                DBUtil.closeResource(con);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            con = null;
+        }
+
+        LOGGER.debug("registerAccount finishes");
+        return true;
+    }
+
+    @Override
+    public boolean editDoctor(Long doctorId, Integer specializationId, String nameEN, String surnameEN, String nameUA,
+                              String surnameUA, boolean locked, Long updateBy) {
         LOGGER.debug("editDoctor starts");
         Connection con = null;
         try {
@@ -402,41 +458,5 @@ public class AccountDaoImpl implements AccountDao {
             LOGGER.error(e.getMessage(), e.getCause());
             throw new SQLException(e.getCause());
         }
-    }
-
-
-    /**
-     * Extracts a user from the result set.
-     *
-     * @param rs which should be mapped
-     * @return an Account entity
-     * @throws SQLException if the columnLabel is not valid;
-     *                      if a database access error occurs or this method is called on a closed result set
-     */
-    private Account mapAccount(ResultSet rs) throws SQLException {
-        LOGGER.debug("mapAccount starts");
-        Account account = new Account();
-        account.setId(rs.getLong(MySQLFields.ID));
-        account.setLogin(rs.getString(MySQLFields.ACCOUNT_LOGIN));
-        account.setPassword(rs.getString(MySQLFields.ACCOUNT_PASSWORD));
-        account.setEmail(rs.getString(MySQLFields.ACCOUNT_EMAIL));
-        account.setCreateTime(rs.getTimestamp(MySQLFields.CREATE_TIME).toLocalDateTime());
-        account.setUpdateTime(rs.getTimestamp(MySQLFields.UPDATE_TIME).toLocalDateTime());
-        account.setLocked(rs.getBoolean(MySQLFields.ACCOUNT_LOCKED));
-        account.setUpdatedBy(rs.getLong(MySQLFields.UPDATED_BY));
-        account.setRoleId(rs.getInt(MySQLFields.ACCOUNT_ROLE_ID));
-        account.setLocaleId(rs.getInt(MySQLFields.ACCOUNT_LOCALE_ID));
-        return account;
-    }
-
-    private NurseAccDetailsBean mapNurseAccDetailsBean(ResultSet rs) throws SQLException {
-        LOGGER.debug("mapNurseAccDetailsBean starts");
-        Account account = mapAccount(rs);
-        NurseAccDetailsBean bean = new NurseAccDetailsBean(account);
-        bean.setNameEN(rs.getString(MySQLFields.NAME_EN));
-        bean.setSurnameEN(rs.getString(MySQLFields.ACCOUNT_DETAILS_SURNAME_EN));
-        bean.setNameUA(rs.getString(MySQLFields.NAME_UA));
-        bean.setSurnameUA(rs.getString(MySQLFields.ACCOUNT_DETAILS_SURNAME_UA));
-        return bean;
     }
 }

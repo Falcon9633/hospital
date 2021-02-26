@@ -38,7 +38,7 @@ public class MedicamentDaoImpl implements MedicamentDao {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                medicament = mapMedicament(rs);
+                medicament = ObjectMapper.mapMedicament(rs);
             }
 
             DBUtil.closeResource(rs, pstmt, con);
@@ -75,7 +75,7 @@ public class MedicamentDaoImpl implements MedicamentDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                medicaments.add(mapMedicament(rs));
+                medicaments.add(ObjectMapper.mapMedicament(rs));
             }
 
             DBUtil.closeResource(rs, pstmt);
@@ -115,7 +115,7 @@ public class MedicamentDaoImpl implements MedicamentDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                beans.add(mapMedicamentDoctorBean(rs));
+                beans.add(ObjectMapper.mapMedicamentDoctorBean(rs));
             }
 
             DBUtil.closeResource(rs, pstmt, con);
@@ -334,36 +334,5 @@ public class MedicamentDaoImpl implements MedicamentDao {
         }
 
         LOGGER.debug("updateAllToEnd finishes");
-    }
-
-    private Medicament mapMedicament(ResultSet rs) throws SQLException {
-        Medicament medicament = new Medicament();
-        medicament.setId(rs.getLong(MySQLFields.ID));
-        medicament.setNameEN(rs.getString(MySQLFields.NAME_EN));
-        medicament.setNameUA(rs.getString(MySQLFields.NAME_UA));
-        medicament.setDescriptionEN(rs.getString(MySQLFields.DESCRIPTION_EN));
-        medicament.setDescriptionUA(rs.getString(MySQLFields.DESCRIPTION_UA));
-        medicament.setEnd(rs.getBoolean(MySQLFields.END));
-        medicament.setCreateTime(rs.getTimestamp(MySQLFields.CREATE_TIME).toLocalDateTime());
-        medicament.setCreatedBy(rs.getLong(MySQLFields.CREATED_BY));
-        medicament.setServedBy(rs.getLong(MySQLFields.SERVED_BY));
-        medicament.setMedicalCardId(rs.getLong(MySQLFields.MEDICAL_CARD_ID));
-        return medicament;
-    }
-
-    private MedicamentDoctorBean mapMedicamentDoctorBean(ResultSet rs) throws SQLException {
-        Medicament medicament = mapMedicament(rs);
-        MedicamentDoctorBean bean = new MedicamentDoctorBean(medicament);
-        bean.setDoctorNameEN(rs.getString(MySQLFields.DOCTOR_NAME_EN));
-        bean.setDoctorSurnameEN(rs.getString(MySQLFields.DOCTOR_SURNAME_EN));
-        bean.setDoctorNameUA(rs.getString(MySQLFields.DOCTOR_NAME_UA));
-        bean.setDoctorSurnameUA(rs.getString(MySQLFields.DOCTOR_SURNAME_UA));
-        bean.setSpecializationNameEN(rs.getString(MySQLFields.SPECIALIZATION_NAME_EN));
-        bean.setSpecializationNameUA(rs.getString(MySQLFields.SPECIALIZATION_NAME_UA));
-        bean.setServedByNameEN(rs.getString(MySQLFields.SERVED_BY_NAME_EN));
-        bean.setServedBySurnameEN(rs.getString(MySQLFields.SERVED_BY_SURNAME_EN));
-        bean.setServedByNameUA(rs.getString(MySQLFields.SERVED_BY_NAME_UA));
-        bean.setServedBySurnameUA(rs.getString(MySQLFields.SERVED_BY_SURNAME_UA));
-        return bean;
     }
 }

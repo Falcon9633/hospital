@@ -82,7 +82,7 @@ public class DiagnosisDaoImpl implements DiagnosisDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                beans.add(mapDiagnosisDoctorBean(rs));
+                beans.add(ObjectMapper.mapDiagnosisDoctorBean(rs));
             }
 
             DBUtil.closeResource(rs, pstmt, con);
@@ -104,24 +104,5 @@ public class DiagnosisDaoImpl implements DiagnosisDao {
 
         LOGGER.debug("findAllDiagnosisDoctorBeansByMedCard finishes");
         return beans;
-    }
-
-    private DiagnosisDoctorBean mapDiagnosisDoctorBean(ResultSet rs) throws SQLException {
-        DiagnosisDoctorBean bean = new DiagnosisDoctorBean();
-        bean.setId(rs.getLong(MySQLFields.ID));
-        bean.setNameEN(rs.getString(MySQLFields.NAME_EN));
-        bean.setNameUA(rs.getString(MySQLFields.NAME_UA));
-        bean.setDescriptionEN(rs.getString(MySQLFields.DESCRIPTION_EN));
-        bean.setDescriptionUA(rs.getString(MySQLFields.DESCRIPTION_UA));
-        bean.setCreateTime(rs.getTimestamp(MySQLFields.CREATE_TIME).toLocalDateTime());
-        bean.setCreatedBy(rs.getLong(MySQLFields.CREATED_BY));
-        bean.setMedicalCardId(rs.getLong(MySQLFields.MEDICAL_CARD_ID));
-        bean.setDoctorNameEN(rs.getString(MySQLFields.DOCTOR_NAME_EN));
-        bean.setDoctorSurnameEN(rs.getString(MySQLFields.DOCTOR_SURNAME_EN));
-        bean.setDoctorNameUA(rs.getString(MySQLFields.DOCTOR_NAME_UA));
-        bean.setDoctorSurnameUA(rs.getString(MySQLFields.DOCTOR_SURNAME_UA));
-        bean.setSpecializationNameEN(rs.getString(MySQLFields.SPECIALIZATION_NAME_EN));
-        bean.setSpecializationNameUA(rs.getString(MySQLFields.SPECIALIZATION_NAME_UA));
-        return bean;
     }
 }

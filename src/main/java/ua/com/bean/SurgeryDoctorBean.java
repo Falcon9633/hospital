@@ -1,5 +1,7 @@
 package ua.com.bean;
 
+import ua.com.entity.AccountDetails;
+import ua.com.entity.Specialization;
 import ua.com.entity.Surgery;
 
 import java.time.LocalDateTime;
@@ -32,7 +34,7 @@ public class SurgeryDoctorBean {
     public SurgeryDoctorBean() {
     }
 
-    public SurgeryDoctorBean(Surgery surgery){
+    public SurgeryDoctorBean(Surgery surgery, AccountDetails doctorAccDetails, Specialization specialization){
         this.id = surgery.getId();
         this.nameEN = surgery.getNameEN();
         this.nameUA = surgery.getNameUA();
@@ -43,6 +45,14 @@ public class SurgeryDoctorBean {
         this.createdBy = surgery.getCreatedBy();
         this.servedBy = surgery.getServedBy();
         this.medicalCardId = surgery.getMedicalCardId();
+
+        this.doctorNameEN = doctorAccDetails.getNameEN();
+        this.doctorSurnameEN = doctorAccDetails.getSurnameEN();
+        this.doctorNameUA = doctorAccDetails.getNameUA();
+        this.doctorSurnameUA = doctorAccDetails.getSurnameUA();
+
+        this.specializationNameEN = specialization.getNameEN();
+        this.specializationNameUA = specialization.getNameUA();
     }
 
     public Long getId() {

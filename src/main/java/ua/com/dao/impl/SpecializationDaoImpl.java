@@ -39,7 +39,7 @@ public class SpecializationDaoImpl implements SpecializationDao {
             rs = stmt.executeQuery(MySQLQuery.FIND_ALL_SPECIALIZATIONS);
             LOGGER.info(MySQLQuery.FIND_ALL_SPECIALIZATIONS);
             while (rs.next()) {
-                specializations.add(mapSpecialization(rs));
+                specializations.add(ObjectMapper.mapSpecialization(rs));
             }
             DBUtil.closeResource(rs, stmt, con);
             rs = null;
@@ -75,7 +75,7 @@ public class SpecializationDaoImpl implements SpecializationDao {
             rs = stmt.executeQuery(MySQLQuery.FIND_ALL_SPECIALIZATION_ACC_DETAILS_BEANS);
             LOGGER.info(MySQLQuery.FIND_ALL_SPECIALIZATION_ACC_DETAILS_BEANS);
             while (rs.next()) {
-                beans.add(mapSpecAccDetailsBean(rs));
+                beans.add(ObjectMapper.mapSpecAccDetailsBean(rs));
             }
             DBUtil.closeResource(rs, stmt, con);
             rs = null;
@@ -114,7 +114,7 @@ public class SpecializationDaoImpl implements SpecializationDao {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                specialization = mapSpecialization(rs);
+                specialization = ObjectMapper.mapSpecialization(rs);
             }
 
             DBUtil.closeResource(rs, pstmt, con);
@@ -156,7 +156,7 @@ public class SpecializationDaoImpl implements SpecializationDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                specializations.add(mapSpecialization(rs));
+                specializations.add(ObjectMapper.mapSpecialization(rs));
             }
 
             DBUtil.closeResource(rs, pstmt, con);
@@ -257,30 +257,5 @@ public class SpecializationDaoImpl implements SpecializationDao {
 
         LOGGER.debug("update finishes");
         return true;
-    }
-
-    private Specialization mapSpecialization(ResultSet rs) throws SQLException {
-        LOGGER.debug("mapSpecialization starts");
-        Specialization specialization = new Specialization();
-        specialization.setId(rs.getInt(MySQLFields.ID));
-        specialization.setNameEN(rs.getString(MySQLFields.NAME_EN));
-        specialization.setNameUA(rs.getString(MySQLFields.NAME_UA));
-        specialization.setUpdateTime(rs.getTimestamp(MySQLFields.UPDATE_TIME).toLocalDateTime());
-        specialization.setUpdatedBy(rs.getLong(MySQLFields.UPDATED_BY));
-        return specialization;
-    }
-
-    private SpecializationAccountDetailsBean mapSpecAccDetailsBean(ResultSet rs) throws SQLException {
-        LOGGER.debug("mapSpecAccDetailsBean starts");
-        SpecializationAccountDetailsBean bean = new SpecializationAccountDetailsBean();
-        bean.setId(rs.getInt(MySQLFields.ID));
-        bean.setNameEN(rs.getString(MySQLFields.NAME_EN));
-        bean.setNameUA(rs.getString(MySQLFields.NAME_UA));
-        bean.setUpdateTime(rs.getTimestamp(MySQLFields.UPDATE_TIME).toLocalDateTime());
-        bean.setAccountNameEN(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_NAME_EN));
-        bean.setAccountSurnameEN(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_SURNAME_EN));
-        bean.setAccountNameUA(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_NAME_UA));
-        bean.setAccountSurnameUA(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_SURNAME_UA));
-        return bean;
     }
 }

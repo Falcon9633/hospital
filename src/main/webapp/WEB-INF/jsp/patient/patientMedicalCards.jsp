@@ -13,7 +13,7 @@
         <tr>
             <th><fmt:message key="th.doctor_details" bundle="${lang}"/></th>
             <th><fmt:message key="th.status" bundle="${lang}"/></th>
-            <th><fmt:message key="th.create_time" bundle="${lang}"/></th>
+            <th><fmt:message key="th.created_time" bundle="${lang}"/></th>
             <th><fmt:message key="th.medical_card" bundle="${lang}"/></th>
         </tr>
         </thead>

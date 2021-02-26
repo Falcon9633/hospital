@@ -1,14 +1,18 @@
 package ua.com.bean;
 
+import ua.com.entity.AccountDetails;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class PatientAccountBean {
     private Long id;
+
     private String nameEN;
     private String surnameEN;
     private String nameUA;
     private String surnameUA;
+
     private String email;
     private LocalDate birthday;
     private boolean locked;
@@ -19,7 +23,16 @@ public class PatientAccountBean {
     private String updatedByNameUA;
     private String updatedBySurnameUA;
 
-    public PatientAccountBean() {
+    public PatientAccountBean(AccountDetails accountDetails, AccountDetails updatedByAccDetails) {
+        this.nameEN = accountDetails.getNameEN();
+        this.surnameEN = accountDetails.getSurnameEN();
+        this.nameUA = accountDetails.getNameUA();
+        this.surnameUA = accountDetails.getSurnameUA();
+
+        this.updatedByNameEN = updatedByAccDetails.getNameEN();
+        this.updatedBySurnameEN = updatedByAccDetails.getSurnameEN();
+        this.updatedByNameUA = updatedByAccDetails.getNameUA();
+        this.updatedBySurnameUA = updatedByAccDetails.getSurnameUA();
     }
 
     public Long getId() {

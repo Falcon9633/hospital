@@ -53,7 +53,7 @@ public class MedicalCardDaoImpl implements MedicalCardDao {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                medicalCard = mapMedicalCard(rs);
+                medicalCard = ObjectMapper.mapMedicalCard(rs);
             }
 
             DBUtil.closeResource(rs, pstmt, con);
@@ -157,7 +157,7 @@ public class MedicalCardDaoImpl implements MedicalCardDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                beans.add(mapMedCardDoctorBean(rs));
+                beans.add(ObjectMapper.mapMedCardDoctorBean(rs));
             }
             DBUtil.closeResource(rs, pstmt, con);
             rs = null;
@@ -197,7 +197,7 @@ public class MedicalCardDaoImpl implements MedicalCardDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                beans.add(mapMedCardPatientBean(rs));
+                beans.add(ObjectMapper.mapMedCardPatientBean(rs));
             }
             DBUtil.closeResource(rs, pstmt, con);
             rs = null;
@@ -236,7 +236,7 @@ public class MedicalCardDaoImpl implements MedicalCardDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                beans.add(mapMedCardPatientBean(rs));
+                beans.add(ObjectMapper.mapMedCardPatientBean(rs));
             }
             DBUtil.closeResource(rs, pstmt, con);
             rs = null;
@@ -275,7 +275,7 @@ public class MedicalCardDaoImpl implements MedicalCardDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                beans.add(mapMedCardPatientBean(rs));
+                beans.add(ObjectMapper.mapMedCardPatientBean(rs));
             }
             DBUtil.closeResource(rs, pstmt, con);
             rs = null;
@@ -395,55 +395,7 @@ public class MedicalCardDaoImpl implements MedicalCardDao {
             }
             con = null;
         }
-        /*
-        find all active medicaments, procedures. surgeries
-        set end to true
-        update medical card
-         */
         LOGGER.debug("dischargePatient finishes");
         return true;
-    }
-
-
-    private MedicalCard mapMedicalCard(ResultSet rs) throws SQLException {
-        LOGGER.debug("mapMedicalCard starts");
-        MedicalCard medicalCard = new MedicalCard();
-        medicalCard.setId(rs.getLong(MySQLFields.ID));
-        medicalCard.setDischarged(rs.getBoolean(MySQLFields.MEDICAL_CARD_IS_DISCHARGED));
-        medicalCard.setCreateTime(rs.getTimestamp(MySQLFields.CREATE_TIME).toLocalDateTime());
-        medicalCard.setUpdateTime(rs.getTimestamp(MySQLFields.UPDATE_TIME).toLocalDateTime());
-        medicalCard.setUpdatedBy(rs.getLong(MySQLFields.UPDATED_BY));
-        medicalCard.setPatientId(rs.getLong(MySQLFields.MEDICAL_CARD_PATIENT_ID));
-        medicalCard.setDoctorId(rs.getLong(MySQLFields.MEDICAL_CARD_DOCTOR_ID));
-        return medicalCard;
-    }
-
-    private MedCardDoctorBean mapMedCardDoctorBean(ResultSet rs) throws SQLException {
-        LOGGER.debug("mapMedCardDoctorBean starts");
-        MedicalCard medicalCard = mapMedicalCard(rs);
-        MedCardDoctorBean bean = new MedCardDoctorBean(medicalCard);
-        bean.setUpdatedByNameEN(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_NAME_EN));
-        bean.setUpdatedBySurnameEN(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_SURNAME_EN));
-        bean.setUpdatedByNameUA(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_NAME_UA));
-        bean.setUpdatedBySurnameUA(rs.getString(MySQLFields.ACC_DETAILS_UPDATE_BY_SURNAME_UA));
-        bean.setDoctorNameEN(rs.getString(MySQLFields.DOCTOR_NAME_EN));
-        bean.setDoctorSurnameEN(rs.getString(MySQLFields.DOCTOR_SURNAME_EN));
-        bean.setDoctorNameUA(rs.getString(MySQLFields.DOCTOR_NAME_UA));
-        bean.setDoctorSurnameUA(rs.getString(MySQLFields.DOCTOR_SURNAME_UA));
-        bean.setSpecializationNameEN(rs.getString(MySQLFields.SPECIALIZATION_NAME_EN));
-        bean.setSpecializationNameUA(rs.getString(MySQLFields.SPECIALIZATION_NAME_UA));
-        return bean;
-    }
-
-    private MedCardPatientBean mapMedCardPatientBean(ResultSet rs) throws SQLException {
-        LOGGER.debug("mapMedCardPatientBean starts");
-        MedicalCard medicalCard = mapMedicalCard(rs);
-        MedCardPatientBean bean = new MedCardPatientBean(medicalCard);
-        bean.setPatientNameEN(rs.getString(MySQLFields.PATIENT_NAME_EN));
-        bean.setPatientSurnameEN(rs.getString(MySQLFields.PATIENT_SURNAME_EN));
-        bean.setPatientNameUA(rs.getString(MySQLFields.PATIENT_NAME_UA));
-        bean.setPatientSurnameUA(rs.getString(MySQLFields.PATIENT_SURNAME_UA));
-        bean.setPatientBirthday(rs.getDate(MySQLFields.PATIENT_BIRTHDAY).toLocalDate());
-        return bean;
     }
 }

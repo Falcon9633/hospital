@@ -1,36 +1,49 @@
 package ua.com.bean;
 
+import ua.com.entity.AccountDetails;
+import ua.com.entity.Specialization;
+
 import java.time.LocalDateTime;
 
 public class DoctorAccountBean {
     private Long id;
     private Integer specializationId;
+
     private String nameEN;
     private String surnameEN;
     private String nameUA;
     private String surnameUA;
+
     private String email;
     private boolean locked;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
+
     private String updatedByNameEN;
     private String updatedBySurnameEN;
     private String updatedByNameUA;
     private String updatedBySurnameUA;
+
     private int patientCount;
+
     private String specializationNameEN;
     private String specializationNameUA;
 
-    public DoctorAccountBean() {
-    }
+    public DoctorAccountBean(DoctorAccDetailsBean doctorAccDetailsBean, AccountDetails updatedByAccDetails, Specialization specialization) {
+        this.id = doctorAccDetailsBean.getId();
+        this.specializationId = doctorAccDetailsBean.getSpecializationId();
+        this.nameEN = doctorAccDetailsBean.getNameEN();
+        this.surnameEN = doctorAccDetailsBean.getSurnameEN();
+        this.nameUA = doctorAccDetailsBean.getNameUA();
+        this.surnameUA = doctorAccDetailsBean.getSurnameUA();
 
-    public DoctorAccountBean(DoctorAccDetailsBean doctorADB) {
-        this.id = doctorADB.getId();
-        this.specializationId = doctorADB.getSpecializationId();
-        this.nameEN = doctorADB.getNameEN();
-        this.surnameEN = doctorADB.getSurnameEN();
-        this.nameUA = doctorADB.getNameUA();
-        this.surnameUA = doctorADB.getSurnameUA();
+        this.updatedByNameEN = updatedByAccDetails.getNameEN();
+        this.updatedBySurnameEN = updatedByAccDetails.getSurnameEN();
+        this.updatedByNameUA = updatedByAccDetails.getNameUA();
+        this.updatedBySurnameUA = updatedByAccDetails.getSurnameUA();
+
+        this.specializationNameEN = specialization.getNameEN();
+        this.specializationNameUA = specialization.getNameUA();
     }
 
     public Long getId() {
