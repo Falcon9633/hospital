@@ -1,6 +1,7 @@
 package ua.com.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * This class represents the account table in the database.
@@ -123,5 +124,18 @@ public class Account {
                 ", roleId=" + roleId +
                 ", localeId=" + localeId +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return locked == account.locked && updatedBy == account.updatedBy && roleId == account.roleId && localeId == account.localeId && Objects.equals(id, account.id) && Objects.equals(login, account.login) && Objects.equals(password, account.password) && Objects.equals(email, account.email) && Objects.equals(createTime, account.createTime) && Objects.equals(updateTime, account.updateTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, login, password, email, createTime, updateTime, locked, updatedBy, roleId, localeId);
     }
 }

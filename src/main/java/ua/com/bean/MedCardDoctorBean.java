@@ -5,6 +5,7 @@ import ua.com.entity.MedicalCard;
 import ua.com.entity.Specialization;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class MedCardDoctorBean {
     private Long id;
@@ -211,5 +212,18 @@ public class MedCardDoctorBean {
                 ", specializationNameEN='" + specializationNameEN + '\'' +
                 ", specializationNameUA='" + specializationNameUA + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MedCardDoctorBean bean = (MedCardDoctorBean) o;
+        return isDischarged == bean.isDischarged && Objects.equals(id, bean.id) && Objects.equals(createTime, bean.createTime) && Objects.equals(updateTime, bean.updateTime) && Objects.equals(updatedBy, bean.updatedBy) && Objects.equals(patientId, bean.patientId) && Objects.equals(doctorId, bean.doctorId) && Objects.equals(updatedByNameEN, bean.updatedByNameEN) && Objects.equals(updatedBySurnameEN, bean.updatedBySurnameEN) && Objects.equals(updatedByNameUA, bean.updatedByNameUA) && Objects.equals(updatedBySurnameUA, bean.updatedBySurnameUA) && Objects.equals(doctorNameEN, bean.doctorNameEN) && Objects.equals(doctorSurnameEN, bean.doctorSurnameEN) && Objects.equals(doctorNameUA, bean.doctorNameUA) && Objects.equals(doctorSurnameUA, bean.doctorSurnameUA) && Objects.equals(specializationNameEN, bean.specializationNameEN) && Objects.equals(specializationNameUA, bean.specializationNameUA);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, isDischarged, createTime, updateTime, updatedBy, patientId, doctorId, updatedByNameEN, updatedBySurnameEN, updatedByNameUA, updatedBySurnameUA, doctorNameEN, doctorSurnameEN, doctorNameUA, doctorSurnameUA, specializationNameEN, specializationNameUA);
     }
 }

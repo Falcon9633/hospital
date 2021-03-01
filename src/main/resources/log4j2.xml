@@ -7,25 +7,38 @@
 
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
+            <ThresholdFilter level="FATAL" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
 
-        <RollingFile name="RollingLog" fileName="${LOG_DIRECTORY}/hospital.log"
-                     filePattern="${LOG_DIRECTORY}/hospital-%d{yyyy-MM-dd}-%i.log">
+        <RollingFile name="RollingLogTrace" fileName="${LOG_DIRECTORY}/hospitalTrace.log"
+                     filePattern="${LOG_DIRECTORY}/hospitalTrace-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
-                <SizeBasedTriggeringPolicy size="19500KB" />
+                <SizeBasedTriggeringPolicy size="19500KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="RollingLogInfo" fileName="${LOG_DIRECTORY}/hospitalInfo.log"
+                     filePattern="${LOG_DIRECTORY}/hospitalInfo-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB"/>
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
     </Appenders>
 
     <Loggers>
-        <Logger name="ua.com" level="trace" additivity="false">
-            <AppenderRef ref="RollingLog"/>
+        <Logger name="ua.com" level="TRACE" additivity="true">
+            <AppenderRef ref="RollingLogInfo"/>
+            <AppenderRef ref="RollingLogTrace"/>
         </Logger>
 
-        <Root level="warn">
+        <Root level="FATAL">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>

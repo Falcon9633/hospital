@@ -4,6 +4,7 @@ import ua.com.entity.Assignment;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public abstract class EmployeeAssignmentBean {
     private Long id;
@@ -216,5 +217,18 @@ public abstract class EmployeeAssignmentBean {
                 ", createdByNameUA='" + createdByNameUA + '\'' +
                 ", createdBySurnameUA='" + createdBySurnameUA + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EmployeeAssignmentBean bean = (EmployeeAssignmentBean) o;
+        return end == bean.end && Objects.equals(id, bean.id) && Objects.equals(nameEN, bean.nameEN) && Objects.equals(nameUA, bean.nameUA) && Objects.equals(descriptionEN, bean.descriptionEN) && Objects.equals(descriptionUA, bean.descriptionUA) && Objects.equals(createTime, bean.createTime) && Objects.equals(createdBy, bean.createdBy) && Objects.equals(servedBy, bean.servedBy) && Objects.equals(medicalCardId, bean.medicalCardId) && Objects.equals(patientBirthday, bean.patientBirthday) && Objects.equals(patientNameEN, bean.patientNameEN) && Objects.equals(patientSurnameEN, bean.patientSurnameEN) && Objects.equals(patientNameUA, bean.patientNameUA) && Objects.equals(patientSurnameUA, bean.patientSurnameUA) && Objects.equals(createdByNameEN, bean.createdByNameEN) && Objects.equals(createdBySurnameEN, bean.createdBySurnameEN) && Objects.equals(createdByNameUA, bean.createdByNameUA) && Objects.equals(createdBySurnameUA, bean.createdBySurnameUA);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nameEN, nameUA, descriptionEN, descriptionUA, end, createTime, createdBy, servedBy, medicalCardId, patientBirthday, patientNameEN, patientSurnameEN, patientNameUA, patientSurnameUA, createdByNameEN, createdBySurnameEN, createdByNameUA, createdBySurnameUA);
     }
 }

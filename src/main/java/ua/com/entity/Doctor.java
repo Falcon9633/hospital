@@ -1,5 +1,7 @@
 package ua.com.entity;
 
+import java.util.Objects;
+
 /**
  * This class represents the doctor table in the database.
  *
@@ -39,5 +41,18 @@ public class Doctor {
                 "id=" + id +
                 ", specializationId=" + specializationId +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Doctor doctor = (Doctor) o;
+        return Objects.equals(id, doctor.id) && Objects.equals(specializationId, doctor.specializationId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, specializationId);
     }
 }

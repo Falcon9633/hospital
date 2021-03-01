@@ -2,7 +2,6 @@ package ua.com.dao.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.com.constant.MySQLFields;
 import ua.com.constant.MySQLQuery;
 import ua.com.dao.AccountDetailsDao;
 import ua.com.entity.AccountDetails;
@@ -85,7 +84,7 @@ public class AccountDetailsDaoImpl implements AccountDetailsDao {
     }
 
     @Override
-    public AccountDetails insertAccountDetails(Connection con, AccountDetails accountDetails) throws SQLException {
+    public AccountDetails insert(Connection con, AccountDetails accountDetails) throws SQLException {
         LOGGER.debug("insertAccountDetails starts");
         PreparedStatement pstmt = null;
         try {

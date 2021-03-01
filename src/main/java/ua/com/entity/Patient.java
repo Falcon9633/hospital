@@ -1,6 +1,7 @@
 package ua.com.entity;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * This class represents the patient table in the database.
@@ -41,5 +42,18 @@ public class Patient {
                 "id=" + id +
                 ", birthday=" + birthday +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Patient patient = (Patient) o;
+        return Objects.equals(id, patient.id) && Objects.equals(birthday, patient.birthday);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, birthday);
     }
 }

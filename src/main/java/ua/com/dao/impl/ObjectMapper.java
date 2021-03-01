@@ -61,6 +61,13 @@ class ObjectMapper {
         return medicalCard;
     }
 
+    static Doctor mapDoctor(ResultSet rs) throws SQLException{
+        Doctor doctor = new Doctor();
+        doctor.setId(rs.getLong(MySQLFields.ID));
+        doctor.setSpecializationId(rs.getInt(MySQLFields.DOCTOR_SPECIALIZATION_ID));
+        return doctor;
+    }
+
     static Patient mapPatient(ResultSet rs) throws SQLException {
         Patient patient = new Patient();
         patient.setId(rs.getLong(MySQLFields.ID));

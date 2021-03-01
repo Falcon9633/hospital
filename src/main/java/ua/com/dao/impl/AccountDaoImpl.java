@@ -2,9 +2,7 @@ package ua.com.dao.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.com.bean.DoctorAccDetailsBean;
 import ua.com.bean.NurseAccDetailsBean;
-import ua.com.constant.MySQLFields;
 import ua.com.constant.MySQLQuery;
 import ua.com.dao.AccountDao;
 import ua.com.dao.AccountDetailsDao;
@@ -322,7 +320,7 @@ public class AccountDaoImpl implements AccountDao {
             insertAccount(con, account);
 
             AccountDetails accountDetails = new AccountDetails(account.getId(), nameEN, surnameEN, nameUA, surnameUA);
-            accountDetailsDao.insertAccountDetails(con, accountDetails);
+            accountDetailsDao.insert(con, accountDetails);
 
             if (role == Role.DOCTOR) {
                 Doctor doctor = new Doctor(account.getId(), specializationId);

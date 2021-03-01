@@ -11,7 +11,7 @@ public class Procedure extends Assignment {
     public Procedure() {
     }
 
-    public Procedure(String nameEN, String nameUA, String descriptionEN, String descriptionUA, Long id, Long empId, Long medicalCardId) {
-        super(nameEN, nameUA, descriptionEN, descriptionUA, id, empId, medicalCardId);
+    public Procedure(String nameEN, String nameUA, String descriptionEN, String descriptionUA, Long createdBy, Long empId, Long medicalCardId) {
+        super(nameEN, nameUA, descriptionEN, descriptionUA, createdBy, empId, medicalCardId);
     }
 }

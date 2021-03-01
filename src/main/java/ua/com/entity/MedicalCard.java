@@ -1,6 +1,7 @@
 package ua.com.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * This class represents the medical_card table in the database.
@@ -91,5 +92,18 @@ public class MedicalCard {
                 ", patientId=" + patientId +
                 ", doctorId=" + doctorId +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MedicalCard that = (MedicalCard) o;
+        return discharged == that.discharged && Objects.equals(id, that.id) && Objects.equals(createTime, that.createTime) && Objects.equals(updateTime, that.updateTime) && Objects.equals(updatedBy, that.updatedBy) && Objects.equals(patientId, that.patientId) && Objects.equals(doctorId, that.doctorId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, discharged, createTime, updateTime, updatedBy, patientId, doctorId);
     }
 }

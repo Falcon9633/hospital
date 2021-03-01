@@ -4,6 +4,7 @@ import ua.com.entity.AccountDetails;
 import ua.com.entity.Specialization;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class DoctorAccountBean {
     private Long id;
@@ -28,6 +29,9 @@ public class DoctorAccountBean {
 
     private String specializationNameEN;
     private String specializationNameUA;
+
+    public DoctorAccountBean() {
+    }
 
     public DoctorAccountBean(DoctorAccDetailsBean doctorAccDetailsBean, AccountDetails updatedByAccDetails, Specialization specialization) {
         this.id = doctorAccDetailsBean.getId();
@@ -203,5 +207,18 @@ public class DoctorAccountBean {
                 ", specializationNameEN='" + specializationNameEN + '\'' +
                 ", specializationNameUA='" + specializationNameUA + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DoctorAccountBean bean = (DoctorAccountBean) o;
+        return locked == bean.locked && patientCount == bean.patientCount && Objects.equals(id, bean.id) && Objects.equals(specializationId, bean.specializationId) && Objects.equals(nameEN, bean.nameEN) && Objects.equals(surnameEN, bean.surnameEN) && Objects.equals(nameUA, bean.nameUA) && Objects.equals(surnameUA, bean.surnameUA) && Objects.equals(email, bean.email) && Objects.equals(createTime, bean.createTime) && Objects.equals(updateTime, bean.updateTime) && Objects.equals(updatedByNameEN, bean.updatedByNameEN) && Objects.equals(updatedBySurnameEN, bean.updatedBySurnameEN) && Objects.equals(updatedByNameUA, bean.updatedByNameUA) && Objects.equals(updatedBySurnameUA, bean.updatedBySurnameUA) && Objects.equals(specializationNameEN, bean.specializationNameEN) && Objects.equals(specializationNameUA, bean.specializationNameUA);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, specializationId, nameEN, surnameEN, nameUA, surnameUA, email, locked, createTime, updateTime, updatedByNameEN, updatedBySurnameEN, updatedByNameUA, updatedBySurnameUA, patientCount, specializationNameEN, specializationNameUA);
     }
 }

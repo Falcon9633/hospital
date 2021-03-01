@@ -96,6 +96,7 @@ public class MedicalCardSetDoctorCommand implements Command {
                     locale.getMessage("medical_card_set_doctor_command.error.failed_to_set_doctor"), LOGGER);
         }
 
+        session.removeAttribute("doctorAccountBeans");
         LOGGER.debug("execute finishes");
         return forward;
     }

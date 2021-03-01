@@ -26,7 +26,7 @@ public class Validator {
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^(?:(?=.*?\\p{N})(?=.*?\\p{Lu})(?=.*?\\p{Ll}))[^\\p{C}]+$");
     private static final Pattern ACC_DETAILS_NAME_SURNAME_EN_PATTERN = Pattern.compile("^[\\w\\d-_ ']+$");
-    private static final Pattern ACC_DETAILS_NAME_SURNAME_UA_PATTERN = Pattern.compile("^[а-їѓА-ЯІЇЄЁЃ\\d-_ ']+$");
+    private static final Pattern ACC_DETAILS_NAME_SURNAME_UA_PATTERN = Pattern.compile("^[а-їґА-ЯІЇЄЁҐ\\d-_ ']+$");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z][.[^@\\s]]+@[.[^@\\s]]+\\.[a-zA-Z]+$");
 
     public static final String CHECKBOX_ON = "on";

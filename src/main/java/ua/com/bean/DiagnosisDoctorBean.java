@@ -4,6 +4,7 @@ import ua.com.entity.AccountDetails;
 import ua.com.entity.Specialization;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class DiagnosisDoctorBean {
     private Long id;
@@ -163,5 +164,18 @@ public class DiagnosisDoctorBean {
                 ", specializationNameEN='" + specializationNameEN + '\'' +
                 ", specializationNameUA='" + specializationNameUA + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DiagnosisDoctorBean that = (DiagnosisDoctorBean) o;
+        return Objects.equals(id, that.id) && Objects.equals(nameEN, that.nameEN) && Objects.equals(nameUA, that.nameUA) && Objects.equals(descriptionEN, that.descriptionEN) && Objects.equals(descriptionUA, that.descriptionUA) && Objects.equals(createTime, that.createTime) && Objects.equals(createdBy, that.createdBy) && Objects.equals(medicalCardId, that.medicalCardId) && Objects.equals(doctorNameEN, that.doctorNameEN) && Objects.equals(doctorSurnameEN, that.doctorSurnameEN) && Objects.equals(doctorNameUA, that.doctorNameUA) && Objects.equals(doctorSurnameUA, that.doctorSurnameUA) && Objects.equals(specializationNameEN, that.specializationNameEN) && Objects.equals(specializationNameUA, that.specializationNameUA);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nameEN, nameUA, descriptionEN, descriptionUA, createTime, createdBy, medicalCardId, doctorNameEN, doctorSurnameEN, doctorNameUA, doctorSurnameUA, specializationNameEN, specializationNameUA);
     }
 }

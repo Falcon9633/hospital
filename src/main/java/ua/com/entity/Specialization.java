@@ -1,6 +1,7 @@
 package ua.com.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * This class represents the specialization table in the database.
@@ -72,5 +73,18 @@ public class Specialization {
                 ", updateTime=" + updateTime +
                 ", updatedBy=" + updatedBy +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Specialization that = (Specialization) o;
+        return Objects.equals(id, that.id) && Objects.equals(nameEN, that.nameEN) && Objects.equals(nameUA, that.nameUA) && Objects.equals(updateTime, that.updateTime) && Objects.equals(updatedBy, that.updatedBy);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nameEN, nameUA, updateTime, updatedBy);
     }
 }

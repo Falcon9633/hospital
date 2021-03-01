@@ -4,6 +4,7 @@ import ua.com.entity.Assignment;
 import ua.com.entity.Specialization;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class PatientAssignmentBean {
     private Long id;
@@ -231,5 +232,18 @@ public class PatientAssignmentBean {
     public void setSpecialization(Specialization specialization) {
         this.doctorSpecializationNameEN = specialization.getNameEN();
         this.doctorSpecializationNameUA = specialization.getNameUA();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PatientAssignmentBean that = (PatientAssignmentBean) o;
+        return end == that.end && Objects.equals(id, that.id) && Objects.equals(nameEN, that.nameEN) && Objects.equals(nameUA, that.nameUA) && Objects.equals(descriptionEN, that.descriptionEN) && Objects.equals(descriptionUA, that.descriptionUA) && Objects.equals(createTime, that.createTime) && Objects.equals(createdBy, that.createdBy) && Objects.equals(servedBy, that.servedBy) && Objects.equals(medicalCardId, that.medicalCardId) && Objects.equals(empNameEN, that.empNameEN) && Objects.equals(empSurnameEN, that.empSurnameEN) && Objects.equals(empNameUA, that.empNameUA) && Objects.equals(empSurnameUA, that.empSurnameUA) && Objects.equals(doctorSpecializationNameEN, that.doctorSpecializationNameEN) && Objects.equals(doctorSpecializationNameUA, that.doctorSpecializationNameUA) && Objects.equals(createdByNameEN, that.createdByNameEN) && Objects.equals(createdBySurnameEN, that.createdBySurnameEN) && Objects.equals(createdByNameUA, that.createdByNameUA) && Objects.equals(createdBySurnameUA, that.createdBySurnameUA);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nameEN, nameUA, descriptionEN, descriptionUA, end, createTime, createdBy, servedBy, medicalCardId, empNameEN, empSurnameEN, empNameUA, empSurnameUA, doctorSpecializationNameEN, doctorSpecializationNameUA, createdByNameEN, createdBySurnameEN, createdByNameUA, createdBySurnameUA);
     }
 }

@@ -4,6 +4,7 @@ import ua.com.entity.Account;
 import ua.com.entity.AccountDetails;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class NurseAccDetailsBean {
     private Long id;
@@ -172,5 +173,18 @@ public class NurseAccDetailsBean {
                 ", nameUA='" + nameUA + '\'' +
                 ", surnameUA='" + surnameUA + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NurseAccDetailsBean bean = (NurseAccDetailsBean) o;
+        return locked == bean.locked && updatedBy == bean.updatedBy && roleId == bean.roleId && localeId == bean.localeId && Objects.equals(id, bean.id) && Objects.equals(login, bean.login) && Objects.equals(password, bean.password) && Objects.equals(email, bean.email) && Objects.equals(createTime, bean.createTime) && Objects.equals(updateTime, bean.updateTime) && Objects.equals(nameEN, bean.nameEN) && Objects.equals(surnameEN, bean.surnameEN) && Objects.equals(nameUA, bean.nameUA) && Objects.equals(surnameUA, bean.surnameUA);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, login, password, email, createTime, updateTime, locked, updatedBy, roleId, localeId, nameEN, surnameEN, nameUA, surnameUA);
     }
 }

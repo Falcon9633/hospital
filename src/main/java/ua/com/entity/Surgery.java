@@ -9,7 +9,7 @@ public class Surgery extends Assignment {
     public Surgery() {
     }
 
-    public Surgery(String nameEN, String nameUA, String descriptionEN, String descriptionUA, Long id, Long empId, Long medicalCardId) {
-        super(nameEN, nameUA, descriptionEN, descriptionUA, id, empId, medicalCardId);
+    public Surgery(String nameEN, String nameUA, String descriptionEN, String descriptionUA, Long createdBy, Long empId, Long medicalCardId) {
+        super(nameEN, nameUA, descriptionEN, descriptionUA, createdBy, empId, medicalCardId);
     }
 }

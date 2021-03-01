@@ -10,7 +10,7 @@ public class Medicament extends Assignment {
     public Medicament() {
     }
 
-    public Medicament(String nameEN, String nameUA, String descriptionEN, String descriptionUA, Long id, Long empId, Long medicalCardId) {
-        super(nameEN, nameUA, descriptionEN, descriptionUA, id, empId, medicalCardId);
+    public Medicament(String nameEN, String nameUA, String descriptionEN, String descriptionUA, Long createdBy, Long empId, Long medicalCardId) {
+        super(nameEN, nameUA, descriptionEN, descriptionUA, createdBy, empId, medicalCardId);
     }
 }

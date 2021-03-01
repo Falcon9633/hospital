@@ -1,6 +1,7 @@
 package ua.com.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public abstract class Assignment {
     private Long id;
@@ -121,5 +122,18 @@ public abstract class Assignment {
                 ", servedBy=" + servedBy +
                 ", medicalCardId=" + medicalCardId +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Assignment that = (Assignment) o;
+        return end == that.end && Objects.equals(id, that.id) && Objects.equals(nameEN, that.nameEN) && Objects.equals(nameUA, that.nameUA) && Objects.equals(descriptionEN, that.descriptionEN) && Objects.equals(descriptionUA, that.descriptionUA) && Objects.equals(createTime, that.createTime) && Objects.equals(createdBy, that.createdBy) && Objects.equals(servedBy, that.servedBy) && Objects.equals(medicalCardId, that.medicalCardId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nameEN, nameUA, descriptionEN, descriptionUA, end, createTime, createdBy, servedBy, medicalCardId);
     }
 }

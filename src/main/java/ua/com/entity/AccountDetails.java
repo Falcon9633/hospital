@@ -1,6 +1,7 @@
 package ua.com.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * This class represents the account_details table in the database.
@@ -75,5 +76,18 @@ public class AccountDetails {
                 ", nameUA='" + nameUA + '\'' +
                 ", surnameUA='" + surnameUA + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AccountDetails that = (AccountDetails) o;
+        return Objects.equals(id, that.id) && Objects.equals(nameEN, that.nameEN) && Objects.equals(surnameEN, that.surnameEN) && Objects.equals(nameUA, that.nameUA) && Objects.equals(surnameUA, that.surnameUA);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nameEN, surnameEN, nameUA, surnameUA);
     }
 }

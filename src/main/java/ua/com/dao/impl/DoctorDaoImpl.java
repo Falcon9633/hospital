@@ -35,7 +35,7 @@ public class DoctorDaoImpl implements DoctorDao {
             rs = pstmt.executeQuery();
 
             if (rs.next()){
-                doctor = mapDoctor(rs);
+                doctor = ObjectMapper.mapDoctor(rs);
             }
 
             DBUtil.closeResource(rs, pstmt);
@@ -227,13 +227,4 @@ public class DoctorDaoImpl implements DoctorDao {
         }
         return isTreated;
     }
-
-    private Doctor mapDoctor(ResultSet rs) throws SQLException{
-        LOGGER.debug("mapDoctor starts");
-        Doctor doctor = new Doctor();
-        doctor.setId(rs.getLong(MySQLFields.ID));
-        doctor.setSpecializationId(rs.getInt(MySQLFields.DOCTOR_SPECIALIZATION_ID));
-        return doctor;
-    }
-
 }

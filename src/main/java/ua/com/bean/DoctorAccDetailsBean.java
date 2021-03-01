@@ -2,6 +2,8 @@ package ua.com.bean;
 
 import ua.com.entity.AccountDetails;
 
+import java.util.Objects;
+
 public class DoctorAccDetailsBean {
     private Long id;
     private Integer specializationId;
@@ -9,6 +11,9 @@ public class DoctorAccDetailsBean {
     private String surnameEN;
     private String nameUA;
     private String surnameUA;
+
+    public DoctorAccDetailsBean() {
+    }
 
     public DoctorAccDetailsBean(AccountDetails accountDetails) {
         this.nameEN = accountDetails.getNameEN();
@@ -75,5 +80,18 @@ public class DoctorAccDetailsBean {
                 ", nameUA='" + nameUA + '\'' +
                 ", surnameUA='" + surnameUA + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DoctorAccDetailsBean bean = (DoctorAccDetailsBean) o;
+        return Objects.equals(id, bean.id) && Objects.equals(specializationId, bean.specializationId) && Objects.equals(nameEN, bean.nameEN) && Objects.equals(surnameEN, bean.surnameEN) && Objects.equals(nameUA, bean.nameUA) && Objects.equals(surnameUA, bean.surnameUA);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, specializationId, nameEN, surnameEN, nameUA, surnameUA);
     }
 }

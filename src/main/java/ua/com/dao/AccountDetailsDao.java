@@ -31,7 +31,7 @@ public interface AccountDetailsDao {
      * @see Connection
      * @see java.sql.PreparedStatement
      */
-    AccountDetails insertAccountDetails(Connection con, AccountDetails accountDetails) throws SQLException;
+    AccountDetails insert(Connection con, AccountDetails accountDetails) throws SQLException;
 
     void update(AccountDetails accountDetails, Connection con) throws SQLException;
 }

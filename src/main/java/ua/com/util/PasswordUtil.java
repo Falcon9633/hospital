@@ -36,7 +36,7 @@ public class PasswordUtil {
 //                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
 //                .toString();
 
-        // for demonstration purposes password is always "1"
+        // for demonstration purposes password is always "1234Zz"
         return "1234Zz";
     }
 
