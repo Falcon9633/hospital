@@ -125,6 +125,7 @@ public class ObjectMapperTest {
         expectedEmployeeProcedureBean.setCreatedBySurnameUA("createdBySurnameUA");
 
         expectedPatientMedicamentBean = new PatientMedicamentBean(expectedMedicament);
+        expectedPatientMedicamentBean.setSpecialization(expectedSpecialization);
         expectedPatientMedicamentBean.setEmpNameEN("empNameEN");
         expectedPatientMedicamentBean.setEmpNameUA("empNameUA");
         expectedPatientMedicamentBean.setEmpSurnameEN("empSurnameEN");
@@ -135,6 +136,7 @@ public class ObjectMapperTest {
         expectedPatientMedicamentBean.setCreatedBySurnameUA("createdBySurnameUA");
 
         expectedPatientProcedureBean = new PatientProcedureBean(expectedProcedure);
+        expectedPatientProcedureBean.setSpecialization(expectedSpecialization);
         expectedPatientProcedureBean.setEmpNameEN("empNameEN");
         expectedPatientProcedureBean.setEmpNameUA("empNameUA");
         expectedPatientProcedureBean.setEmpSurnameEN("empSurnameEN");
@@ -145,6 +147,7 @@ public class ObjectMapperTest {
         expectedPatientProcedureBean.setCreatedBySurnameUA("createdBySurnameUA");
 
         expectedPatientSurgeryBean = new PatientSurgeryBean(expectedSurgery);
+        expectedPatientSurgeryBean.setSpecialization(expectedSpecialization);
         expectedPatientSurgeryBean.setEmpNameEN("empNameEN");
         expectedPatientSurgeryBean.setEmpNameUA("empNameUA");
         expectedPatientSurgeryBean.setEmpSurnameEN("empSurnameEN");
@@ -202,6 +205,8 @@ public class ObjectMapperTest {
         when(rs.getString(MySQLFields.EMPLOYEE_NAME_UA)).thenReturn("empNameUA");
         when(rs.getString(MySQLFields.EMPLOYEE_SURNAME_EN)).thenReturn("empSurnameEN");
         when(rs.getString(MySQLFields.EMPLOYEE_SURNAME_UA)).thenReturn("empSurnameUA");
+        when(rs.getString(MySQLFields.SPECIALIZATION_NAME_EN)).thenReturn("nameEN");
+        when(rs.getString(MySQLFields.SPECIALIZATION_NAME_UA)).thenReturn("nameUA");
     }
 
     @Test

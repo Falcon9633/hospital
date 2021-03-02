@@ -10,6 +10,7 @@ import ua.com.dao.DoctorDao;
 import ua.com.dao.PatientDao;
 import ua.com.entity.*;
 import ua.com.util.DBUtil;
+import ua.com.util.MailSender;
 import ua.com.util.PasswordUtil;
 
 import java.security.NoSuchAlgorithmException;
@@ -332,6 +333,7 @@ public class AccountDaoImpl implements AccountDao {
                 patientDao.insertPatient(con, patient);
             }
 
+            MailSender.send(email, login, pwd);
             con.commit();
             con.close();
             con = null;
